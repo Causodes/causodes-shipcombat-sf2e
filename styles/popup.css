@@ -1,0 +1,229 @@
+/* causodes-shipcombat-sf2e / popup.css
+ * Targeting popup, ram popup, BDA popup, IWR editor, dead-reckoning popup.
+ */
+
+/* ── SF2e-style popup restyling ───────────────────────────────────────────────
+   Mirrors .roll-modifiers-dialog from sf2e.css exactly:
+     • Outer window: background:none (canvas shows around the window frame)
+     • .window-header: navy-blue gradient (--color-pf-secondary)
+     • .window-content: ornate border-image from sf2e corner-box.webp
+     • buttons: copper/brown (--color-pf-alternate), white text
+     • inner section bars: use --sub (#605856) dark-brownish tag style
+
+   Class coverage:
+     .shipcombat-targeting-popup  → TargetingPopup, BattleClarityPopup,
+                                     StrikeCraftAttackPopup, RecoverCraftPopup
+     .shipcombat-ram-target-popup → RamTargetPopup
+     .shipcombat-dead-reckoning-popup → DeadReckoningPopup
+     .shipcombat-bda-popup        → BDAPopup                               */
+
+/* 1 ── Outer window: clear core's dark background; let window-content show
+         Matches: .roll-modifiers-dialog { background: none; box-shadow: none } */
+.shipcombat-targeting-popup,
+.shipcombat-ram-target-popup,
+.shipcombat-bda-popup,
+.shipcombat-dead-reckoning-popup {
+  background: none !important;
+  box-shadow: none;
+}
+
+/* 2 ── Window title bar: navy-blue gradient
+         Matches: .roll-modifiers-dialog .window-header                     */
+.shipcombat-targeting-popup .window-header,
+.shipcombat-ram-target-popup .window-header,
+.shipcombat-bda-popup .window-header,
+.shipcombat-dead-reckoning-popup .window-header {
+  border: none;
+  border-radius: 0;
+  margin-bottom: 2px;
+  font-size: var(--font-size-13);
+  background: linear-gradient(
+    90deg,
+    var(--color-pf-secondary, #171f69) 0%,
+    var(--color-pf-secondary-light, #202b93) 50%,
+    var(--color-pf-secondary, #171f69) 100%
+  );
+  box-shadow:
+    inset 0 0 0 1px #9f725b,
+    inset 0 0 0 2px var(--tertiary, #e9d7a1),
+    inset 0 0 0 3px #956d58,
+    0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+/* 3 ── Window content area: ornate border-image
+         Matches: .roll-modifiers-dialog .window-content exactly.
+         NO explicit background — SF2e's check dialog also sets none here;
+         Foundry's default .window-content parchment background applies.   */
+.shipcombat-targeting-popup .window-content,
+.shipcombat-ram-target-popup .window-content,
+.shipcombat-bda-popup .window-content,
+.shipcombat-dead-reckoning-popup .window-content {
+  border-style: solid;
+  border-image-outset: 0;
+  border-width: 9px;
+  border-image: url("../../../systems/sf2e/assets/sheet/corner-box.webp") 9 repeat;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  color: var(--color-text-primary, #1a1a1a);
+  padding-top: 0;
+}
+
+/* 4 ── All buttons inside the popups: navy/purple SF2e Roll-button style
+         Matches: .roll-modifiers-dialog button[type=submit]                */
+.shipcombat-targeting-popup button,
+.shipcombat-ram-target-popup button,
+.shipcombat-bda-popup button,
+.shipcombat-dead-reckoning-popup button {
+  background-color: var(--color-pf-secondary, #171f69);
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3), inset 0 0 0 2px rgba(255, 255, 255, 0.2);
+  color: var(--text-light, #f0e8d8);
+  cursor: pointer;
+  font-family: var(--sans-serif);
+}
+.shipcombat-targeting-popup button:hover,
+.shipcombat-ram-target-popup button:hover,
+.shipcombat-bda-popup button:hover,
+.shipcombat-dead-reckoning-popup button:hover {
+  text-shadow: 0 0 2px var(--color-pf-tertiary, #e9d7a1);
+}
+.shipcombat-bda-popup .shipcombat-bda-correction-btn:hover .shipcombat-bda-correction-hint {
+  color: var(--color-pf-secondary, #171f69);
+  opacity: 1;
+}
+
+/* 4b ── Fire button: square with centered icon
+          width:auto is now in Core; override Core's asymmetric padding
+          and apply flex centering for the icon glyph.                     */
+.shipcombat-targeting-popup .shipcombat-tp-fire-btn,
+.shipcombat-ram-target-popup .shipcombat-tp-fire-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0.4rem;
+  aspect-ratio: 1 / 1;
+}
+
+/* 5 ── Weapon/mode summary bar → dark tag style using --sub (#605856)
+         Matches the .modifier-container .dialog-row .tag style             */
+.shipcombat-targeting-popup .shipcombat-tp-header,
+.shipcombat-ram-target-popup .shipcombat-tp-header {
+  background:    var(--sub, #605856);
+  box-shadow:    inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+  color:         var(--text-light, #f0e8d8);
+  border-radius: 2px;
+  border:        none;
+}
+
+/* 6 ── Stat badges within the dark header bar */
+.shipcombat-targeting-popup .shipcombat-tp-stat,
+.shipcombat-ram-target-popup .shipcombat-tp-stat {
+  background: rgba(0, 0, 0, 0.22);
+  color: inherit;
+}
+.shipcombat-targeting-popup .shipcombat-tp-stat--cost,
+.shipcombat-ram-target-popup .shipcombat-tp-stat--cost  { color: var(--color-pf-tertiary, #e9d7a1); }
+.shipcombat-targeting-popup .shipcombat-tp-stat--bonus,
+.shipcombat-ram-target-popup .shipcombat-tp-stat--bonus { color: #9de8ff; }
+
+/* 7 ── Target rows: match .modifier-container .dialog-row border style     */
+.shipcombat-targeting-popup .shipcombat-tp-target,
+.shipcombat-ram-target-popup .shipcombat-tp-target {
+  border-color:   rgba(0, 0, 0, 0.1);
+  background:     transparent;
+  color:          var(--color-text-primary, #1a1a1a);
+}
+.shipcombat-targeting-popup .shipcombat-tp-target:hover,
+.shipcombat-ram-target-popup .shipcombat-tp-target:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+.shipcombat-targeting-popup .shipcombat-tp-target--done:hover,
+.shipcombat-ram-target-popup .shipcombat-tp-target--done:hover {
+  background: transparent;
+}
+
+/* 8 ── Zone / accuracy accent colors: readable on parchment bg             */
+.shipcombat-targeting-popup .shipcombat-tp-zone--1 { color: #1d8046; }
+.shipcombat-targeting-popup .shipcombat-tp-zone--2 { color: #907000; }
+.shipcombat-targeting-popup .shipcombat-tp-zone--3 { color: #b03030; }
+.shipcombat-targeting-popup .shipcombat-tp-acc--auto    { color: #1d8046; }
+.shipcombat-targeting-popup .shipcombat-tp-acc--boosted { color: #2266aa; }
+.shipcombat-targeting-popup .shipcombat-tp-acc--ranged  { color: #907000; }
+.shipcombat-targeting-popup .shipcombat-tp-armour-val   { color: #8a5a00; }
+
+/* 9 ── Overcharge "on" state: brighter secondary to distinguish from base  */
+.shipcombat-targeting-popup .shipcombat-tp-overcharge--on {
+  background-color: var(--color-pf-secondary-light, #202b93) !important;
+  color:            var(--text-light, #f0e8d8) !important;
+}
+
+/* 10 ── Empty state */
+.shipcombat-targeting-popup .shipcombat-tp-empty,
+.shipcombat-ram-target-popup .shipcombat-tp-empty {
+  color: var(--color-text-secondary, #666);
+}
+
+/* 11 ── Ram warning footer */
+.shipcombat-ram-target-popup .shipcombat-ram-warning {
+  border-top-color: rgba(0, 0, 0, 0.1);
+  color:            var(--color-text-secondary, #555);
+}
+
+/* 11b ── Ram popup: damage preview per target (parchment bg overrides) */
+.shipcombat-ram-target-popup .shipcombat-ram-dmg-in  { color: #b03030; }
+
+/* 12 ── Dead Reckoning popup content                                       */
+.shipcombat-dead-reckoning-popup .shipcombat-dr-popup {
+  color: var(--color-text-primary, #1a1a1a);
+}
+.shipcombat-dead-reckoning-popup .shipcombat-dr-instruction {
+  color: var(--color-text-secondary, #555);
+}
+.shipcombat-dead-reckoning-popup .shipcombat-dr-card {
+  border-color: rgba(0, 0, 0, 0.1);
+  background:   transparent;
+  color:        var(--color-text-primary, #1a1a1a);
+}
+.shipcombat-dead-reckoning-popup .shipcombat-dr-card:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+.shipcombat-dead-reckoning-popup .shipcombat-dr-card.shipcombat-dr-drag-over {
+  border-color: #1d8046;
+  background:   rgba(29, 128, 70, 0.06);
+}
+.shipcombat-dead-reckoning-popup .shipcombat-dr-pos {
+  background: rgba(0, 0, 0, 0.10);
+  color:      var(--color-text-secondary, #555);
+}
+.shipcombat-dead-reckoning-popup .shipcombat-dr-tail {
+  color: var(--color-text-secondary, #666);
+}
+.shipcombat-dead-reckoning-popup .shipcombat-dr-footer {
+  border-top-color: rgba(0, 0, 0, 0.10);
+}
+
+/* 13 ── BDA popup content                                                  */
+.shipcombat-bda-popup .shipcombat-bda-result-header {
+  background:   rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+.shipcombat-bda-popup .shipcombat-bda-sl-value {
+  color: var(--color-pf-secondary, #171f69);
+}
+.shipcombat-bda-popup .shipcombat-bda-retain-desc,
+.shipcombat-bda-popup .shipcombat-bda-correction-prompt {
+  color: var(--color-text-secondary, #555);
+}
+.shipcombat-bda-popup .shipcombat-bda-correction-btn {
+  /* inherits copper button style from rule 4; just ensure text is visible  */
+  color: var(--text-light, #f0e8d8);
+}
+.shipcombat-bda-popup .shipcombat-bda-correction-name {
+  color: inherit;
+}
+.shipcombat-bda-popup .shipcombat-bda-correction-hint {
+  color: var(--color-pf-tertiary, #e9d7a1);
+  opacity: 0.8;
+}
+
+

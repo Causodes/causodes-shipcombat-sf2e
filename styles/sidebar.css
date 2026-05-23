@@ -1,0 +1,156 @@
+/* causodes-shipcombat-sf2e / sidebar.css
+ * Ship sheet sidebar: AC/hardness sectors, roll initiative, sidebar roll-data, scroll behaviour.
+ */
+
+/* ── Roll Initiative btn beside triage counter ─────────────────────────── */
+.shipcombat-ship .shipcombat-roll-initiative-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 6px;
+  font-size: 0.9rem;
+  color: var(--color-pf-primary);
+  cursor: pointer;
+  opacity: 0.75;
+}
+.shipcombat-ship .shipcombat-roll-initiative-btn:hover { opacity: 1; }
+
+/* ── Roll Initiative btn inside sidebar aside: mirrors SF2e character a.roll-icon ── */
+.shipcombat-ship aside .shipcombat-roll-initiative-btn {
+  align-items: center;
+  display: inline-flex;
+  padding: 0;
+  padding-bottom: var(--space-2);
+  opacity: 1;
+}
+.shipcombat-ship aside .shipcombat-roll-initiative-btn i {
+  color: var(--text-light);
+  font-size: var(--font-size-19);
+  transition: all 0.2s ease-in-out;
+}
+.shipcombat-ship aside .shipcombat-roll-initiative-btn .d20-svg svg path {
+  fill: var(--text-light);
+  transition: all 0.2s ease-in-out;
+}
+.shipcombat-ship aside .shipcombat-roll-initiative-btn:hover { opacity: 1; }
+.shipcombat-ship aside .shipcombat-roll-initiative-btn:hover i {
+  transform: scale(1.25);
+}
+.shipcombat-ship aside .shipcombat-roll-initiative-btn:hover .d20-svg svg {
+  animation: rotation 2s infinite linear;
+}
+
+/* ── AC sidebar: hardness sector grid (uses SF2e vehicle armor-class grid) */
+/* Fix: h2 needs the same fixed width as the input it replaced so the badge
+   stays centred on the shield image regardless of digit count.            */
+.shipcombat-ship aside .armor-class .ac .data-value h2 {
+  width: 3rem;
+}
+.shipcombat-ship aside .armor-class .shipcombat-hardness-sectors {
+  background: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  height: 4.625rem;              /* match explicit height of .ac badge */
+  overflow: hidden;
+}
+.shipcombat-ship aside .shipcombat-hardness-grid {
+  border-collapse: collapse;
+  font-size: var(--font-size-12, 0.75rem);
+  margin: 0;
+}
+.shipcombat-ship aside .shipcombat-hardness-grid td {
+  padding: 1px 4px;
+  text-align: center;
+}
+.shipcombat-ship aside .shipcombat-hardness-grid .shipcombat-readonly-val {
+  color: var(--color-pf-tertiary, #d4b96c);
+  font-size: var(--font-size-12, 0.75rem);
+}
+.shipcombat-ship aside .shipcombat-sector-lbl {
+  color: var(--sidebar-label, #d4b96c);
+  font-weight: bold;
+  font-size: 0.65rem;
+  letter-spacing: 0.04em;
+}
+/* ── Hardness: red title-bar on the HARDNESS label ──────────────────────── */
+.shipcombat-ship aside .shipcombat-hardness-sectors .sidebar_label {
+  display: block;
+  width: 100%;
+  background: #7a1c1c;
+  color: var(--text-light, #f0f0e0);
+  text-align: center;
+  padding: 1px 4px;
+  border-radius: 2px 2px 0 0;
+  letter-spacing: 0.08em;
+}
+
+/* -- Sidebar scroll behaviour + hardness/initiative layout fix ----------- */
+/* sidebar: stable gutter reserves scrollbar space; explicit padding-right
+   ensures a visible right margin even when the gutter alone is not enough. */
+.actor.sheet.vehicle .crb-style.shipcombat-v1 aside .sidebar {
+  overflow: hidden auto;
+  scrollbar-gutter: stable;
+  padding-right: 0.4rem;
+}
+/* armor-class: ac badge takes its natural (max-content) width; hardness
+   cell fills the rest so the sector table always has maximum available room. */
+.actor.sheet.vehicle .crb-style.shipcombat-v1 aside .armor-class {
+  grid-template-columns: max-content 1fr;
+}
+/* hardness sectors: min-width:0 lets the armor-class grid shrink this cell
+   below its table's natural min-content (avoids overflow from the gutter). */
+.actor.sheet.vehicle .crb-style.shipcombat-v1 aside .armor-class .shipcombat-hardness-sectors {
+  min-width: 0;
+}
+/* table: fixed layout + width:100% forces columns to share the cell width
+   evenly rather than sizing to content. */
+.actor.sheet.vehicle .crb-style.shipcombat-v1 aside .shipcombat-hardness-grid {
+  table-layout: fixed;
+  width: 100%;
+}
+/* tighten cell padding so the four equal columns fit in the narrowed cell. */
+.actor.sheet.vehicle .crb-style.shipcombat-v1 aside .shipcombat-hardness-grid td {
+  padding: 1px 2px;
+}
+/* initiative select: allow it to shrink when the scrollbar gutter reduces
+   the available width — flex: 0 0 prevented shrinking and caused right-edge
+   overflow. */
+.actor.sheet.vehicle .crb-style.shipcombat-v1 aside .initiative select {
+  flex: 0 1 8.25rem;
+}
+
+/* ── Sidebar roll-data: flex row + SF2e modifier / select (mirrors character sidebar) */
+.shipcombat-ship aside .roll-data {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  justify-content: left;
+}
+.shipcombat-ship aside .roll-data .modifier {
+  color: var(--color-pf-tertiary);
+  font-size: var(--font-size-18);
+  font-weight: initial;
+  line-height: 1;
+  white-space: nowrap;
+}
+.shipcombat-ship aside .roll-data a.modifier.hover {
+  text-decoration: underline var(--color-pf-tertiary-darker);
+  text-underline-offset: 0.125em;
+}
+.shipcombat-ship aside .initiative a.modifier {
+  margin-right: 1rem;
+}
+.shipcombat-ship aside .initiative select {
+  flex: 0 0 8.25rem;
+  margin-left: auto;
+  border: 1px solid #956d58;
+  /* prettier-ignore */
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), inset 0 0 4px rgba(0, 0, 0, 0.5);
+  background-color: var(--color-pf-primary);
+  color: var(--text-light, #f0f0e0);
+  font-size: var(--font-size-15);
+  padding: var(--space-2) var(--space-6);
+}
+

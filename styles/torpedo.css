@@ -1,0 +1,301 @@
+/* causodes-shipcombat-sf2e / torpedo.css
+ * Torpedo/ordnance actor window chrome and visual polish.
+ */
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Ordnance / Torpedo actor sheet — SF2e-style visual polish
+   Mirrors the SF2e targeting-popup rules already in this file (lines ~2133+):
+     • Outer window:  background:none, canvas visible
+     • .window-header: navy gradient (--color-pf-secondary)  + ornate inset
+     • .window-content: corner-box.webp border-image (parchment bg from Foundry)
+     • Header block: var(--sub, #605856) dark-brownish card  ← .shipcombat-tp-header
+     • Readout pills: var(--sub) tags                        ← .shipcombat-tp-stat
+     • Buttons: inherited navy (already set above)
+     • Config inputs: crb-style border-bottom                ← roll-dialog inputs
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Window chrome — exact mirror of .shipcombat-targeting-popup rules ── */
+.window-app.shipcombat-ordnance {
+  background: none;
+  box-shadow: none;
+}
+.window-app.shipcombat-ordnance .window-header {
+  border: none;
+  border-radius: 0;
+  margin-bottom: 2px;
+  font-size: var(--font-size-13);
+  background: linear-gradient(
+    90deg,
+    var(--color-pf-secondary, #171f69) 0%,
+    var(--color-pf-secondary-light, #202b93) 50%,
+    var(--color-pf-secondary, #171f69) 100%
+  );
+  box-shadow:
+    inset 0 0 0 1px #9f725b,
+    inset 0 0 0 2px var(--tertiary, #e9d7a1),
+    inset 0 0 0 3px #956d58,
+    0 0 20px rgba(0, 0, 0, 0.8);
+}
+.window-app.shipcombat-ordnance .window-header .window-title {
+  color: var(--text-light, #f0e8d8);
+}
+.window-app.shipcombat-ordnance .window-content {
+  border-style: solid;
+  border-image-outset: 0;
+  border-width: 9px;
+  border-image: url("../../../systems/sf2e/assets/sheet/corner-box.webp") 9 repeat;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  color: var(--color-text-primary, #1a1a1a);
+  padding-top: 0;
+}
+
+/* ── 2. Header block → var(--sub) dark card (mirrors .shipcombat-tp-header) ─
+   torpedo.css uses rgb(0,0,0,0.3) track on a dark bg; we need light text.  */
+form.shipcombat-ordnance-sheet .shipcombat-header {
+  background:    var(--sub, #605856);
+  box-shadow:    inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+  border-radius: 2px;
+  border:        none;
+  padding:       0.45rem 0.5rem;
+}
+/* Name input: light text on sub background */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-header-block .details-row.name input,
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-header-block .details-row.name input[name="name"] {
+  color:         var(--text-light, #f0e8d8);
+  background:    rgba(0, 0, 0, 0.15);
+  border:        none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 0;
+  padding:       2px 4px;
+}
+/* Bar labels: light on sub background (torpedo.css has no color, inherits dark) */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-header-block .shipcombat-torpedo-bar > label {
+  color:   var(--text-light, #f0e8d8);
+  opacity: 0.75;
+}
+/* Bar track: slightly more visible on sub */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-header-block .shipcombat-torpedo-bar-track {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+/* ── 3. Tab body: small top gap after nav ────────────────────────────────── */
+form.shipcombat-ordnance-sheet .sheet-content > .tab.active {
+  gap: 0.5rem;
+}
+
+/* ── 4. Inner sheet wrapper: remove torpedo.css default padding (already 8px)
+   so sections sit flush in the flex column                                 */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-sheet {
+  padding: 0;
+  background: transparent;
+  gap: 0.5rem;
+  font-family: var(--body-serif, var(--serif));
+}
+/* Inputs don't inherit font-family by default; force consistency */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-sheet input,
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-sheet select {
+  font-family: inherit;
+}
+
+/* ── 5. Movement card → .shipcombat-tp-target row style (transparent + border) */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-movement {
+  background:    rgba(0, 0, 0, 0.03);
+  border:        1px solid rgba(0, 0, 0, 0.10);
+  border-radius: 2px;
+}
+/* "MOVEMENT" h4: navy, like roll-dialog section labels */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-movement h4 {
+  color:           var(--color-pf-secondary, #171f69);
+  opacity:         1;
+  font-weight:     700;
+  font-size:       0.7rem;
+  text-transform:  uppercase;
+  letter-spacing:  0.04em;
+  margin:          0 0 0.3rem;
+}
+/* "AC N" badge next to heading: match navy scheme */
+form.shipcombat-ordnance-sheet .shipcombat-movement-ac {
+  color: var(--color-pf-secondary, #171f69);
+}
+/* Info row (Min Move / Max Bearing): transparent, navy text */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-movement-info {
+  opacity: 1;
+  margin-bottom: 0.4rem;
+}
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-movement-info span {
+  background:    transparent;
+  color:         var(--color-pf-secondary, #171f69);
+  border-radius: 2px;
+  padding:       0.1rem 0.4rem;
+  font-size:     0.65rem;
+  font-weight:   600;
+}
+/* Slider labels: dark on parchment (torpedo.css inherits, which is fine here) */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-power-block > label {
+  color:   var(--color-text-primary, #1a1a1a);
+  opacity: 0.65;
+}
+/* Readout cells (bearing °, power %): transparent, navy text */
+form.shipcombat-ordnance-sheet .shipcombat-readout-cell {
+  background:    transparent;
+  color:         var(--color-pf-secondary, #171f69);
+  border-radius: 2px;
+  padding:       0.05rem 0.35rem;
+  font-size:     0.7rem;
+  font-weight:   600;
+}
+/* Confirm button row: centre within movement card */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-movement-buttons {
+  justify-content: center;
+  margin-top: 0.4rem;
+}
+
+/* ── 6. Detonate / Attack / Turn-done rows: full-width block layout ─────── */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-detonate,
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-turn {
+  display: block;
+}
+/* Override the global width:auto rule for these specific buttons */
+.window-app form.shipcombat-ordnance-sheet .shipcombat-torpedo-detonate button,
+.window-app form.shipcombat-ordnance-sheet .shipcombat-torpedo-turn button {
+  width: 100% !important;
+}
+
+/* Detonate / attack buttons: solid crimson fill — matches .shipcombat-ram-btn on the ship sheet */
+form.shipcombat-ordnance-sheet .shipcombat-detonate-btn,
+form.shipcombat-ordnance-sheet .shipcombat-attack-btn {
+  background:   #b91c1c !important;
+  border-color: #ef4444 !important;
+  color:        #fff    !important;
+  text-shadow:  0 1px 2px rgba(0, 0, 0, 0.45);
+}
+form.shipcombat-ordnance-sheet .shipcombat-detonate-btn:hover:not([disabled]),
+form.shipcombat-ordnance-sheet .shipcombat-attack-btn:hover:not([disabled]) {
+  background:   #dc2626 !important;
+  border-color: #f87171 !important;
+  color:        #fff    !important;
+}
+form.shipcombat-ordnance-sheet .shipcombat-detonate-btn[disabled],
+form.shipcombat-ordnance-sheet .shipcombat-attack-btn[disabled] {
+  background:   rgba(120, 20, 20, 0.22) !important;
+  border-color: rgba(180, 60, 60, 0.30) !important;
+  color:        rgba(255, 140, 140, 0.40) !important;
+  cursor:       not-allowed;
+}
+
+/* ── 7. Config section headers (h4 inside .shipcombat-torpedo-traits) ───────
+   Mirrors SF2e roll-dialog modifier-section dividers                        */
+
+/* Ordnance Type row: h4 label + select inline (first traits block only) */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-sheet .shipcombat-torpedo-traits:first-child {
+  display:     flex;
+  align-items: center;
+  flex-direction: row;
+  gap:         0.5rem;
+}
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-sheet .shipcombat-torpedo-traits:first-child h4 {
+  margin:     0;
+  padding:    0;
+  border:     none;
+  white-space: nowrap;
+  flex:        0 0 auto;
+}
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-sheet .shipcombat-torpedo-traits:first-child .shipcombat-torpedo-trait-grid {
+  flex: 1;
+}
+
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-traits h4 {
+  color:           var(--color-pf-secondary, #171f69);
+  opacity:         1;
+  font-weight:     700;
+  font-size:       0.7rem;
+  text-transform:  uppercase;
+  letter-spacing:  0.04em;
+  margin:          0 0 0.25rem;
+  padding-bottom:  0.2rem;
+  border-bottom:   1px solid rgba(0, 0, 0, 0.10);
+}
+
+/* ── Damage trio (.shipcombat-torpedo-traits--damage): h4 + 3 inline inputs ─ */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-traits--damage {
+  display:        flex;
+  align-items:    center;
+  flex-direction: row;
+  gap:            0.5rem;
+  margin-bottom:  0.25rem;
+}
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-traits--damage h4 {
+  margin:      0;
+  padding:     0;
+  border:      none;
+  white-space: nowrap;
+  flex:        0 0 auto;
+  min-width:   3.5rem;
+}
+form.shipcombat-ordnance-sheet .shipcombat-payload-dmg-trio {
+  display:     flex;
+  gap:         0.25rem;
+  align-items: center;
+  flex:        1;
+}
+form.shipcombat-ordnance-sheet .shipcombat-payload-dmg-trio input[type="number"],
+form.shipcombat-ordnance-sheet .shipcombat-payload-dmg-trio select {
+  height:      1.75rem;
+  box-sizing:  border-box;
+}
+form.shipcombat-ordnance-sheet .shipcombat-payload-dmg-trio input[type="number"] {
+  width:       3rem;
+  flex:        0 0 3rem;
+  text-align:  center;
+}
+form.shipcombat-ordnance-sheet .shipcombat-payload-dmg-trio select {
+  flex: 1;
+}
+
+/* ── 8. Config stat / trait inputs → crb-style border-bottom (roll-dialog) ─ */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-stat input,
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-trait input[type="number"],
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-trait input[type="text"] {
+  background:    rgba(0, 0, 0, 0.04);
+  border:        none;
+  border-bottom: 1px solid var(--color-border-dark-input, #786452);
+  border-radius: 0;
+  color:         var(--text-dark, #1c1c1c);
+}
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-stat label,
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-trait label {
+  color:   var(--color-text-secondary, #555);
+  opacity: 1;
+}
+
+/* ── 9. Config selects → crb-style with custom black arrow ─────────────── */
+form.shipcombat-ordnance-sheet select {
+  -webkit-appearance: none;
+  -moz-appearance:    none;
+  appearance:         none;
+  background-color:   rgba(0, 0, 0, 0.04);
+  background-image:   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23111111'/%3E%3C/svg%3E");
+  background-repeat:  no-repeat;
+  background-position: right 0.5rem center;
+  background-size:    8px 5px;
+  /* match the height / padding of .shipcombat-torpedo-stat input */
+  height:  var(--input-height, 1.375rem);
+  padding: 2px 1.5rem 2px 0.25rem;
+  border:        none;
+  border-bottom: 1px solid var(--color-border-dark-input, #786452);
+  border-radius: 0;
+  /* subtle inset shadow to match the depth of the input boxes */
+  box-shadow:  inset 0 1px 3px rgba(0, 0, 0, 0.10);
+  color:       var(--text-dark, #1c1c1c);
+  font-family: var(--body-serif, var(--serif));
+  font-size:   0.85rem;
+}
+form.shipcombat-ordnance-sheet select option {
+  background-color: #ffffff;
+  color:            var(--text-dark, #1c1c1c);
+}
+
+/* ── 10. Inline bar inputs (value / max in config bars) ─────────────────── */
+/* torpedo.css sets color: #fff; the generic input rule above resets to dark */
+/* Already handled by the generic .shipcombat-ordnance-sheet input rule.     */
+

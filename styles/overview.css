@@ -1,0 +1,518 @@
+/* causodes-shipcombat-sf2e / overview.css
+ * Bridge Crew, sector grid, role cards, overview sub-tabs, resource bars, ship config.
+ */
+
+/* -- Bridge Crew: inventory-style header + flex rows --------------------- */
+
+.shipcombat-ship .crew-inventory-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Header bar — same dark primary as PF2e action-header */
+.shipcombat-ship .crew-inventory-list > header {
+  display: flex;
+  align-items: center;
+  background: var(--color-pf-primary, #5e0000);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3), inset 0 0 0 2px rgba(255, 255, 255, 0.2);
+  color: var(--text-light, #f0e8d8);
+  font-family: var(--sans-serif);
+  font-size: var(--font-size-10, 0.625rem);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: var(--space-4, 0.25rem) 0;
+  width: 100%;
+  position: relative;
+}
+
+.shipcombat-ship .crew-inventory-list > header h3.crew-col-name {
+  font-size: inherit;
+  font-weight: inherit;
+  color: var(--text-light, #f0e8d8);
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.75);
+  text-transform: inherit;
+  margin: 0;
+}
+
+/* Item rows */
+.shipcombat-ship .crew-inventory-list ul.items {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  border: 1px solid var(--color-pf-primary, #5e0000);
+  border-top: none;
+}
+
+.shipcombat-ship .crew-inventory-list ul.items > li {
+  display: flex;
+  align-items: center;
+  padding: 0.2rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+.shipcombat-ship .crew-inventory-list ul.items > li:last-child {
+  border-bottom: none;
+}
+
+.shipcombat-ship .crew-inventory-list ul.items > li:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+/* Column definitions — shared between header and rows */
+.shipcombat-ship .crew-col-name {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 0.4rem;
+  overflow: hidden;
+  padding-left: var(--space-8, 0.5rem);
+}
+
+.shipcombat-ship .crew-col-role {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-basis: 7rem;
+}
+
+.shipcombat-ship .crew-col-ready {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-basis: 3.5rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.shipcombat-ship .crew-col-skill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 2 1 0;
+  min-width: 6rem;
+}
+
+/* Controls float at the right edge, out of flex flow, so they don't affect column widths */
+.shipcombat-ship .crew-col-controls {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: var(--space-4, 0.25rem);
+  gap: var(--space-4, 0.25rem);
+  pointer-events: none; /* pass clicks through to elements below when empty */
+}
+.shipcombat-ship .crew-col-controls > * {
+  pointer-events: auto; /* re-enable for actual buttons/links */
+}
+
+/* Name cell — portrait + name + release link */
+.shipcombat-ship .crew-name-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  overflow: hidden;
+}
+.shipcombat-ship .crew-name-wrap > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+  font-size: var(--font-size-13, 0.8125rem);
+}
+.shipcombat-ship .crew-portrait {
+  width: 1.6rem;
+  height: 1.6rem;
+  object-fit: cover;
+  border-radius: 2px;
+  flex-shrink: 0;
+  border: 1px solid rgba(0,0,0,0.2);
+}
+.shipcombat-ship .crew-release {
+  margin-left: auto;
+  margin-right: 0.3rem;
+  flex-shrink: 0;
+  font-size: 0.7em;
+  opacity: 0.5;
+  color: var(--color-pf-primary, #5e0000);
+}
+.shipcombat-ship .crew-release:hover { opacity: 1; }
+
+/* Role input */
+.shipcombat-ship .crew-role-input {
+  background: none;
+  border: none;
+  border-bottom: 1px solid transparent;
+  width: 100%;
+  font-size: var(--font-size-13, 0.8125rem);
+}
+.shipcombat-ship .crew-role-input:focus {
+  border-bottom-color: var(--color-pf-primary, #5e0000);
+}
+
+/* Ready column */
+.shipcombat-ship .col-ready {
+  text-align: center;
+  white-space: nowrap;
+  font-size: var(--font-size-11, 0.6875rem);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.shipcombat-ship .crew-yes { color: #3c7a3c; }
+.shipcombat-ship .crew-no  { color: #b03030; }
+
+/* Skill column */
+.shipcombat-ship .crew-skill-select {
+  flex: 1 1 0;
+  min-width: 0;
+  box-sizing: border-box;
+  font-size: var(--font-size-12, 0.75rem);
+  text-align: center;
+  text-align-last: center;
+  appearance: auto;
+  -webkit-appearance: auto;
+  background-image: none;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0;
+  padding: 0.1rem 0.2rem;
+}
+
+/* ── Neutralise SF2e's yellowish .crb-style select background in ship sheets */
+.shipcombat-ship .crb-style select {
+  background-color: var(--bg, #f8f4f1);
+  color: var(--color-text-primary, #1c1c1c);
+}
+.shipcombat-ship .crb-style select option {
+  background-color: var(--bg, #f8f4f1);
+  color: var(--color-text-primary, #1c1c1c);
+}
+
+/* Reset icon in header */
+.shipcombat-ship .crew-reset {
+  opacity: 0.7;
+  color: inherit;
+  margin-left: 0.3rem;
+  margin-right: 0.35rem;
+}
+.shipcombat-ship .crew-reset:hover { opacity: 1; }
+
+/* Muted / unassigned */
+.shipcombat-ship .crew-muted {
+  color: var(--color-text-secondary, #888);
+  opacity: 0.7;
+}
+
+/* Claim button */
+.shipcombat-ship .crew-claim {
+  font-size: var(--font-size-11, 0.6875rem);
+  padding: 1px 6px;
+}
+
+/* End Turn — styled like PF2e's "Add Spellcasting Entry" button */
+.shipcombat-ship .crew-end-turn { padding: 0.4rem 0; }
+.shipcombat-ship .crew-end-turn-btn {
+  width: 100%;
+  font: 500 var(--font-size-14, 0.875rem) var(--serif);
+  margin: 0.25rem 0;
+}
+
+/* -- Sector grid --------------------------------------------------------- */
+.shipcombat-ship .sector-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.25rem;
+}
+
+.shipcombat-ship .sector-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.shipcombat-ship .sector-cell label {
+  font-size: 0.7em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary, #666);
+}
+
+/* -- Role cards ---------------------------------------------------------- */
+.shipcombat-ship .role-card {
+  border: 1px solid var(--color-border-light, #ccc);
+  border-radius: 3px;
+  padding: 0.4rem 0.5rem;
+  background: var(--color-bg-option, rgba(255,255,255,0.05));
+}
+
+/* -- Overview sub-tabs (Bridge Crew / Installed Components) -------------- */
+
+/* Sub-nav inherits SF2e's nav.sub-nav styles from form.crb-style. */
+.shipcombat-ship .overview-sub-nav {
+  margin-top: 0;
+}
+
+/* Hide/show sub-tab panels via .active class (set by vanilla-JS handler) */
+.shipcombat-ship .overview-panels > .tab             { display: none; }
+.shipcombat-ship .overview-panels > .tab.active      { display: block; }
+/* Same pattern for role-tab sub-panels */
+.shipcombat-ship .role-panels > .tab                 { display: none; }
+.shipcombat-ship .role-panels > .tab.active          { display: block; }
+
+/* ol.directory-list column layout — mirrors SF2e character sheet rule but
+   scoped to our ship sheet so it works regardless of actor type class. */
+.shipcombat-ship .directory-list {
+  display: flex;
+  flex-flow: column nowrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+/* action-header: ensure consistent height + clear h3 browser default margins
+   so the bar renders identically to PF2e's spellcasting entry headers. */
+.shipcombat-ship .directory-list > .action-header {
+  height: 1.75rem;
+  min-height: 1.75rem;
+}
+.shipcombat-ship .directory-list > .action-header h3,
+.shipcombat-ship .directory-list > .action-header h4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* Neutralise li padding for the component body wrapper row. */
+.shipcombat-ship .components-li {
+  padding: 0.25rem 0;
+  list-style: none;
+}
+
+/* ── Resource bars (Engineer heat / plasma, Gunner ammo, etc.) ────────── */
+
+.shipcombat-role-status-bar {
+  position: static;
+  top: auto;
+  z-index: auto;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 1px solid var(--color-border-light, rgba(255,255,255,0.12));
+}
+
+.shipcombat-role-status-bar .list-header {
+  background: transparent;
+}
+
+.shipcombat-role-status-bar .list-content {
+  padding: 0.35rem 0.5rem 0.5rem;
+}
+
+.shipcombat-role-status-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.shipcombat-resource-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.shipcombat-resource-bar-label {
+  flex: 0 0 7rem;
+  width: 7rem;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-pf-primary);
+  opacity: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shipcombat-resource-bar-value {
+  flex: 0 0 auto;
+  font-size: 0.8rem;
+  font-weight: bold;
+  white-space: nowrap;
+  min-width: 3rem;
+  text-align: right;
+  color: var(--color-text-light-1, #f7f5ee);
+}
+
+.shipcombat-resource-bar-track {
+  flex: 1;
+  height: 0.6rem;
+  border-radius: 4px;
+  border: 1px solid rgba(200, 185, 165, 0.25);
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  min-width: 4rem;
+  position: relative;
+}
+
+/* Heat bar: gradient fill, cover overlay hides unfilled portion */
+.shipcombat-resource-bar-track--heat {
+  background: linear-gradient(90deg, #27ae60 0%, #90c93c 20%, #f39c12 55%, #c0392b 100%);
+}
+
+.shipcombat-resource-bar-fill-cover {
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  background: rgba(22, 20, 18, 0.88);
+  border-radius: 0 4px 4px 0;
+  transition: width 0.2s ease;
+}
+
+/* Plasma/ammo bar: colored fill on clear track */
+.shipcombat-resource-bar-track--plasma {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.shipcombat-resource-bar-fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  background: #7ec8e3;
+  border-radius: 4px 0 0 4px;
+  transition: width 0.2s ease;
+}
+
+.shipcombat-bar-ammo {
+  background: #e8a33a;
+}
+
+.shipcombat-bar-charge {
+  background: #7ec8e3;
+}
+
+.shipcombat-resource-bar-value--plasma {
+  color: #7ec8e3;
+}
+
+
+/* ── Overview: armed ordnance count ────────────────────────────────────── */
+.shipcombat-ov-count-armed { color: var(--sc-accent, #5577dd); }
+
+/* ── System Heat bar cover — dim overlay so unfilled portion isn't white ─ */
+/* A semi-transparent dark overlay dims the gradient in the unfilled region  */
+/* without covering it completely, giving a clear filled vs empty contrast.  */
+.shipcombat-ship .shipcombat-resource-bar-fill-cover {
+  background: rgba(0, 0, 0, 0.28);
+}
+
+/* ── Ship Config Section: vertical single-column layout ─────────────────── */
+
+/* Container is a column; left/right sections stack and each take full width */
+.shipcombat-ship .shipcombat-ship-config-grid {
+  flex-direction: column;
+  gap:            0.5rem;
+}
+
+/* Both the basic-config section and the launch-direction section become
+   vertical single-column lists with aligned labels and inputs */
+.shipcombat-ship .shipcombat-ship-config-left {
+  display:        flex;
+  flex-direction: column;
+  gap:            0.4rem;
+  width:          100%;
+}
+
+/* Each config row is a two-column grid so all labels/inputs line up */
+.shipcombat-ship .shipcombat-ship-config-left .shipcombat-config-row {
+  display:               grid;
+  grid-template-columns: 11rem 1fr;
+  column-gap:            0.75rem;
+  align-items:           center;
+}
+
+/* Keep the label non-bold and full-width within its grid cell */
+.shipcombat-ship .shipcombat-ship-config-left .shipcombat-config-label {
+  flex:       unset;    /* cancel any inherited flex shorthand */
+  width:      auto;
+  white-space: nowrap;
+}
+
+/* Dropdowns: remove browser default arrow, add a small black triangle */
+.shipcombat-ship .shipcombat-config-select {
+  appearance:        none;
+  -webkit-appearance: none;
+  background-color:  rgba(0, 0, 0, 0.08);
+  background-image:  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23333'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.4em center;
+  background-size:   0.55em 0.55em;
+  border:            1px solid rgba(0, 0, 0, 0.25);
+  border-radius:     3px;
+  padding:           2px 1.4em 2px 5px;
+  font-family:       inherit;
+  font-size:         0.85em;
+  color:             inherit;
+  cursor:            pointer;
+  min-width:         7rem;
+}
+.shipcombat-ship .shipcombat-config-select:hover:not(:disabled) {
+  background-color: rgba(0, 0, 0, 0.14);
+  border-color:     rgba(0, 0, 0, 0.40);
+}
+.shipcombat-ship .shipcombat-config-select:disabled {
+  opacity:          0.45;
+  cursor:           not-allowed;
+}
+
+/* Launch direction section sits below, full width */
+.shipcombat-ship .shipcombat-ship-config-right {
+  flex-direction:  row;
+  flex-wrap:       wrap;
+  align-items:     flex-start;
+  justify-content: flex-start;
+  gap:             0.5rem 2rem;
+  padding-left:    0;
+  padding-top:     0.5rem;
+  border-top:      1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Allow "Valid … Launch Directions" label to wrap */
+.shipcombat-ship .shipcombat-config-label--launch {
+  white-space: normal;
+  text-align:  left;
+}
+
+/* Launch side toggle pills: restyle for parchment background */
+.shipcombat-ship .shipcombat-launch-side-toggle {
+  background: rgba(0, 0, 0, 0.06);
+  border:     1px solid rgba(0, 0, 0, 0.18);
+  color:      rgba(0, 0, 0, 0.50);
+}
+.shipcombat-ship .shipcombat-launch-side-toggle:has(input:checked) {
+  background:   rgba(74, 158, 255, 0.15);
+  border-color: rgba(74, 158, 255, 0.50);
+  color:        #1a65c0;
+}
+.shipcombat-ship .shipcombat-launch-side-toggle:not(:has(input:disabled)):hover {
+  border-color: rgba(0, 0, 0, 0.30);
+  color:        rgba(0, 0, 0, 0.75);
+}
+.shipcombat-ship .shipcombat-launch-side-toggle:has(input:disabled) {
+  opacity: 0.40;
+}
+
+/* IWR editor popup (ShipIWREditor) */
+.ship-iwr-editor table { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+.ship-iwr-editor tbody tr td { padding: 0.1rem 0.3rem; }
+.ship-iwr-editor tbody tr.active { background: rgba(200,170,90,0.12); }
+.ship-iwr-editor .iwr-value { width: 4rem; }
+

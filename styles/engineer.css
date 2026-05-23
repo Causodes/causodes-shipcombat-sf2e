@@ -1,0 +1,266 @@
+/* causodes-shipcombat-sf2e / engineer.css
+ * Engineer overlay, voidshields, shield pool, core alloc, emergency vent.
+ */
+
+/* ── Voidshield SVG: inline stroke/fill overridden by CSS property ───────── */
+.shipcombat-arc-compass-svg path,
+.shipcombat-arc-compass-svg polygon {
+  fill:   var(--sc-accent, #5577dd);
+  stroke: var(--sc-accent, #5577dd);
+}
+.shipcombat-arc-compass-svg circle {
+  stroke: var(--sc-accent, #5577dd);
+}
+
+/* ── Void-shield core pips ─────────────────────────────────────────────── */
+.shipcombat-core-pip--shield,
+.shipcombat-core-pip--shield-staged { background: var(--sc-accent, #5577dd); }
+
+/* ── Arc-val badge (shield allocation numbers) ──────────────────────────── */
+.shipcombat-arc-val {
+  color:        var(--sc-accent, #5577dd);
+  border-color: var(--sc-accent-border, rgba(85,119,221,0.40));
+}
+.shipcombat-arc-val[data-sector]:hover {
+  background:   var(--sc-accent, #5577dd);
+  border-color: var(--sc-accent, #5577dd);
+  color: #fff;
+  box-shadow:   0 0 10px var(--sc-accent-dim, rgba(85,119,221,0.40));
+  text-shadow:  none;
+}
+
+/* ── Zone-max table border ──────────────────────────────────────────────── */
+.shipcombat-shield-sector-list { border-color: var(--sc-accent-border, rgba(85,119,221,0.35)); }
+
+/* ── Engineer: active shield-pool value ─────────────────────────────────── */
+.shipcombat-shieldpool-val.shipcombat-shieldpool-active,
+.shipcombat-shieldpool-active {
+  color:       var(--sc-accent, #5577dd);
+  text-shadow: 0 0 6px var(--sc-accent-dim, rgba(85,119,221,0.50));
+}
+
+/* ── Engineer overlay confirm: glow the button only, no background change ── */
+.shipcombat-role-section.shipcombat-overlay-hover-confirm > .shipcombat-section-overlay {
+  background:   rgba(248, 244, 241, 0.40) !important;
+  border-color: transparent;
+  box-shadow:   none;
+}
+.shipcombat-role-section.shipcombat-overlay-hover-confirm > .shipcombat-section-overlay .shipcombat-section-overlay-btn {
+  background:   rgba(23, 31, 105, 0.96);
+  border-color: rgba(65, 85, 220, 0.90);
+  box-shadow:   0 0 16px rgba(41, 55, 188, 0.70), 0 0 5px rgba(41, 55, 188, 0.60);
+  color:        #e0e8ff;
+  text-shadow:  none;
+}
+/* ── Engineer overlay deny: other sections' buttons turn crimson ─────────── */
+.shipcombat-role-section.shipcombat-overlay-hover-deny > .shipcombat-section-overlay {
+  background:   rgba(248, 244, 241, 0.40) !important;
+  border-color: transparent;
+  box-shadow:   none;
+}
+.shipcombat-role-section.shipcombat-overlay-hover-deny > .shipcombat-section-overlay .shipcombat-section-overlay-btn {
+  background:   rgba(80, 0, 0, 0.85);
+  border-color: rgba(160, 20, 20, 0.70);
+  box-shadow:   0 0 8px rgba(160, 20, 20, 0.35);
+  color:        rgba(255, 200, 200, 0.90);
+  text-shadow:  none;
+}
+
+/* ── Voidshields: revert to impmal green (#00ff88) ─────────────────────── */
+.shipcombat-ship .shipcombat-arc-compass-svg path,
+.shipcombat-ship .shipcombat-arc-compass-svg polygon {
+  fill:   #00ff88;
+  stroke: #00ff88;
+}
+.shipcombat-ship .shipcombat-arc-compass-svg .shipcombat-arc-path--over {
+  fill:   #44aaff;
+  stroke: #44aaff;
+}
+.shipcombat-ship .shipcombat-arc-compass-svg circle  { stroke: #00ff88; }
+.shipcombat-ship .shipcombat-core-pip--shield,
+.shipcombat-ship .shipcombat-core-pip--shield-staged { background: #00ff88; }
+
+/* ── Core pips: visible border on white backgrounds (keep 14×14 from core) ─ */
+.shipcombat-ship .shipcombat-core-pip {
+  border: 1.5px solid rgba(0, 0, 0, 0.30);
+}
+.shipcombat-ship .shipcombat-core-pip--available  { border-color: rgba(0,0,0,0.22); }
+.shipcombat-ship .shipcombat-core-pip--staged      { border-color: rgba(150,80,0,0.50); }
+.shipcombat-ship .shipcombat-core-pip--assigned    { border-color: rgba(150,0,0,0.50); }
+.shipcombat-ship .shipcombat-core-pip--shield,
+.shipcombat-ship .shipcombat-core-pip--shield-staged,
+.shipcombat-ship .shipcombat-core-pip--shield-committed { border-color: rgba(0,140,70,0.50); }
+.shipcombat-ship .shipcombat-core-pip--aux-staged,
+.shipcombat-ship .shipcombat-core-pip--aux-committed    { border-color: rgba(0,80,140,0.50); }
+
+/* ── Emergency Vent button: white text on parchment ────────────────────── */
+.shipcombat-ship .shipcombat-action-danger {
+  color: #fff;
+}
+.shipcombat-ship .shipcombat-arc-val {
+  color:        #00ff88;
+  border-color: rgba(0,255,136,0.35);
+}
+.shipcombat-ship .shipcombat-arc-val[data-sector]:hover {
+  background:   #00ff88;
+  border-color: #00ff88;
+  color:        #000;
+  box-shadow:   0 0 10px rgba(0,255,136,0.40);
+}
+.shipcombat-ship .shipcombat-arc-val--over { color: #44aaff; border-color: rgba(68,170,255,0.50); }
+.shipcombat-ship .shipcombat-shield-sector-list { border-color: rgba(0,255,136,0.20); }
+.shipcombat-ship .shipcombat-arc-hint-panel     { border-color: rgba(0,255,136,0.15); }
+
+/* ── SF2e voidshield: merged left panel layout ──────────────────────────── */
+.shipcombat-ship .shipcombat-shield-alloc-row--sf2e {
+  grid-template-columns: auto 1fr;
+  justify-items: start;
+}
+.shipcombat-ship .shipcombat-shield-alloc-row--sf2e .shipcombat-arc-compass-wrap {
+  justify-self: center;
+}
+/* Combined Controls + Zone Max panel */
+.shipcombat-ship .shipcombat-shield-left-panel {
+  display:        flex;
+  flex-direction: column;
+  gap:            0.15rem;
+  padding:        0.3rem 0.5rem;
+  border:         1px solid rgba(0,255,136,0.15);
+  border-radius:  4px;
+  background:     rgba(0,0,0,0.25);
+  min-width:      7rem;
+  align-self:     center;
+}
+.shipcombat-ship .shipcombat-shield-panel-divider {
+  border-top:  1px solid rgba(255,255,255,0.10);
+  margin:      0.35rem 0;
+}
+
+/* ── Voidshield left panel: frame-elegant border, SF2e text colors ──────── */
+.shipcombat-ship .shipcombat-shield-left-panel {
+  background:          none;
+  border:              none;
+  border-style:        double;
+  border-image-source: url("../../../systems/sf2e/assets/sheet/frame-elegant.svg");
+  border-image-slice:  11;
+  border-image-width:  14px;
+  border-image-repeat: repeat;
+}
+/* Section headings inside the panel — pf-primary serif */
+.shipcombat-ship .shipcombat-shield-left-panel .shipcombat-ssl-head {
+  color:          var(--color-pf-primary);
+  font:           600 var(--font-size-12, 0.75rem)/1 var(--serif);
+  opacity:        1;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+/* Zone-max label / value — dark readable text on parchment */
+.shipcombat-ship .shipcombat-shield-left-panel .shipcombat-ssl-label {
+  color:   var(--color-text-dark-secondary, #444);
+  opacity: 1;
+}
+/* Shield green kept for the numbers themselves */
+/* Controls hint rows — same darkness as Zone Max labels */
+.shipcombat-ship .shipcombat-arc-hint-key,
+.shipcombat-ship .shipcombat-arc-hint-val {
+  color: var(--color-text-dark-secondary, #444);
+}
+/* Divider matches pf2e divider color */
+.shipcombat-ship .shipcombat-shield-panel-divider {
+  border-top-color: var(--color-border-divider, rgba(0,0,0,0.15));
+}
+
+/* ── Bridge Crew: pull reset icon + unassign X away from edges ──────────── */
+.shipcombat-ship .shipcombat-full-reset-link { margin-right: 0.3rem; }
+.shipcombat-ship .shipcombat-release-btn     { margin-right: 0.3rem; }
+
+/* ── Voidshield panel: zone-max numbers → SF2e navy instead of green ────── */
+.shipcombat-ship .shipcombat-shield-left-panel .shipcombat-ssl-max {
+  color: var(--color-pf-secondary, #171f69);
+}
+
+/* ── Flux→AP button: more vertical breathing room ───────────────────────── */
+.shipcombat-ship .shipcombat-controls-flux-btn {
+  padding: 5px 6px;
+  margin-top: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ── Engineer action-selection overlay — frosted SF2e navy ─────────────── */
+/* Base overlay: warm frosted wash (same as taken overlay but lighter) */
+.shipcombat-ship .shipcombat-section-overlay {
+  background:          rgba(248, 244, 241, 0.40);
+  backdrop-filter:     blur(2px) brightness(0.98);
+  -webkit-backdrop-filter: blur(2px) brightness(0.98);
+}
+/* Action button inside the overlay: SF2e navy */
+.shipcombat-ship .shipcombat-section-overlay-btn {
+  background:   rgba(23, 31, 105, 0.88);
+  border:       1px solid rgba(41, 55, 188, 0.60);
+  box-shadow:   0 0 8px rgba(23, 31, 105, 0.35), inset 0 0 8px rgba(23, 31, 105, 0.12);
+  color:        var(--text-light, #f7f5ee);
+  text-shadow:  none;
+}
+.shipcombat-ship .shipcombat-section-overlay-btn:hover:not([disabled]) {
+  background:   rgba(32, 43, 147, 0.92);
+  border-color: rgba(41, 55, 188, 0.85);
+  box-shadow:   0 0 12px rgba(23, 31, 105, 0.55);
+  text-shadow:  none;
+}
+/* Suppress teal scan-line and flicker pseudo-elements */
+.shipcombat-ship .shipcombat-section-overlay-btn:hover:not([disabled])::before,
+.shipcombat-ship .shipcombat-section-overlay-btn:hover:not([disabled])::after {
+  display: none;
+}
+/* Selected action overlay (green → muted sage on parchment) */
+.shipcombat-ship .shipcombat-section-overlay--selected {
+  background:          rgba(228, 242, 230, 0.50);
+  border:              1px solid rgba(23, 105, 45, 0.25);
+  box-shadow:          none;
+  backdrop-filter:     blur(2px) brightness(0.99);
+  -webkit-backdrop-filter: blur(2px) brightness(0.99);
+}
+.shipcombat-ship .shipcombat-section-overlay--selected .shipcombat-overlay-lock-indicator {
+  color:       rgba(25, 90, 45, 0.80);
+  text-shadow: none;
+  font:        italic 600 var(--font-size-14, 0.875rem)/1.3 var(--serif);
+}
+.shipcombat-ship .shipcombat-section-overlay--selected .shipcombat-overlay-lock-indicator i {
+  color:       rgba(25, 90, 45, 0.65);
+  text-shadow: none;
+}
+
+/* ── Core alloc: shield/aux rows — two-line layout for narrow panel ──────── */
+/* Move the long "Projected next round…" detail to a second line so the       */
+/* name + +/− controls fit comfortably on the first line.                     */
+.shipcombat-ship .shipcombat-core-alloc-row--shield,
+.shipcombat-ship .shipcombat-core-alloc-row--aux {
+  flex-wrap: wrap;
+  row-gap:   0;
+}
+.shipcombat-ship .shipcombat-core-alloc-row--shield .shipcombat-core-alloc-name,
+.shipcombat-ship .shipcombat-core-alloc-row--aux   .shipcombat-core-alloc-name {
+  flex:  1 1 auto;
+  width: auto;
+}
+.shipcombat-ship .shipcombat-core-alloc-row--shield .shipcombat-core-alloc-detail,
+.shipcombat-ship .shipcombat-core-alloc-row--aux   .shipcombat-core-alloc-detail {
+  flex:        1 1 100%;        /* own full-width second line */
+  order:       4;               /* after ctrl buttons */
+  white-space: normal;
+  overflow:    visible;
+  text-overflow: unset;
+  font-size:   0.68rem;
+  padding:     0.1rem 0.5rem 0.2rem;
+  color:       var(--color-text-dark-inactive, #888);
+}
+/* Shorten the per-core rate label so it fits next to the +/- buttons */
+.shipcombat-ship .shipcombat-core-alloc-row--shield .shipcombat-core-flux-label,
+.shipcombat-ship .shipcombat-core-alloc-row--aux   .shipcombat-core-flux-label {
+  font-size:   0.6rem;
+  max-width:   5.5rem;
+  overflow:    hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+

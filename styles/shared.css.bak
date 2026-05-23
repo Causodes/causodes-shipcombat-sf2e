@@ -1,0 +1,3816 @@
+/* causodes-shipcombat-sf2e -- styles */
+
+/* -- Tab content area --------------------------------------------------- */
+.shipcombat-ship .sheet-body { overflow-y: auto; overflow-x: hidden; }
+
+.shipcombat-ship .sheet-content > .tab.active {
+  padding: var(--space-10, 0.5rem);
+  gap: 0.5rem;
+}
+
+/* -- Nav icon sizing (match PF2e 1.5rem circles) ------------------------- */
+.shipcombat-ship form.crb-style nav.sheet-navigation .item {
+  height: 1.5rem;
+  width:  1.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-12, 0.75rem);
+}
+
+/* Ensure tab nav renders above section overlays (z-index: 10) */
+.shipcombat-ship form.crb-style nav.sheet-navigation {
+  position: relative;
+  z-index: 15;
+}
+
+/* -- Compact ship identity block ----------------------------------------- */
+.shipcombat-ship .ship-identity {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 0.25rem;
+}
+
+.shipcombat-ship .ship-portrait {
+  flex: 0 0 120px;
+}
+
+.shipcombat-ship .ship-portrait .actor-image {
+  display: block;
+  width:  120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 0;
+  border: none;
+  box-shadow: 0 0 0 1px #918c88, 0 0 0 2px #e1d8cf, 0 0 0 3px #a98f39,
+              inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px black;
+  cursor: pointer;
+}
+
+.shipcombat-ship .ship-detail-cols {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.shipcombat-ship .ship-detail-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.shipcombat-ship .inputSplit {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.shipcombat-ship .flex-3    { flex: 3; min-width: 0; }
+.shipcombat-ship .flex-2    { flex: 2; min-width: 0; }
+.shipcombat-ship .flex-full { flex: 1 0 100%; }
+
+/* Rely on SF2e's .crb-style .details-label for font/color matching.
+   Only override min-width so flex containers don't overflow. */
+.shipcombat-ship .details-input { min-width: 0; }
+
+.shipcombat-ship hr.ship-identity-divider {
+  margin: 0.3rem 0;
+  border-color: var(--color-border-light, #ccc);
+}
+
+/* -- Bridge Crew: inventory-style header + flex rows --------------------- */
+
+.shipcombat-ship .crew-inventory-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Header bar — same dark primary as PF2e action-header */
+.shipcombat-ship .crew-inventory-list > header {
+  display: flex;
+  align-items: center;
+  background: var(--color-pf-primary, #5e0000);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3), inset 0 0 0 2px rgba(255, 255, 255, 0.2);
+  color: var(--text-light, #f0e8d8);
+  font-family: var(--sans-serif);
+  font-size: var(--font-size-10, 0.625rem);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: var(--space-4, 0.25rem) 0;
+  width: 100%;
+  position: relative;
+}
+
+.shipcombat-ship .crew-inventory-list > header h3.crew-col-name {
+  font-size: inherit;
+  font-weight: inherit;
+  color: var(--text-light, #f0e8d8);
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.75);
+  text-transform: inherit;
+  margin: 0;
+}
+
+/* Item rows */
+.shipcombat-ship .crew-inventory-list ul.items {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  border: 1px solid var(--color-pf-primary, #5e0000);
+  border-top: none;
+}
+
+.shipcombat-ship .crew-inventory-list ul.items > li {
+  display: flex;
+  align-items: center;
+  padding: 0.2rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+.shipcombat-ship .crew-inventory-list ul.items > li:last-child {
+  border-bottom: none;
+}
+
+.shipcombat-ship .crew-inventory-list ul.items > li:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+/* Column definitions — shared between header and rows */
+.shipcombat-ship .crew-col-name {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 0.4rem;
+  overflow: hidden;
+  padding-left: var(--space-8, 0.5rem);
+}
+
+.shipcombat-ship .crew-col-role {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-basis: 7rem;
+}
+
+.shipcombat-ship .crew-col-ready {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-basis: 3.5rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.shipcombat-ship .crew-col-skill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 2 1 0;
+  min-width: 6rem;
+}
+
+/* Controls float at the right edge, out of flex flow, so they don't affect column widths */
+.shipcombat-ship .crew-col-controls {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: var(--space-4, 0.25rem);
+  gap: var(--space-4, 0.25rem);
+  pointer-events: none; /* pass clicks through to elements below when empty */
+}
+.shipcombat-ship .crew-col-controls > * {
+  pointer-events: auto; /* re-enable for actual buttons/links */
+}
+
+/* Name cell — portrait + name + release link */
+.shipcombat-ship .crew-name-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  overflow: hidden;
+}
+.shipcombat-ship .crew-name-wrap > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+  font-size: var(--font-size-13, 0.8125rem);
+}
+.shipcombat-ship .crew-portrait {
+  width: 1.6rem;
+  height: 1.6rem;
+  object-fit: cover;
+  border-radius: 2px;
+  flex-shrink: 0;
+  border: 1px solid rgba(0,0,0,0.2);
+}
+.shipcombat-ship .crew-release {
+  margin-left: auto;
+  margin-right: 0.3rem;
+  flex-shrink: 0;
+  font-size: 0.7em;
+  opacity: 0.5;
+  color: var(--color-pf-primary, #5e0000);
+}
+.shipcombat-ship .crew-release:hover { opacity: 1; }
+
+/* Role input */
+.shipcombat-ship .crew-role-input {
+  background: none;
+  border: none;
+  border-bottom: 1px solid transparent;
+  width: 100%;
+  font-size: var(--font-size-13, 0.8125rem);
+}
+.shipcombat-ship .crew-role-input:focus {
+  border-bottom-color: var(--color-pf-primary, #5e0000);
+}
+
+/* Ready column */
+.shipcombat-ship .col-ready {
+  text-align: center;
+  white-space: nowrap;
+  font-size: var(--font-size-11, 0.6875rem);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.shipcombat-ship .crew-yes { color: #3c7a3c; }
+.shipcombat-ship .crew-no  { color: #b03030; }
+
+/* Skill column */
+.shipcombat-ship .crew-skill-select {
+  flex: 1 1 0;
+  min-width: 0;
+  box-sizing: border-box;
+  font-size: var(--font-size-12, 0.75rem);
+  text-align: center;
+  text-align-last: center;
+  appearance: auto;
+  -webkit-appearance: auto;
+  background-image: none;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0;
+  padding: 0.1rem 0.2rem;
+}
+
+/* ── Neutralise SF2e's yellowish .crb-style select background in ship sheets */
+.shipcombat-ship .crb-style select {
+  background-color: var(--bg, #f8f4f1);
+  color: var(--color-text-primary, #1c1c1c);
+}
+.shipcombat-ship .crb-style select option {
+  background-color: var(--bg, #f8f4f1);
+  color: var(--color-text-primary, #1c1c1c);
+}
+
+/* Reset icon in header */
+.shipcombat-ship .crew-reset {
+  opacity: 0.7;
+  color: inherit;
+  margin-left: 0.3rem;
+  margin-right: 0.35rem;
+}
+.shipcombat-ship .crew-reset:hover { opacity: 1; }
+
+/* Muted / unassigned */
+.shipcombat-ship .crew-muted {
+  color: var(--color-text-secondary, #888);
+  opacity: 0.7;
+}
+
+/* Claim button */
+.shipcombat-ship .crew-claim {
+  font-size: var(--font-size-11, 0.6875rem);
+  padding: 1px 6px;
+}
+
+/* End Turn — styled like PF2e's "Add Spellcasting Entry" button */
+.shipcombat-ship .crew-end-turn { padding: 0.4rem 0; }
+.shipcombat-ship .crew-end-turn-btn {
+  width: 100%;
+  font: 500 var(--font-size-14, 0.875rem) var(--serif);
+  margin: 0.25rem 0;
+}
+
+/* -- Sector grid --------------------------------------------------------- */
+.shipcombat-ship .sector-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.25rem;
+}
+
+.shipcombat-ship .sector-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.shipcombat-ship .sector-cell label {
+  font-size: 0.7em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary, #666);
+}
+
+/* -- Role cards ---------------------------------------------------------- */
+.shipcombat-ship .role-card {
+  border: 1px solid var(--color-border-light, #ccc);
+  border-radius: 3px;
+  padding: 0.4rem 0.5rem;
+  background: var(--color-bg-option, rgba(255,255,255,0.05));
+}
+
+/* -- Component lists ----------------------------------------------------- */
+.shipcombat-ship .component-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.shipcombat-ship .component-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 2px 4px;
+}
+
+/* -- Numeric input sizing ------------------------------------------------ */
+/* Do NOT override width — let .crb-style .details-input width:100% apply */
+/* Overview detail-column inputs (Crew / Passengers / Price): left-aligned
+   to match how SF2e vehicle sheet presents these info fields. */
+.ship-detail-cols input[type="number"],
+.ship-detail-cols input[type="text"] {
+  text-align: left;
+}
+/* Sidebar HP / Fire / Max inputs: centred like the SF2e vehicle sidebar */
+.shipcombat-v1 aside .data-value input[type="number"],
+.shipcombat-v1 aside .hp-big .container input[type="number"] {
+  text-align: center;
+}
+
+/* ── FIRE active: only the number turns red when internalFire > 0 ──────── */
+.shipcombat-fire-active input,
+.shipcombat-fire-active h2 {
+  color: #b91c1c !important;
+}
+
+/* ── Hardness armour rend: only the numeric value turns red ─────────────── */
+.shipcombat-armour--rend {
+  color: #b91c1c;
+}
+
+/* -- Overview sub-tabs (Bridge Crew / Installed Components) -------------- */
+
+/* Sub-nav inherits SF2e's nav.sub-nav styles from form.crb-style. */
+.shipcombat-ship .overview-sub-nav {
+  margin-top: 0;
+}
+
+/* Hide/show sub-tab panels via .active class (set by vanilla-JS handler) */
+.shipcombat-ship .overview-panels > .tab             { display: none; }
+.shipcombat-ship .overview-panels > .tab.active      { display: block; }
+/* Same pattern for role-tab sub-panels */
+.shipcombat-ship .role-panels > .tab                 { display: none; }
+.shipcombat-ship .role-panels > .tab.active          { display: block; }
+
+/* ol.directory-list column layout — mirrors SF2e character sheet rule but
+   scoped to our ship sheet so it works regardless of actor type class. */
+.shipcombat-ship .directory-list {
+  display: flex;
+  flex-flow: column nowrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+/* action-header: ensure consistent height + clear h3 browser default margins
+   so the bar renders identically to PF2e's spellcasting entry headers. */
+.shipcombat-ship .directory-list > .action-header {
+  height: 1.75rem;
+  min-height: 1.75rem;
+}
+.shipcombat-ship .directory-list > .action-header h3,
+.shipcombat-ship .directory-list > .action-header h4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* Neutralise li padding for the component body wrapper row. */
+.shipcombat-ship .components-li {
+  padding: 0.25rem 0;
+  list-style: none;
+}
+
+/* -- Installed Components layout ----------------------------------------- */
+
+.shipcombat-ship .shipcombat-ov-comp-section {
+  margin-bottom: 0.75rem;
+}
+
+.shipcombat-ship .shipcombat-ov-weapon-section-label {
+  font-size: var(--font-size-12, 0.75rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary, #666);
+  margin-bottom: 0.3rem;
+}
+
+.shipcombat-ship .shipcombat-ov-weapon-slots {
+  font-weight: 400;
+  color: var(--color-text-secondary, #888);
+}
+
+.shipcombat-ship .shipcombat-ov-weapon-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.25rem;
+  padding: 0.25rem 0 0.35rem;
+}
+
+.shipcombat-ship .shipcombat-ov-weapon-cell {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+  padding: 0.2rem 0.35rem;
+  min-height: 2rem;
+}
+
+.shipcombat-ship .shipcombat-ov-weapon-pos {
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.55;
+  margin-bottom: 0.15rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.shipcombat-ship .shipcombat-ov-comp-row {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  margin-bottom: 0.1rem;
+}
+
+.shipcombat-ship .shipcombat-ov-comp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.72rem;
+  padding: 0.05rem 0.3rem;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.shipcombat-ship .shipcombat-ov-comp-chip:hover {
+  background: rgba(0, 0, 0, 0.11);
+  text-decoration: none;
+}
+
+.shipcombat-ship .shipcombat-ov-comp-chip img {
+  width: 1rem;
+  height: 1rem;
+  object-fit: cover;
+  flex-shrink: 0;
+  border-radius: 2px;
+}
+
+.shipcombat-ship .shipcombat-ov-comp-chip span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shipcombat-ship .shipcombat-ov-unassign {
+  margin-left: auto;
+  opacity: 0.4;
+  font-size: 0.6rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.shipcombat-ship .shipcombat-ov-unassign:hover { opacity: 1; }
+
+.shipcombat-ship .shipcombat-ov-weapon-add {
+  width: 100%;
+  font-size: var(--font-size-11, 0.6875rem);
+  margin-top: 0.2rem;
+  opacity: 0.65;
+}
+
+.shipcombat-ship .shipcombat-ov-ordnance-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.2rem;
+  padding: 0.25rem 0 0.35rem;
+}
+
+.shipcombat-ship .shipcombat-ov-ordnance-box .shipcombat-ov-comp-row {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+  padding: 0.15rem 0.3rem;
+  min-height: 1.8rem;
+  margin-bottom: 0;
+}
+
+.shipcombat-ship .shipcombat-ov-ordnance-add {
+  grid-column: 1 / -1;
+}
+
+.shipcombat-ship .shipcombat-ov-empty {
+  color: var(--color-text-secondary, #888);
+  opacity: 0.6;
+  font-size: var(--font-size-12, 0.75rem);
+}
+
+/* ── Resource bars (Engineer heat / plasma, Gunner ammo, etc.) ────────── */
+
+.shipcombat-role-status-bar {
+  position: static;
+  top: auto;
+  z-index: auto;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 1px solid var(--color-border-light, rgba(255,255,255,0.12));
+}
+
+.shipcombat-role-status-bar .list-header {
+  background: transparent;
+}
+
+.shipcombat-role-status-bar .list-content {
+  padding: 0.35rem 0.5rem 0.5rem;
+}
+
+.shipcombat-role-status-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.shipcombat-resource-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.shipcombat-resource-bar-label {
+  flex: 0 0 7rem;
+  width: 7rem;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-pf-primary);
+  opacity: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shipcombat-resource-bar-value {
+  flex: 0 0 auto;
+  font-size: 0.8rem;
+  font-weight: bold;
+  white-space: nowrap;
+  min-width: 3rem;
+  text-align: right;
+  color: var(--color-text-light-1, #f7f5ee);
+}
+
+.shipcombat-resource-bar-track {
+  flex: 1;
+  height: 0.6rem;
+  border-radius: 4px;
+  border: 1px solid rgba(200, 185, 165, 0.25);
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  min-width: 4rem;
+  position: relative;
+}
+
+/* Heat bar: gradient fill, cover overlay hides unfilled portion */
+.shipcombat-resource-bar-track--heat {
+  background: linear-gradient(90deg, #27ae60 0%, #90c93c 20%, #f39c12 55%, #c0392b 100%);
+}
+
+.shipcombat-resource-bar-fill-cover {
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  background: rgba(22, 20, 18, 0.88);
+  border-radius: 0 4px 4px 0;
+  transition: width 0.2s ease;
+}
+
+/* Plasma/ammo bar: colored fill on clear track */
+.shipcombat-resource-bar-track--plasma {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.shipcombat-resource-bar-fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  background: #7ec8e3;
+  border-radius: 4px 0 0 4px;
+  transition: width 0.2s ease;
+}
+
+.shipcombat-bar-ammo {
+  background: #e8a33a;
+}
+
+.shipcombat-bar-charge {
+  background: #7ec8e3;
+}
+
+.shipcombat-resource-bar-value--plasma {
+  color: #7ec8e3;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════════
+ * SF2e COLOUR THEME — Starfinder 2e blue accent replaces all impmal green
+ * (#00ff88) and teal (#065c63) colours.
+ *
+ * --sc-accent is the single source of truth.  Change it here and all
+ * themed elements follow automatically.
+ *
+ * Source-order wins over causodes-shipcombat-core (loaded first).
+ * ════════════════════════════════════════════════════════════════════════ */
+
+/* ── Theme variables ────────────────────────────────────────────────────── */
+.shipcombat-ship,
+.shipcombat-component {
+  --sc-accent:        #5577dd;
+  --sc-accent-bright: rgba(85,119,221,0.75);
+  --sc-accent-border: rgba(85,119,221,0.40);
+  --sc-accent-dim:    rgba(85,119,221,0.20);
+  --sc-accent-subtle: rgba(85,119,221,0.10);
+}
+
+/* ── Starfinder logo in ship sheet sidebar ─────────────────────────────── */
+/* Reference the logo from the original pf2e system location (not a copy).  */
+/* Negative side margins extend the image to the full sidebar width,        */
+/* matching the SF2e character sheet .logo dimensions exactly.              */
+.sf2e-ship-logo {
+  display: block;
+  height: 53px;
+  /* calc matches SF2e character sheet: 14rem + space-10 (2×var(--space-5)) */
+  width: calc(100% + 2 * var(--space-6, 0.75rem));
+  margin: 0 calc(-1 * var(--space-6, 0.75rem)) 0.25rem calc(-1 * var(--space-6, 0.75rem));
+  background: url("/systems/pf2e/assets/starfinder_logo.webp") no-repeat center / contain;
+  pointer-events: none;
+}
+
+/* ── Stat-table: override impmal teal (#065c63) with neutral grey ───────── */
+.shipcombat-ship .shipcombat-stat-table tr { border-bottom-color: rgba(255,255,255,0.12); }
+.shipcombat-ship .shipcombat-stat-table td { border-right-color:  rgba(255,255,255,0.12); }
+.shipcombat-ship .shipcombat-ship-attr-box { border-color: rgba(255,255,255,0.15); }
+.shipcombat-ship .shipcombat-ship-attr-label {
+  background: rgba(255,255,255,0.07);
+  border-bottom-color: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.90);
+}
+
+/* ── Resource bar: keep dark background; readable text ─────────────────── */
+.shipcombat-role-status-bar {
+  border-bottom-color: rgba(255,255,255,0.10);
+}
+
+/* ── Voidshield SVG: inline stroke/fill overridden by CSS property ───────── */
+.shipcombat-arc-compass-svg path,
+.shipcombat-arc-compass-svg polygon {
+  fill:   var(--sc-accent, #5577dd);
+  stroke: var(--sc-accent, #5577dd);
+}
+.shipcombat-arc-compass-svg circle {
+  stroke: var(--sc-accent, #5577dd);
+}
+
+/* ── Void-shield core pips ─────────────────────────────────────────────── */
+.shipcombat-core-pip--shield,
+.shipcombat-core-pip--shield-staged { background: var(--sc-accent, #5577dd); }
+
+/* ── Arc-val badge (shield allocation numbers) ──────────────────────────── */
+.shipcombat-arc-val {
+  color:        var(--sc-accent, #5577dd);
+  border-color: var(--sc-accent-border, rgba(85,119,221,0.40));
+}
+.shipcombat-arc-val[data-sector]:hover {
+  background:   var(--sc-accent, #5577dd);
+  border-color: var(--sc-accent, #5577dd);
+  color: #fff;
+  box-shadow:   0 0 10px var(--sc-accent-dim, rgba(85,119,221,0.40));
+  text-shadow:  none;
+}
+
+/* ── Zone-max table border ──────────────────────────────────────────────── */
+.shipcombat-shield-sector-list { border-color: var(--sc-accent-border, rgba(85,119,221,0.35)); }
+
+/* ── Sensors: bearing-toggle, radar wrap, zoom, augur category ──────────── */
+.shipcombat-bearing-toggle-btn {
+  color:        var(--sc-accent, #5577dd);
+  border-color: var(--sc-accent-border, rgba(85,119,221,0.35));
+  width:        auto;
+  flex:         0 0 auto;
+}
+.shipcombat-bearing-toggle-btn:hover,
+.shipcombat-bearing-toggle-btn.active {
+  color:        #c0ccff;
+  border-color: var(--sc-accent-bright, rgba(85,119,221,0.75));
+  background:   var(--sc-accent-subtle, rgba(85,119,221,0.10));
+}
+.shipcombat-radar-zoom-wrap,
+.shipcombat-radar-zoom-label   { color: var(--sc-accent, #5577dd); }
+.shipcombat-radar-zoom         { accent-color: var(--sc-accent, #5577dd); }
+.shipcombat-lock-ref-table thead { background: rgba(0, 255, 136, 0.06); } /* restored core default */
+.shipcombat-abl-category-row td {
+  color:               var(--color-pf-secondary, #171f69);
+  border-bottom-color: rgba(41, 55, 188, 0.20);
+}
+.shipcombat-abl-name i { color: var(--color-pf-secondary, #171f69); }
+
+/* ── SF2e skill-block for the piloting roll row (partial override) ─────── */
+/* Layout — mirrors .proficiencies-list li structure from SF2e               */
+.shipcombat-ship .sc-skill-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.shipcombat-ship .sc-skill-row {
+  display: flex;
+  align-items: center;
+  min-height: 2.25rem;
+  padding: 0 0.5rem 0 0.25rem;
+  border-image-repeat: repeat;
+  border-image-slice: 11;
+  border-image-source: url("../../../systems/sf2e/assets/sheet/frame-elegant.svg");
+  border-image-width: 14px;
+  border-style: double;
+  font-family: var(--serif);
+  font-size: var(--font-size-16);
+  cursor: pointer;
+}
+
+.shipcombat-ship .sc-skill-row--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Unified SL allocation row — fancy border wraps roll button + all alloc stats */
+.shipcombat-ship .sc-helm-alloc-row {
+  min-height: 3.5rem;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+  cursor: default;
+}
+.shipcombat-ship .sc-helm-alloc-row .sc-skill-d20 {
+  cursor: pointer;
+}
+/* Vertical separator between roll button and alloc cells */
+.shipcombat-ship .sc-helm-alloc-sep {
+  width: 1px;
+  align-self: stretch;
+  background: currentColor;
+  opacity: 0.2;
+  margin: 0.25rem 0.25rem;
+  flex-shrink: 0;
+}
+/* SL badge + label cell (after rolling) */
+.shipcombat-ship .sc-helm-sl-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 4.5rem;
+  flex: 1;
+}
+/* Alloc stat cells inside unified row */
+.shipcombat-ship .sc-helm-alloc-row .shipcombat-helm-stat {
+  min-width: 4.5rem;
+  flex: 0 0 auto;
+}
+
+/* d20 SVG icon — bare d20 with PF2e-style glow, no background circle */
+.shipcombat-ship .sc-skill-d20 {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  color: var(--color-text-light-1, #f7f5ee);
+  filter:
+    drop-shadow(0 0 1px var(--color-shadow-dark, rgba(0,0,0,0.7)))
+    drop-shadow(0 0 3px var(--color-text-dark-4, #555))
+    drop-shadow(0 0 12px var(--color-text-light-3, rgba(240,235,220,0.5)));
+}
+
+.shipcombat-ship .sc-skill-d20:hover { animation: sc-d20-spin 2s infinite linear; }
+
+@keyframes sc-d20-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(359deg); }
+}
+
+.shipcombat-ship .sc-skill-d20 .d20-svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Modifier value */
+.shipcombat-ship .sc-skill-modifier {
+  color: var(--color-pf-primary, #5e0000);
+  font-weight: 600;
+  width: 1.75rem;
+  text-align: right;
+  margin-right: 0.25rem;
+}
+
+/* Skill name */
+.shipcombat-ship .sc-skill-name {
+  flex: 1;
+  min-width: 0; /* allow flex shrinking so overflow/ellipsis work */
+  color: var(--color-text-primary, #1c1c1c);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shipcombat-rc-recall-btn {
+  border-color: var(--sc-accent-border, rgba(85,119,221,0.45));
+  background:   var(--sc-accent-subtle, rgba(85,119,221,0.10));
+  color:        var(--sc-accent, #5577dd);
+}
+.shipcombat-rc-recall-btn:hover { background: var(--sc-accent-dim, rgba(85,119,221,0.30)); }
+
+/* ── Engineer: active shield-pool value ─────────────────────────────────── */
+.shipcombat-shieldpool-val.shipcombat-shieldpool-active,
+.shipcombat-shieldpool-active {
+  color:       var(--sc-accent, #5577dd);
+  text-shadow: 0 0 6px var(--sc-accent-dim, rgba(85,119,221,0.50));
+}
+
+/* ── Overview: armed ordnance count ────────────────────────────────────── */
+.shipcombat-ov-count-armed { color: var(--sc-accent, #5577dd); }
+
+/* ── Engineer overlay confirm: glow the button only, no background change ── */
+.shipcombat-role-section.shipcombat-overlay-hover-confirm > .shipcombat-section-overlay {
+  background:   rgba(248, 244, 241, 0.40) !important;
+  border-color: transparent;
+  box-shadow:   none;
+}
+.shipcombat-role-section.shipcombat-overlay-hover-confirm > .shipcombat-section-overlay .shipcombat-section-overlay-btn {
+  background:   rgba(23, 31, 105, 0.96);
+  border-color: rgba(65, 85, 220, 0.90);
+  box-shadow:   0 0 16px rgba(41, 55, 188, 0.70), 0 0 5px rgba(41, 55, 188, 0.60);
+  color:        #e0e8ff;
+  text-shadow:  none;
+}
+/* ── Engineer overlay deny: other sections' buttons turn crimson ─────────── */
+.shipcombat-role-section.shipcombat-overlay-hover-deny > .shipcombat-section-overlay {
+  background:   rgba(248, 244, 241, 0.40) !important;
+  border-color: transparent;
+  box-shadow:   none;
+}
+.shipcombat-role-section.shipcombat-overlay-hover-deny > .shipcombat-section-overlay .shipcombat-section-overlay-btn {
+  background:   rgba(80, 0, 0, 0.85);
+  border-color: rgba(160, 20, 20, 0.70);
+  box-shadow:   0 0 8px rgba(160, 20, 20, 0.35);
+  color:        rgba(255, 200, 200, 0.90);
+  text-shadow:  none;
+}
+
+/* ── Captain drag-over + confirm button ─────────────────────────────────── */
+.shipcombat-dr-card.shipcombat-dr-drag-over {
+  border-color: var(--sc-accent, #5577dd);
+  background:   var(--sc-accent-subtle, rgba(85,119,221,0.10));
+}
+.shipcombat-captain-card--drag-over { outline-color: var(--sc-accent, #5577dd); }
+.shipcombat-dr-confirm-btn {
+  background:   var(--sc-accent-subtle, rgba(85,119,221,0.12));
+  border-color: var(--sc-accent-border, rgba(85,119,221,0.30));
+  color:        var(--sc-accent, #5577dd);
+}
+.shipcombat-dr-confirm-btn:hover { background: var(--sc-accent-dim, rgba(85,119,221,0.22)); }
+
+/* -- Component item sheet: details tab inputs left-aligned -------------- */
+.shipcombat-component .tab[data-tab="details"] fieldset input[type="number"],
+.shipcombat-component .tab[data-tab="details"] fieldset input[type="text"] {
+  text-align: left;
+}
+
+/* -- Component sheet: use 8em labels (vs PF2e default 11em) so the input  */
+/* area is proportionally wider at the reduced 720px sheet width.  The      */
+/* .dice-data row benefits equally: the type select fills 1fr of the wider  */
+/* input zone so all rows share the same control-start column.              */
+.pf2e.item.sheet.shipcombat-component form fieldset .form-group > label {
+  flex: 0 1 12em;
+}
+/* -- dice-data grid: 1fr last column so type select fills its cell -------- */
+.pf2e.item.sheet.shipcombat-component form .dice-data {
+  grid: "dice die type" / 2.5rem 3.75rem 1fr;
+}
+
+/* ── SL allocation buttons — pf-secondary (navy-purple) matches trait tags ── */
+.shipcombat-ship .shipcombat-alloc-btn {
+  background:   var(--color-pf-secondary, #171f69);
+  border:       1px solid var(--color-pf-secondary-lighter, rgb(41,56,189));
+  box-shadow:   inset 0 0 0 1px rgba(0, 0, 0, 0.5);
+  color:        var(--text-light, #f7f5ee);
+  border-radius: 2px;
+}
+.shipcombat-ship .shipcombat-alloc-btn:hover:not([disabled]) {
+  background:   var(--color-pf-secondary-light, rgb(32,43,147));
+  border-color: var(--color-pf-secondary-lighter, rgb(41,56,189));
+}
+/* SL remaining badge — pf-secondary tint, no dark pill background */
+.shipcombat-ship .shipcombat-sl-badge {
+  background: none;
+  border: none;
+  color: var(--color-pf-secondary-lighter, rgb(41,56,189));
+  text-shadow: 0 0 6px rgba(23, 31, 105, 0.5);
+}
+
+/* ── Section headers — match SF2e .subsection > header ("Languages" style) */
+.shipcombat-ship .sheet-list .list-header {
+  background:    none;
+  border:        none;
+  border-bottom: 1px solid var(--color-border-divider);
+  border-radius: 0;
+  box-shadow:    none;
+  color:         var(--color-pf-primary);
+  font:          600 var(--font-size-16)/1 var(--serif);
+  height:        auto;
+  line-height:   1;
+  margin:        var(--space-8, 0.5rem) 0;
+  padding:       0 0 var(--space-4, 0.25rem) 0;
+  text-transform: none;
+}
+.shipcombat-ship .sheet-list .list-header:first-child { margin-top: 0; }
+.shipcombat-ship .sheet-list .list-header .list-name {
+  color:  var(--color-pf-primary);
+  font:   600 var(--font-size-16)/1 var(--serif);
+  margin: 0;
+}
+/* Controls (icons/buttons) in the header bar */
+.shipcombat-ship .sheet-list .list-header .list-button,
+.shipcombat-ship .sheet-list .list-header a,
+.shipcombat-ship .sheet-list .list-header button {
+  color:     var(--color-pf-primary);
+  font-size: var(--font-size-12);
+}
+
+/* ── Overview selects: match input.details-input appearance ─────────────── */
+/* The off-white/yellow comes from the browser default select background.    */
+/* We mirror exactly what .crb-style .details-input does for inputs.         */
+.shipcombat-ship .ship-detail-cols select.details-input {
+  background-color: rgba(28, 28, 28, 0.1);
+  background-image: none;
+  border:           none;
+  border-bottom:    1px solid var(--color-border-dark-input, #786452);
+  border-radius:    0;
+  color:            var(--text-dark, #1c1c1c);
+  font-family:      var(--body-serif, var(--serif));
+  font-weight:      bold;
+  padding-right:    0.25rem;
+  width:            100%;
+  -webkit-appearance: auto;
+  appearance:       auto;
+}
+.shipcombat-ship .ship-detail-cols select.details-input:focus {
+  border-bottom: 1px solid var(--alt, var(--color-pf-alternate, #786452));
+  box-shadow: none;
+  outline: none;
+}
+
+/* ── Rarity / size selects — use SF2e crb-style variables ──────────────── */
+/* These already have their own .rarity-select/.size-select rules from the   */
+/* system CSS; we just need to ensure our overrides don't clobber them.      */
+.shipcombat-ship .rarity-select,
+.shipcombat-ship .size-select {
+  border:        2px solid var(--color-border-trait, #d8c384);
+  color:         var(--color-text-trait, white);
+  font-family:   var(--sans-serif);
+  font-weight:   500;
+  -webkit-appearance: none;
+  appearance:    none;
+}
+
+/* ── Triage / damage-control count badge — drop white border on SF2e ──── */
+.shipcombat-ship .shipcombat-triage-counter {
+  border-color: transparent;
+  background:   rgba(0, 0, 0, 0.06);
+}
+
+/* ── Resource bar track — more visible border ──────────────────────────── */
+.shipcombat-ship .shipcombat-resource-bar-track {
+  border-color: rgba(140, 120, 90, 0.55);
+}
+
+/* ── Captain action cards — remove scan lines, use frame-elegant border ── */
+/* The repeating-linear-gradient scan lines look great on dark/impmal but   */
+/* clash with SF2e's parchment theme. Replace with a light color wash and   */
+/* the same fancy SVG border used on the SL allocation rows.                */
+.shipcombat-ship .shipcombat-captain-card {
+  background: rgba(var(--shipcombat-card-rgb), 0.05);
+  border-style:        double;
+  border-image-repeat: repeat;
+  border-image-slice:  11;
+  border-image-source: url("../../../systems/sf2e/assets/sheet/frame-elegant.svg");
+  border-image-width:  14px;
+  box-shadow:          none;
+  padding:             0.75rem 0.9rem;
+}
+.shipcombat-ship .shipcombat-captain-card:hover {
+  background: rgba(var(--shipcombat-card-rgb), 0.10);
+  box-shadow: none;
+}
+
+/* Per-card discard icon: match SF2e parchment (not dark background) */
+.shipcombat-ship .shipcombat-captain-card-action--mulligan {
+  color:        rgba(0, 0, 0, 0.40);
+  border-color: rgba(0, 0, 0, 0.12);
+  background:   rgba(0, 0, 0, 0.03);
+}
+.shipcombat-ship .shipcombat-captain-card-action--mulligan:hover {
+  background:   rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.25);
+  color:        rgba(0, 0, 0, 0.65);
+}
+
+/* ── Roll Initiative btn beside triage counter ─────────────────────────── */
+.shipcombat-ship .shipcombat-roll-initiative-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 6px;
+  font-size: 0.9rem;
+  color: var(--color-pf-primary);
+  cursor: pointer;
+  opacity: 0.75;
+}
+.shipcombat-ship .shipcombat-roll-initiative-btn:hover { opacity: 1; }
+
+/* ── Roll Initiative btn inside sidebar aside: mirrors SF2e character a.roll-icon ── */
+.shipcombat-ship aside .shipcombat-roll-initiative-btn {
+  align-items: center;
+  display: inline-flex;
+  padding: 0;
+  padding-bottom: var(--space-2);
+  opacity: 1;
+}
+.shipcombat-ship aside .shipcombat-roll-initiative-btn i {
+  color: var(--text-light);
+  font-size: var(--font-size-19);
+  transition: all 0.2s ease-in-out;
+}
+.shipcombat-ship aside .shipcombat-roll-initiative-btn .d20-svg svg path {
+  fill: var(--text-light);
+  transition: all 0.2s ease-in-out;
+}
+.shipcombat-ship aside .shipcombat-roll-initiative-btn:hover { opacity: 1; }
+.shipcombat-ship aside .shipcombat-roll-initiative-btn:hover i {
+  transform: scale(1.25);
+}
+.shipcombat-ship aside .shipcombat-roll-initiative-btn:hover .d20-svg svg {
+  animation: rotation 2s infinite linear;
+}
+
+/* ── AC sidebar: hardness sector grid (uses SF2e vehicle armor-class grid) */
+/* Fix: h2 needs the same fixed width as the input it replaced so the badge
+   stays centred on the shield image regardless of digit count.            */
+.shipcombat-ship aside .armor-class .ac .data-value h2 {
+  width: 3rem;
+}
+.shipcombat-ship aside .armor-class .shipcombat-hardness-sectors {
+  background: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  height: 4.625rem;              /* match explicit height of .ac badge */
+  overflow: hidden;
+}
+.shipcombat-ship aside .shipcombat-hardness-grid {
+  border-collapse: collapse;
+  font-size: var(--font-size-12, 0.75rem);
+  margin: 0;
+}
+.shipcombat-ship aside .shipcombat-hardness-grid td {
+  padding: 1px 4px;
+  text-align: center;
+}
+.shipcombat-ship aside .shipcombat-hardness-grid .shipcombat-readonly-val {
+  color: var(--color-pf-tertiary, #d4b96c);
+  font-size: var(--font-size-12, 0.75rem);
+}
+.shipcombat-ship aside .shipcombat-sector-lbl {
+  color: var(--sidebar-label, #d4b96c);
+  font-weight: bold;
+  font-size: 0.65rem;
+  letter-spacing: 0.04em;
+}
+/* ── Hardness: red title-bar on the HARDNESS label ──────────────────────── */
+.shipcombat-ship aside .shipcombat-hardness-sectors .sidebar_label {
+  display: block;
+  width: 100%;
+  background: #7a1c1c;
+  color: var(--text-light, #f0f0e0);
+  text-align: center;
+  padding: 1px 4px;
+  border-radius: 2px 2px 0 0;
+  letter-spacing: 0.08em;
+}
+
+/* -- Sidebar scroll behaviour + hardness/initiative layout fix ----------- */
+/* sidebar: stable gutter reserves scrollbar space; explicit padding-right
+   ensures a visible right margin even when the gutter alone is not enough. */
+.actor.sheet.vehicle .crb-style.shipcombat-v1 aside .sidebar {
+  overflow: hidden auto;
+  scrollbar-gutter: stable;
+  padding-right: 0.4rem;
+}
+/* armor-class: ac badge takes its natural (max-content) width; hardness
+   cell fills the rest so the sector table always has maximum available room. */
+.actor.sheet.vehicle .crb-style.shipcombat-v1 aside .armor-class {
+  grid-template-columns: max-content 1fr;
+}
+/* hardness sectors: min-width:0 lets the armor-class grid shrink this cell
+   below its table's natural min-content (avoids overflow from the gutter). */
+.actor.sheet.vehicle .crb-style.shipcombat-v1 aside .armor-class .shipcombat-hardness-sectors {
+  min-width: 0;
+}
+/* table: fixed layout + width:100% forces columns to share the cell width
+   evenly rather than sizing to content. */
+.actor.sheet.vehicle .crb-style.shipcombat-v1 aside .shipcombat-hardness-grid {
+  table-layout: fixed;
+  width: 100%;
+}
+/* tighten cell padding so the four equal columns fit in the narrowed cell. */
+.actor.sheet.vehicle .crb-style.shipcombat-v1 aside .shipcombat-hardness-grid td {
+  padding: 1px 2px;
+}
+/* initiative select: allow it to shrink when the scrollbar gutter reduces
+   the available width — flex: 0 0 prevented shrinking and caused right-edge
+   overflow. */
+.actor.sheet.vehicle .crb-style.shipcombat-v1 aside .initiative select {
+  flex: 0 1 8.25rem;
+}
+
+/* ── Sidebar roll-data: flex row + SF2e modifier / select (mirrors character sidebar) */
+.shipcombat-ship aside .roll-data {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  justify-content: left;
+}
+.shipcombat-ship aside .roll-data .modifier {
+  color: var(--color-pf-tertiary);
+  font-size: var(--font-size-18);
+  font-weight: initial;
+  line-height: 1;
+  white-space: nowrap;
+}
+.shipcombat-ship aside .roll-data a.modifier.hover {
+  text-decoration: underline var(--color-pf-tertiary-darker);
+  text-underline-offset: 0.125em;
+}
+.shipcombat-ship aside .initiative a.modifier {
+  margin-right: 1rem;
+}
+.shipcombat-ship aside .initiative select {
+  flex: 0 0 8.25rem;
+  margin-left: auto;
+  border: 1px solid #956d58;
+  /* prettier-ignore */
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), inset 0 0 4px rgba(0, 0, 0, 0.5);
+  background-color: var(--color-pf-primary);
+  color: var(--text-light, #f0f0e0);
+  font-size: var(--font-size-15);
+  padding: var(--space-2) var(--space-6);
+}
+
+/* ── Voidshields: revert to impmal green (#00ff88) ─────────────────────── */
+.shipcombat-ship .shipcombat-arc-compass-svg path,
+.shipcombat-ship .shipcombat-arc-compass-svg polygon {
+  fill:   #00ff88;
+  stroke: #00ff88;
+}
+.shipcombat-ship .shipcombat-arc-compass-svg .shipcombat-arc-path--over {
+  fill:   #44aaff;
+  stroke: #44aaff;
+}
+.shipcombat-ship .shipcombat-arc-compass-svg circle  { stroke: #00ff88; }
+.shipcombat-ship .shipcombat-core-pip--shield,
+.shipcombat-ship .shipcombat-core-pip--shield-staged { background: #00ff88; }
+
+/* ── Core pips: visible border on white backgrounds (keep 14×14 from core) ─ */
+.shipcombat-ship .shipcombat-core-pip {
+  border: 1.5px solid rgba(0, 0, 0, 0.30);
+}
+.shipcombat-ship .shipcombat-core-pip--available  { border-color: rgba(0,0,0,0.22); }
+.shipcombat-ship .shipcombat-core-pip--staged      { border-color: rgba(150,80,0,0.50); }
+.shipcombat-ship .shipcombat-core-pip--assigned    { border-color: rgba(150,0,0,0.50); }
+.shipcombat-ship .shipcombat-core-pip--shield,
+.shipcombat-ship .shipcombat-core-pip--shield-staged,
+.shipcombat-ship .shipcombat-core-pip--shield-committed { border-color: rgba(0,140,70,0.50); }
+.shipcombat-ship .shipcombat-core-pip--aux-staged,
+.shipcombat-ship .shipcombat-core-pip--aux-committed    { border-color: rgba(0,80,140,0.50); }
+
+/* ── Emergency Vent button: white text on parchment ────────────────────── */
+.shipcombat-ship .shipcombat-action-danger {
+  color: #fff;
+}
+.shipcombat-ship .shipcombat-arc-val {
+  color:        #00ff88;
+  border-color: rgba(0,255,136,0.35);
+}
+.shipcombat-ship .shipcombat-arc-val[data-sector]:hover {
+  background:   #00ff88;
+  border-color: #00ff88;
+  color:        #000;
+  box-shadow:   0 0 10px rgba(0,255,136,0.40);
+}
+.shipcombat-ship .shipcombat-arc-val--over { color: #44aaff; border-color: rgba(68,170,255,0.50); }
+.shipcombat-ship .shipcombat-shield-sector-list { border-color: rgba(0,255,136,0.20); }
+.shipcombat-ship .shipcombat-arc-hint-panel     { border-color: rgba(0,255,136,0.15); }
+
+/* ── SF2e voidshield: merged left panel layout ──────────────────────────── */
+.shipcombat-ship .shipcombat-shield-alloc-row--sf2e {
+  grid-template-columns: auto 1fr;
+  justify-items: start;
+}
+.shipcombat-ship .shipcombat-shield-alloc-row--sf2e .shipcombat-arc-compass-wrap {
+  justify-self: center;
+}
+/* Combined Controls + Zone Max panel */
+.shipcombat-ship .shipcombat-shield-left-panel {
+  display:        flex;
+  flex-direction: column;
+  gap:            0.15rem;
+  padding:        0.3rem 0.5rem;
+  border:         1px solid rgba(0,255,136,0.15);
+  border-radius:  4px;
+  background:     rgba(0,0,0,0.25);
+  min-width:      7rem;
+  align-self:     center;
+}
+.shipcombat-ship .shipcombat-shield-panel-divider {
+  border-top:  1px solid rgba(255,255,255,0.10);
+  margin:      0.35rem 0;
+}
+
+/* ── Voidshield left panel: frame-elegant border, SF2e text colors ──────── */
+.shipcombat-ship .shipcombat-shield-left-panel {
+  background:          none;
+  border:              none;
+  border-style:        double;
+  border-image-source: url("../../../systems/sf2e/assets/sheet/frame-elegant.svg");
+  border-image-slice:  11;
+  border-image-width:  14px;
+  border-image-repeat: repeat;
+}
+/* Section headings inside the panel — pf-primary serif */
+.shipcombat-ship .shipcombat-shield-left-panel .shipcombat-ssl-head {
+  color:          var(--color-pf-primary);
+  font:           600 var(--font-size-12, 0.75rem)/1 var(--serif);
+  opacity:        1;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+/* Zone-max label / value — dark readable text on parchment */
+.shipcombat-ship .shipcombat-shield-left-panel .shipcombat-ssl-label {
+  color:   var(--color-text-dark-secondary, #444);
+  opacity: 1;
+}
+/* Shield green kept for the numbers themselves */
+/* Controls hint rows — same darkness as Zone Max labels */
+.shipcombat-ship .shipcombat-arc-hint-key,
+.shipcombat-ship .shipcombat-arc-hint-val {
+  color: var(--color-text-dark-secondary, #444);
+}
+/* Divider matches pf2e divider color */
+.shipcombat-ship .shipcombat-shield-panel-divider {
+  border-top-color: var(--color-border-divider, rgba(0,0,0,0.15));
+}
+
+/* ── Bridge Crew: pull reset icon + unassign X away from edges ──────────── */
+.shipcombat-ship .shipcombat-full-reset-link { margin-right: 0.3rem; }
+.shipcombat-ship .shipcombat-release-btn     { margin-right: 0.3rem; }
+
+/* ── Voidshield panel: zone-max numbers → SF2e navy instead of green ────── */
+.shipcombat-ship .shipcombat-shield-left-panel .shipcombat-ssl-max {
+  color: var(--color-pf-secondary, #171f69);
+}
+
+/* ── Flux→AP button: more vertical breathing room ───────────────────────── */
+.shipcombat-ship .shipcombat-controls-flux-btn {
+  padding: 5px 6px;
+  margin-top: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+ * DISABLED-OVERLAY RESTYLE — frosted/blur variant (option 2)
+ * To roll back: delete from this comment to the matching END comment below.
+ * ════════════════════════════════════════════════════════════════════════ */
+
+/* Replace scan-line red fill with a warm frosted wash */
+.shipcombat-ship .shipcombat-section-overlay--taken {
+  background:   rgba(240, 232, 218, 0.55);
+  border:       none;
+  box-shadow:   none;
+  backdrop-filter: blur(2px) brightness(0.97);
+  -webkit-backdrop-filter: blur(2px) brightness(0.97);
+}
+
+/* Lock icon + text — pf-primary dark-red, serif, no neon glow */
+.shipcombat-ship .shipcombat-section-overlay--taken .shipcombat-overlay-lock-indicator {
+  color:       var(--color-pf-primary, #5e0000);
+  text-shadow: none;
+  font:        italic 600 var(--font-size-14, 0.875rem)/1.3 var(--serif);
+  opacity:     0.75;
+}
+.shipcombat-ship .shipcombat-section-overlay--taken .shipcombat-overlay-lock-indicator i {
+  color:       var(--color-pf-primary, #5e0000);
+  text-shadow: none;
+  opacity:     0.55;
+}
+
+/* Dim the content behind the overlay a little less harshly on parchment */
+.shipcombat-ship .shipcombat-role-section:has(.shipcombat-section-overlay) > :not(.shipcombat-section-overlay) {
+  opacity: 0.25;
+}
+
+/* ── END DISABLED-OVERLAY RESTYLE ──────────────────────────────────────── */
+
+/* ── Frosted overlay: fade edges with radial gradient mask (all states) ─── */
+.shipcombat-ship .shipcombat-section-overlay {
+  mask-image: radial-gradient(
+    ellipse 90% 85% at 50% 50%,
+    black 40%,
+    transparent 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 90% 85% at 50% 50%,
+    black 40%,
+    transparent 100%
+  );
+}
+
+/* ── Rarity / size selects: match SF2e vehicle header style ────────────── */
+.shipcombat-ship .char-header .rarity-select,
+.shipcombat-ship .char-header .size-select {
+  border:         2px solid var(--color-border-trait, #d8c384);
+  color:          var(--color-text-trait, white);
+  font-family:    var(--sans-serif);
+  font-size:      0.75rem;
+  font-weight:    500;
+  padding:        1px 6px;
+  border-radius:  2px;
+  -webkit-appearance: none;
+  appearance:     none;
+  cursor:         pointer;
+}
+/* Size select background — green, same as SF2e vehicle */
+.shipcombat-ship .char-header .size-select {
+  background-color: var(--color-bg-size, #3a7b59);
+}
+/* Rarity backgrounds per tier */
+.shipcombat-ship .char-header .rarity-select.common   { background-color: var(--color-rarity-common,   #323232); }
+.shipcombat-ship .char-header .rarity-select.uncommon { background-color: var(--color-rarity-uncommon, #98513d); }
+.shipcombat-ship .char-header .rarity-select.rare     { background-color: var(--color-rarity-rare,     #002664); }
+.shipcombat-ship .char-header .rarity-select.unique   { background-color: var(--color-rarity-unique,   #54166e); }
+
+/* ── Mark Action Done → SF2e "Add Spellcasting Entry" blue button style ─── */
+.shipcombat-ship .shipcombat-mark-done-btn {
+  align-items:      center;
+  background:       var(--color-pf-secondary, #171f69);
+  border:           1px solid var(--color-pf-secondary-lighter, rgb(41,55,189));
+  border-radius:    2px;
+  box-shadow:       inset 0 0 0 1px rgba(0,0,0,0.5);
+  color:            var(--text-light, #f7f5ee);
+  display:          flex;
+  font-weight:      500;
+  gap:              0.35em;
+  justify-content:  center;
+  line-height:      1.8em;
+  padding:          0 0.75em;
+  font-style:       normal;
+  letter-spacing:   0.01em;
+  text-shadow:      none;
+  opacity:          1;
+  border-style:     solid;
+}
+.shipcombat-ship .shipcombat-mark-done-btn:hover {
+  border-color: transparent;
+  text-shadow:  0 0 0.1em var(--text-light, #f7f5ee);
+}
+.shipcombat-ship .shipcombat-mark-done-btn.done {
+  background:   rgba(0,0,0,0.08);
+  border:       1px dashed var(--color-border-divider, rgba(0,0,0,0.25));
+  box-shadow:   none;
+  color:        var(--color-text-dark-secondary, #555);
+  opacity:      1;
+}
+
+/* ── Standing Orders footer: layout + opacity fix ──────────────────────── */
+.shipcombat-ship .shipcombat-deck-footer {
+  justify-content: flex-start;
+  flex-wrap:        wrap;         /* allow piles/actions to wrap to a 2nd row */
+  gap:              0.4rem 0.6rem;
+  overflow:         visible !important;
+  opacity:          1;            /* Core sets 0.75 on the footer; reset here so
+                                     our navy buttons aren't washed out */
+}
+/* Re-apply the dim to just the pile counts, not the action buttons */
+.shipcombat-ship .shipcombat-deck-footer-piles { opacity: 0.75; }
+/* SF2e system's input[type="number"] specificity beats Core's class rule;
+   pin the draw count input to its intended width with a higher-specificity rule */
+.shipcombat-ship .shipcombat-draw-count-input {
+  width:         2.4rem  !important;
+  min-width:     0       !important;
+  height:        auto    !important;
+  padding:       0 4px   !important;  /* vertical padding removed — align-self:stretch sets height */
+  font-size:     0.7rem  !important;
+  box-sizing:    border-box !important;
+  flex-shrink:   0;
+  align-self:    stretch !important;  /* stretch to match the Draw button's height */
+  /* Inverted palette: cream interior, navy border + text */
+  background:    var(--text-light, #f7f5ee) !important;
+  border:        1px solid var(--color-pf-secondary, #171f69) !important;
+  box-shadow:    none !important;
+  border-radius: 2px     !important;
+  color:         var(--color-pf-secondary, #171f69) !important;
+  text-align:    center  !important;
+}
+.shipcombat-ship .shipcombat-full-redraw-btn,
+.shipcombat-ship .shipcombat-draw-row button {
+  max-width:     none;
+  background:    var(--color-pf-secondary, #171f69);
+  border:        1px solid var(--color-pf-secondary-lighter, rgb(41,56,189));
+  box-shadow:    inset 0 0 0 1px rgba(0, 0, 0, 0.5);
+  color:         var(--text-light, #f7f5ee);
+  border-radius: 2px;
+}
+/* AppV1 only: Foundry AppV1's global CSS sets width:100% on all <button> elements */
+.window-app .shipcombat-full-redraw-btn,
+.window-app .shipcombat-draw-row button { width: auto; }
+.shipcombat-ship .shipcombat-full-redraw-btn:hover:not([disabled]),
+.shipcombat-ship .shipcombat-draw-row button:hover:not([disabled]) {
+  background:    var(--color-pf-secondary-light, rgb(32,43,147));
+  border-color:  var(--color-pf-secondary-lighter, rgb(41,56,189));
+}
+
+/* ── Disabled overlay: softer corners ──────────────────────────────────── */
+.shipcombat-ship .shipcombat-section-overlay--taken {
+  border-radius: 12px;
+}
+
+/* ── Component item sheet: numeric input alignment ──────────────────────── */
+/* Sidebar (Quantity, Cost…): right-aligned like a stat column */
+.shipcombat-component .sidebar input[type="number"],
+.shipcombat-component .inventory-details input[type="number"] {
+  text-align: right;
+}
+/* Details tab (Slot Count, weapon stats, shield thresholds…): left-aligned */
+.shipcombat-component .tab.details input[type="number"] {
+  text-align: left;
+}
+
+/* ── SF2e action button theme ───────────────────────────────────────────────
+   Replaces the impmal green (#00ff88) palette with SF2e navy/purple on all
+   "spend-action" buttons: Captain core actions, Ordnance master actions,
+   Engineer actions/confirm, Pilot confirm, Gunner fire, BDA roll.
+   Danger buttons (vent / fire suppression) and ram button keep their own red.
+   ────────────────────────────────────────────────────────────────────────── */
+.shipcombat-ship .shipcombat-core-action-btn,
+.shipcombat-ship .shipcombat-eng-btn:not(.shipcombat-action-danger),
+.shipcombat-ship .shipcombat-eng-confirm,
+.shipcombat-ship .shipcombat-helm-confirm:not(.shipcombat-ram-btn),
+.shipcombat-ship .shipcombat-bda-roll-btn,
+.shipcombat-ship .shipcombat-battery-fire-btn {
+  background:   var(--color-pf-secondary);
+  border-color: var(--color-pf-secondary-lighter);
+  color:        var(--text-light);
+  text-shadow:  none;
+  box-shadow:   none;
+}
+/* Core-action buttons: column layout to match ordnance action buttons */
+.shipcombat-ship .shipcombat-core-action-btn {
+  flex-direction:  column !important;
+  justify-content: center !important;
+  align-items:     center !important;
+  height:          auto   !important;
+  min-height:      0      !important;
+  gap:             2px    !important;
+  padding:         5px 6px !important;
+  text-align:      center;
+  width:           100%;
+}
+.shipcombat-ship .shipcombat-core-action-btn > i {
+  line-height: 1;
+}
+.shipcombat-ship .shipcombat-core-action-btn > span,
+.shipcombat-ship .shipcombat-core-action-btn > small {
+  margin:      0 !important;
+  padding:     0;
+  line-height: 1.1;
+  text-align:  center;
+  white-space: nowrap;
+}
+/* Confirm Movement button must not stretch to full width */
+.shipcombat-ship .shipcombat-helm-confirm:not(.shipcombat-ram-btn) {
+  width: auto;
+  flex: 0 0 auto;
+}
+/* Ram button: red/white — matches Emergency Vent danger style.
+   Use !important to override core pilot.css which has color: #ff6b6b !important */
+.shipcombat-ship .shipcombat-ram-btn {
+  width:        auto;
+  flex:         0 0 auto;
+  background:   #b91c1c !important;
+  border-color: #ef4444 !important;
+  color:        #fff !important;
+  text-shadow:  0 1px 2px rgba(0, 0, 0, 0.45);
+}
+.shipcombat-ship .shipcombat-ram-btn:hover:not([disabled]) {
+  background:   #dc2626 !important;
+  border-color: #f87171 !important;
+  color:        #fff !important;
+}
+.shipcombat-ship .shipcombat-ram-btn[disabled] {
+  background:   rgba(120, 20, 20, 0.22);
+  border-color: rgba(180, 60, 60, 0.30);
+  color:        rgba(255, 140, 140, 0.40);
+  cursor:       not-allowed;
+}
+/* Engineer Execute button must not stretch to full width */
+.shipcombat-ship .shipcombat-eng-confirm {
+  width: auto;
+  flex: 0 0 auto;
+}
+.shipcombat-ship .shipcombat-core-action-btn:hover:not([disabled]),
+.shipcombat-ship .shipcombat-eng-btn:not(.shipcombat-action-danger):hover:not([disabled]),
+.shipcombat-ship .shipcombat-eng-confirm:hover:not([disabled]),
+.shipcombat-ship .shipcombat-helm-confirm:not(.shipcombat-ram-btn):hover:not([disabled]),
+.shipcombat-ship .shipcombat-bda-roll-btn:hover:not([disabled]),
+.shipcombat-ship .shipcombat-battery-fire-btn:hover:not([disabled]) {
+  background:   var(--color-pf-secondary-light);
+  border-color: var(--color-pf-secondary-lighter);
+}
+/* Icons inside action buttons: inherit the white text color */
+.shipcombat-ship .shipcombat-core-action-btn i,
+.shipcombat-ship .shipcombat-eng-btn:not(.shipcombat-action-danger) i,
+.shipcombat-ship .shipcombat-bda-roll-btn i {
+  color: inherit;
+}
+
+/* ── Ordnance Master: Main Action buttons styled like payload buttons ───── */
+.shipcombat-ship .shipcombat-ordnance-action-btn {
+  background:      rgba(23, 31, 105, 0.08);
+  border-color:    rgba(23, 31, 105, 0.30);
+  color:           var(--color-text-dark-secondary, #444);
+  text-shadow:     none;
+  box-shadow:      none;
+  /* Restructure to column so icon sits above name+cost, all centered */
+  flex-direction:  column !important;
+  justify-content: center !important;
+  align-items:     center !important;
+  height:          auto   !important;
+  min-height:      0      !important;
+  gap:             2px    !important;
+  padding:         5px 6px !important;
+}
+.shipcombat-ship .shipcombat-ordnance-action-btn:hover:not([disabled]) {
+  background:   rgba(23, 31, 105, 0.18);
+  border-color: rgba(23, 31, 105, 0.55);
+}
+.shipcombat-ship .shipcombat-ordnance-action-btn i {
+  color:     var(--color-pf-secondary, #171f69);
+  flex:      0 0 auto;
+  font-size: 0.72rem;
+  line-height: 1;
+}
+.shipcombat-ship .shipcombat-ordnance-action-btn-text {
+  display:        flex !important;
+  flex-direction: column !important;
+  align-items:    center !important;
+  gap:            1px !important;
+}
+.shipcombat-ship .shipcombat-ordnance-action-btn-text span,
+.shipcombat-ship .shipcombat-ordnance-action-btn-text small,
+.shipcombat-ship .shipcombat-ordnance-action-btn > span,
+.shipcombat-ship .shipcombat-ordnance-action-btn > small {
+  margin:      0;
+  padding:     0;
+  line-height: 1.1;
+  text-align:  center;
+  white-space: nowrap;
+}
+
+/* ── System Heat bar cover — dim overlay so unfilled portion isn't white ─ */
+/* A semi-transparent dark overlay dims the gradient in the unfilled region  */
+/* without covering it completely, giving a clear filled vs empty contrast.  */
+.shipcombat-ship .shipcombat-resource-bar-fill-cover {
+  background: rgba(0, 0, 0, 0.28);
+}
+
+/* ── Sensor abilities reference table — SF2e parchment retheme ──────────── */
+/* thead row: match Bridge Crew overlay (crimson bar, light text) */
+.shipcombat-ship .shipcombat-augur-abilities-table thead tr {
+  background: var(--color-pf-primary, #5e0000);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.3), inset 0 0 0 2px rgba(255,255,255,0.2);
+}
+.shipcombat-ship .shipcombat-augur-abilities-table th {
+  color:         var(--text-light, #f0e8d8);
+  border-bottom: none;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: var(--sans-serif);
+}
+.shipcombat-ship .shipcombat-augur-abilities-table td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+.shipcombat-ship .shipcombat-abl-category-row td {
+  color:         var(--color-pf-secondary, #171f69);
+  border-bottom: 1px solid rgba(41, 55, 188, 0.30) !important;
+}
+.shipcombat-ship .shipcombat-abl-name {
+  color: var(--color-text-dark-primary, #1a1a1a);
+}
+.shipcombat-ship .shipcombat-abl-name i {
+  color: var(--color-pf-secondary, #171f69);
+}
+/* Tier-level icon tints — match core TIER_COLOUR lock-pip palette */
+.shipcombat-ship .shipcombat-abl-name i.shipcombat-abl-icon--t0 { color: #666; }
+.shipcombat-ship .shipcombat-abl-name i.shipcombat-abl-icon--t1 { color: #c04040; } /* Pinged - red */
+.shipcombat-ship .shipcombat-abl-name i.shipcombat-abl-icon--t2 { color: #e67e22; } /* Analyzed - orange */
+.shipcombat-ship .shipcombat-abl-name i.shipcombat-abl-icon--t3 { color: #22ccbb; } /* Scanned - teal */
+.shipcombat-ship .shipcombat-abl-name i.shipcombat-abl-icon--t4 { color: #cc44cc; } /* Locked - magenta */
+.shipcombat-ship .shipcombat-abl-cost {
+  color: var(--color-text-dark-secondary, #555);
+}
+.shipcombat-ship .shipcombat-abl-desc {
+  color: var(--color-text-dark-secondary, #555);
+}
+.shipcombat-ship .shipcombat-abl-meta {
+  color: var(--color-text-dark-secondary, #777);
+  opacity: 1;
+}
+
+/* ── Engineer action-selection overlay — frosted SF2e navy ─────────────── */
+/* Base overlay: warm frosted wash (same as taken overlay but lighter) */
+.shipcombat-ship .shipcombat-section-overlay {
+  background:          rgba(248, 244, 241, 0.40);
+  backdrop-filter:     blur(2px) brightness(0.98);
+  -webkit-backdrop-filter: blur(2px) brightness(0.98);
+}
+/* Action button inside the overlay: SF2e navy */
+.shipcombat-ship .shipcombat-section-overlay-btn {
+  background:   rgba(23, 31, 105, 0.88);
+  border:       1px solid rgba(41, 55, 188, 0.60);
+  box-shadow:   0 0 8px rgba(23, 31, 105, 0.35), inset 0 0 8px rgba(23, 31, 105, 0.12);
+  color:        var(--text-light, #f7f5ee);
+  text-shadow:  none;
+}
+.shipcombat-ship .shipcombat-section-overlay-btn:hover:not([disabled]) {
+  background:   rgba(32, 43, 147, 0.92);
+  border-color: rgba(41, 55, 188, 0.85);
+  box-shadow:   0 0 12px rgba(23, 31, 105, 0.55);
+  text-shadow:  none;
+}
+/* Suppress teal scan-line and flicker pseudo-elements */
+.shipcombat-ship .shipcombat-section-overlay-btn:hover:not([disabled])::before,
+.shipcombat-ship .shipcombat-section-overlay-btn:hover:not([disabled])::after {
+  display: none;
+}
+/* Selected action overlay (green → muted sage on parchment) */
+.shipcombat-ship .shipcombat-section-overlay--selected {
+  background:          rgba(228, 242, 230, 0.50);
+  border:              1px solid rgba(23, 105, 45, 0.25);
+  box-shadow:          none;
+  backdrop-filter:     blur(2px) brightness(0.99);
+  -webkit-backdrop-filter: blur(2px) brightness(0.99);
+}
+.shipcombat-ship .shipcombat-section-overlay--selected .shipcombat-overlay-lock-indicator {
+  color:       rgba(25, 90, 45, 0.80);
+  text-shadow: none;
+  font:        italic 600 var(--font-size-14, 0.875rem)/1.3 var(--serif);
+}
+.shipcombat-ship .shipcombat-section-overlay--selected .shipcombat-overlay-lock-indicator i {
+  color:       rgba(25, 90, 45, 0.65);
+  text-shadow: none;
+}
+
+/* ── Core alloc: shield/aux rows — two-line layout for narrow panel ──────── */
+/* Move the long "Projected next round…" detail to a second line so the       */
+/* name + +/− controls fit comfortably on the first line.                     */
+.shipcombat-ship .shipcombat-core-alloc-row--shield,
+.shipcombat-ship .shipcombat-core-alloc-row--aux {
+  flex-wrap: wrap;
+  row-gap:   0;
+}
+.shipcombat-ship .shipcombat-core-alloc-row--shield .shipcombat-core-alloc-name,
+.shipcombat-ship .shipcombat-core-alloc-row--aux   .shipcombat-core-alloc-name {
+  flex:  1 1 auto;
+  width: auto;
+}
+.shipcombat-ship .shipcombat-core-alloc-row--shield .shipcombat-core-alloc-detail,
+.shipcombat-ship .shipcombat-core-alloc-row--aux   .shipcombat-core-alloc-detail {
+  flex:        1 1 100%;        /* own full-width second line */
+  order:       4;               /* after ctrl buttons */
+  white-space: normal;
+  overflow:    visible;
+  text-overflow: unset;
+  font-size:   0.68rem;
+  padding:     0.1rem 0.5rem 0.2rem;
+  color:       var(--color-text-dark-inactive, #888);
+}
+/* Shorten the per-core rate label so it fits next to the +/- buttons */
+.shipcombat-ship .shipcombat-core-alloc-row--shield .shipcombat-core-flux-label,
+.shipcombat-ship .shipcombat-core-alloc-row--aux   .shipcombat-core-flux-label {
+  font-size:   0.6rem;
+  max-width:   5.5rem;
+  overflow:    hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Helm Control: frame-elegant border + contrast fixes ────────────────── */
+.shipcombat-ship .shipcombat-helm-panel {
+  background:          none;
+  border-style:        double;
+  border-image-source: url("../../../systems/sf2e/assets/sheet/frame-elegant.svg");
+  border-image-slice:  11;
+  border-image-width:  14px;
+  border-image-repeat: repeat;
+  padding:             0.85rem;
+}
+/* Power/bearing range slider — navy accent so thumb is visible on parchment */
+.shipcombat-ship .shipcombat-power-range,
+.shipcombat-ship .shipcombat-bearing-slider {
+  accent-color: var(--color-pf-secondary, #171f69);
+}
+/* Power bar track — add navy border so its boundary is clear */
+.shipcombat-ship .shipcombat-power-bar {
+  border-color: rgba(23, 31, 105, 0.35);
+}
+/* Min-move delimiter line — navy so it reads on the amber zone */
+.shipcombat-ship .shipcombat-power-minmove-line {
+  border-color: var(--color-pf-secondary, #171f69);
+  opacity: 0.85;
+}
+
+/* ── Core status banner & payload badge chips ─────────────────────────────── */
+.shipcombat-ship .shipcombat-core-badge,
+.shipcombat-ship .shipcombat-payload-badge {
+  display:        inline-flex;
+  align-items:    center;
+  gap:            0.25em;
+  flex:           0 0 auto;          /* never shrink — badge always shows fully */
+  white-space:    nowrap;
+  padding:        0.28em 0.55em;
+  border-radius:  3px;
+  border:         1px solid;
+  font-size:      0.65rem;
+  font-weight:    600;
+  letter-spacing: 0.02em;
+  line-height:    1;
+  margin-inline-start: 0.35em;
+  pointer-events: none;
+}
+/* Ensure icon and text share the same line metrics so align-items:center works */
+.shipcombat-ship .shipcombat-core-badge i,
+.shipcombat-ship .shipcombat-core-badge span,
+.shipcombat-ship .shipcombat-payload-badge i,
+.shipcombat-ship .shipcombat-payload-badge span {
+  line-height: 1;
+  vertical-align: middle;
+}
+
+/* Core assigned / ready → SF2e navy */
+.shipcombat-ship .shipcombat-core-badge--assigned {
+  background:   rgba(23, 31, 105, 0.85);
+  border-color: rgba(41, 55, 188, 0.55);
+  color:        var(--text-light, #f7f5ee);
+}
+
+/* Core staged → amber */
+.shipcombat-ship .shipcombat-core-badge--staged {
+  background:   rgba(130, 82, 8, 0.80);
+  border-color: rgba(210, 150, 30, 0.55);
+  color:        #fce8b2;
+}
+
+/* Core none → neutral muted */
+.shipcombat-ship .shipcombat-core-badge--none {
+  background:   rgba(50, 50, 50, 0.55);
+  border-color: rgba(110, 110, 110, 0.40);
+  color:        rgba(220, 215, 205, 0.55);
+}
+
+/* Payload badge → SF2e crimson */
+.shipcombat-ship .shipcombat-payload-badge {
+  background:   rgba(94, 0, 0, 0.80);
+  border-color: rgba(160, 20, 20, 0.55);
+  color:        var(--text-light, #f7f5ee);
+}
+
+/* ── Payload allocation buttons — SF2e parchment theme (override impmal neon green) ── */
+.shipcombat-ship .shipcombat-payload-btn {
+  border-color: rgba(23, 31, 105, 0.30);
+  background:   rgba(23, 31, 105, 0.07);
+  color:        var(--color-text-dark-secondary, #444);
+}
+.shipcombat-ship .shipcombat-payload-btn:hover:not([disabled]) {
+  background:   rgba(23, 31, 105, 0.18);
+  border-color: rgba(23, 31, 105, 0.55);
+}
+.shipcombat-ship .shipcombat-payload-btn.active {
+  background:   rgba(23, 31, 105, 0.28);
+  border-color: var(--color-pf-secondary, #171f69);
+  color:        var(--color-pf-secondary, #171f69);
+}
+.shipcombat-ship .shipcombat-payload-btn i {
+  color: var(--color-pf-secondary, #171f69);
+}
+
+/* ── Deployed Ordnance: title bars shown (sections now live in subtabs) ───── */
+
+/* ── Manpower (OP) bar: orange instead of impmal green ─────────────────── */
+.shipcombat-ship .shipcombat-bar-op {
+  background: linear-gradient(90deg, #c0560a, #e67e22);
+}
+.shipcombat-ship .shipcombat-resource-bar-row:has(.shipcombat-bar-op) .shipcombat-resource-bar-value {
+  color: #c0560a !important;
+}
+
+/* ── Ordnance Readiness Cards: SF2e parchment retheme ──────────────────── */
+.shipcombat-ship .shipcombat-ordnance-cards {
+  padding: 2px 4px 6px;
+  gap: 6px;
+}
+.shipcombat-ship .shipcombat-ord-card {
+  background: transparent;
+  border: 4px solid transparent;
+  border-image-source: url("../../../systems/sf2e/assets/sheet/frame-elegant.svg");
+  border-image-slice:  11;
+  border-image-width:  14px;
+  border-image-repeat: repeat;
+  border-radius: 0;
+  padding: 5px 8px 5px;
+}
+.shipcombat-ship .shipcombat-ord-card-header {
+  color: var(--text-dark, #1c1c1c);
+  border-bottom-color: rgba(0, 0, 0, 0.14);
+}
+.shipcombat-ship .shipcombat-ord-card-header i:first-child {
+  color: var(--color-pf-secondary, #171f69);
+}
+.shipcombat-ship .shipcombat-ord-flights {
+  color: var(--color-pf-secondary, #171f69);
+}
+/* Ordnance badge states — legible on parchment */
+.shipcombat-ship .shipcombat-ord-badge--ready {
+  color:      #1b5e1b;
+  background: rgba(0, 100, 0, 0.10);
+  border:     1px solid rgba(0, 100, 0, 0.28);
+}
+.shipcombat-ship .shipcombat-ord-badge--ready i   { color: #1b5e1b; }
+.shipcombat-ship .shipcombat-ord-badge--deployed {
+  color:      #172069;
+  background: rgba(23, 31, 105, 0.10);
+  border:     1px solid rgba(23, 31, 105, 0.28);
+}
+.shipcombat-ship .shipcombat-ord-badge--deployed i { color: #172069; }
+.shipcombat-ship .shipcombat-ord-badge--loading {
+  color:      #7a4800;
+  background: rgba(180, 100, 0, 0.10);
+  border:     1px solid rgba(180, 100, 0, 0.28);
+}
+.shipcombat-ship .shipcombat-ord-badge--loading i  { color: #7a4800; }
+.shipcombat-ship .shipcombat-ord-badge--recovering {
+  color:      #6b5a00;
+  background: rgba(180, 150, 0, 0.10);
+  border:     1px solid rgba(180, 150, 0, 0.28);
+}
+.shipcombat-ship .shipcombat-ord-badge--recovering i { color: #6b5a00; }
+/* Strike craft pips — match SF2e palette */
+.shipcombat-ship .shipcombat-ordnance-pip {
+  border-color: rgba(0, 0, 0, 0.18);
+}
+.shipcombat-ship .shipcombat-ordnance-pip--ready     { background: #2b7a45; box-shadow: none; }
+.shipcombat-ship .shipcombat-ordnance-pip--deployed   { background: var(--color-pf-secondary, #171f69); box-shadow: none; }
+.shipcombat-ship .shipcombat-ordnance-pip--destroyed  { background: var(--color-pf-primary, #5e0000); box-shadow: none; }
+.shipcombat-ship .shipcombat-ordnance-pip--recovering { background: #8a6e00; box-shadow: none; }
+.shipcombat-ship .shipcombat-ordnance-pip--loading    { background: #8a6e00; box-shadow: none; }
+/* Commitment pills — SF2e parchment */
+.shipcombat-ship .shipcombat-commitment-pill {
+  background: rgba(23, 31, 105, 0.12);
+  border-color: rgba(23, 31, 105, 0.30);
+  color: var(--color-pf-secondary, #171f69);
+}
+.shipcombat-ship .shipcombat-commitment-pill--new {
+  background: rgba(230, 126, 34, 0.14);
+  border-color: rgba(200, 80, 10, 0.40);
+  color: #a04000;
+}
+.shipcombat-ship .shipcombat-commitment-pill--new:hover {
+  background: rgba(94, 0, 0, 0.12);
+  border-color: rgba(94, 0, 0, 0.40);
+  color: var(--color-pf-primary, #5e0000);
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+ * Gunner Weapon Batteries — SF2e light-background retheme
+ * Battery UI was built for a dark background; these overrides adapt it to
+ * the SF2e parchment theme.
+ * ══════════════════════════════════════════════════════════════════════════ */
+/* Card shell */
+.shipcombat-ship .shipcombat-battery-card {
+  border-color: rgba(0, 0, 0, 0.18);
+}
+.shipcombat-ship .shipcombat-battery-header {
+  background: rgba(0, 0, 0, 0.05);
+  border-bottom-color: rgba(0, 0, 0, 0.10);
+}
+/* Trait tags */
+.shipcombat-ship .shipcombat-trait-tag {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.15);
+  color: var(--text-dark, #1c1c1c);
+}
+.shipcombat-ship .shipcombat-trait--shieldBypass      { color: #14607a; border-color: rgba(20,96,122,0.30); }
+.shipcombat-ship .shipcombat-trait--armourPenetration { color: #0d6e57; border-color: rgba(13,110,87,0.30); }
+.shipcombat-ship .shipcombat-trait--unlimitedRof      { color: #7a6000; border-color: rgba(122,96,0,0.30); }
+.shipcombat-ship .shipcombat-trait--shieldBurn        { color: #7a1010; border-color: rgba(122,16,16,0.30); }
+.shipcombat-ship .shipcombat-trait--voidWeakened      { color: #5a1e7a; border-color: rgba(90,30,122,0.30); }
+.shipcombat-ship .shipcombat-trait--rend              { color: #8a4000; border-color: rgba(138,64,0,0.30); }
+/* Stat labels */
+.shipcombat-ship .shipcombat-battery-stat-label { opacity: 0.60; color: var(--text-dark, #1c1c1c); }
+/* Macro Cannon tier picker */
+.shipcombat-ship .shipcombat-macro-tier-pip {
+  background:   rgba(192, 86, 10, 0.08);
+  border-color: rgba(192, 86, 10, 0.22);
+}
+.shipcombat-ship .shipcombat-macro-tier-pip:hover:not(.shipcombat-tier-dimmed) {
+  background:   rgba(192, 86, 10, 0.18);
+  border-color: rgba(192, 86, 10, 0.45);
+}
+.shipcombat-ship .shipcombat-macro-tier-pip.shipcombat-macro-pip-selected {
+  background:   rgba(192, 86, 10, 0.25);
+  border-color: rgba(192, 86, 10, 0.65);
+  box-shadow: 0 0 0 1px rgba(192, 86, 10, 0.25) inset;
+}
+.shipcombat-ship .shipcombat-macro-pip-ammo   { color: #8a4000; }
+.shipcombat-ship .shipcombat-macro-stat-ammo  { color: #8a4000; }
+/* Lance / AP tier groups */
+.shipcombat-ship .shipcombat-lance-tier-group {
+  background:   rgba(20, 96, 122, 0.07);
+  border-color: rgba(20, 96, 122, 0.20);
+  color: var(--text-dark, #1c1c1c);
+}
+.shipcombat-ship .shipcombat-lance-tier-active {
+  background:   rgba(20, 96, 122, 0.18);
+  border-color: rgba(20, 96, 122, 0.55);
+}
+.shipcombat-ship .shipcombat-lance-tier-dmg     { color: #14607a; }
+.shipcombat-ship .shipcombat-lance-charge-value { color: #14607a; }
+/* Plasma indicators */
+.shipcombat-ship .shipcombat-plasma-dmg        { color: #7a2810; }
+.shipcombat-ship .shipcombat-val-heat          { color: #7a2810; }
+.shipcombat-ship .shipcombat-plasma-remaining  { color: #7a2810; opacity: 0.85; }
+/* Fire-blocked label */
+.shipcombat-ship .shipcombat-fire-blocked      { color: var(--text-dark, #1c1c1c); opacity: 0.55; }
+/* Fire buttons — type-accent colors adapted for parchment */
+.shipcombat-ship .shipcombat-fire--macro  { background: rgba(192, 86, 10, 0.12); color: #8a4000;  border-color: rgba(192, 86, 10, 0.30); }
+.shipcombat-ship .shipcombat-fire--plasma { background: rgba(122, 40, 16, 0.10); color: #7a2810;  border-color: rgba(122, 40, 16, 0.28); }
+.shipcombat-ship .shipcombat-fire--lance  { background: rgba(20,  96, 122, 0.10); color: #14607a; border-color: rgba(20, 96, 122, 0.28); }
+.shipcombat-ship .shipcombat-fire--pd     { background: rgba(20,  96, 122, 0.10); color: #14607a; border-color: rgba(20, 96, 122, 0.28); }
+.shipcombat-ship .shipcombat-fire--macro:hover:not(:disabled)  { background: rgba(192, 86, 10, 0.22); }
+.shipcombat-ship .shipcombat-fire--plasma:hover:not(:disabled) { background: rgba(122, 40, 16, 0.20); }
+.shipcombat-ship .shipcombat-fire--lance:hover:not(:disabled)  { background: rgba(20, 96, 122, 0.20); }
+.shipcombat-ship .shipcombat-fire--pd:hover:not(:disabled)     { background: rgba(20, 96, 122, 0.20); }
+
+
+/* ════════════════════════════════════════════════════════════════════════════
+ * Gunner Weapon Batteries — SF2e light-background retheme
+ * All battery UI was built for a dark background; override for parchment.
+ * ══════════════════════════════════════════════════════════════════════════ */
+
+/* Card border and header */
+.shipcombat-ship .shipcombat-battery-card {
+  border-color: rgba(0, 0, 0, 0.18);
+}
+.shipcombat-ship .shipcombat-battery-header {
+  background: rgba(0, 0, 0, 0.05);
+  border-bottom-color: rgba(0, 0, 0, 0.10);
+}
+/* Trait tags */
+.shipcombat-ship .shipcombat-trait-tag {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.15);
+  color: var(--text-dark, #1c1c1c);
+}
+.shipcombat-ship .shipcombat-trait--shieldBypass     { color: #14607a; border-color: rgba(20,96,122,0.30); }
+.shipcombat-ship .shipcombat-trait--armourPenetration { color: #0d6e57; border-color: rgba(13,110,87,0.30); }
+.shipcombat-ship .shipcombat-trait--unlimitedRof      { color: #7a6000; border-color: rgba(122,96,0,0.30); }
+.shipcombat-ship .shipcombat-trait--shieldBurn        { color: #7a1010; border-color: rgba(122,16,16,0.30); }
+.shipcombat-ship .shipcombat-trait--voidWeakened      { color: #5a1e7a; border-color: rgba(90,30,122,0.30); }
+.shipcombat-ship .shipcombat-trait--rend              { color: #8a4000; border-color: rgba(138,64,0,0.30); }
+/* Stat labels and values */
+.shipcombat-ship .shipcombat-battery-stat-label {
+  opacity: 0.60;
+  color: var(--text-dark, #1c1c1c);
+}
+/* Macro Cannon tier picker */
+.shipcombat-ship .shipcombat-macro-tier-pip {
+  background: rgba(192, 86, 10, 0.08);
+  border-color: rgba(192, 86, 10, 0.22);
+}
+.shipcombat-ship .shipcombat-macro-tier-pip:hover:not(.shipcombat-tier-dimmed) {
+  background: rgba(192, 86, 10, 0.18);
+  border-color: rgba(192, 86, 10, 0.45);
+}
+.shipcombat-ship .shipcombat-macro-tier-pip.shipcombat-macro-pip-selected {
+  background: rgba(192, 86, 10, 0.25);
+  border-color: rgba(192, 86, 10, 0.65);
+  box-shadow: 0 0 0 1px rgba(192, 86, 10, 0.25) inset;
+}
+.shipcombat-ship .shipcombat-macro-pip-ammo { color: #8a4000; }
+.shipcombat-ship .shipcombat-macro-stat-ammo { color: #8a4000; }
+/* Lance / AP tier groups */
+.shipcombat-ship .shipcombat-lance-tier-group {
+  background: rgba(20, 96, 122, 0.07);
+  border-color: rgba(20, 96, 122, 0.20);
+  color: var(--text-dark, #1c1c1c);
+}
+.shipcombat-ship .shipcombat-lance-tier-active {
+  background: rgba(20, 96, 122, 0.18);
+  border-color: rgba(20, 96, 122, 0.55);
+}
+.shipcombat-ship .shipcombat-lance-tier-dmg   { color: #14607a; }
+.shipcombat-ship .shipcombat-lance-charge-value { color: #14607a; }
+/* Plasma fire blocked / shots remaining */
+.shipcombat-ship .shipcombat-plasma-dmg       { color: #7a2810; }
+.shipcombat-ship .shipcombat-val-heat          { color: #7a2810; }
+.shipcombat-ship .shipcombat-plasma-remaining  { color: #7a2810; opacity: 0.85; }
+/* Fire-blocked label */
+.shipcombat-ship .shipcombat-fire-blocked      { color: var(--text-dark, #1c1c1c); opacity: 0.55; }
+/* Fire buttons (macro/plasma/lance/pd) already handled by global navy override;
+   keep the type-accent left borders but update their button colors for parchment */
+.shipcombat-ship .shipcombat-fire--macro  { background: rgba(192, 86, 10, 0.12); color: #8a4000; border-color: rgba(192, 86, 10, 0.30); }
+.shipcombat-ship .shipcombat-fire--plasma { background: rgba(122, 40, 16, 0.10); color: #7a2810; border-color: rgba(122, 40, 16, 0.28); }
+.shipcombat-ship .shipcombat-fire--lance  { background: rgba(20, 96, 122, 0.10); color: #14607a; border-color: rgba(20, 96, 122, 0.28); }
+.shipcombat-ship .shipcombat-fire--pd     { background: rgba(20, 96, 122, 0.10); color: #14607a; border-color: rgba(20, 96, 122, 0.28); }
+.shipcombat-ship .shipcombat-fire--macro:hover:not(:disabled)  { background: rgba(192, 86, 10, 0.22); }
+.shipcombat-ship .shipcombat-fire--plasma:hover:not(:disabled) { background: rgba(122, 40, 16, 0.20); }
+.shipcombat-ship .shipcombat-fire--lance:hover:not(:disabled)  { background: rgba(20, 96, 122, 0.20); }
+.shipcombat-ship .shipcombat-fire--pd:hover:not(:disabled)     { background: rgba(20, 96, 122, 0.20); }
+
+/* ════════════════════════════════════════════════════════════════════════════
+ * Sensor Radar Pop-out — fix canvas not filling full window height
+ * Foundry V1 .window-content doesn’t reliably propagate height to children;
+ * switching to flex layout fixes the gap at the bottom of the radar circle.
+ * ══════════════════════════════════════════════════════════════════════════ */
+#shipcombat-sensor-popout .window-content {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+#shipcombat-sensor-popout .shipcombat-popout-radar-body {
+  flex: 1 1 0;
+  height: auto;
+  min-height: 0;
+}
+#shipcombat-sensor-popout .shipcombat-popout-radar-body {
+  position: relative;
+}
+/* Toolbar overlays the canvas corner — does not eat vertical space */
+#shipcombat-sensor-popout .shipcombat-popout-toolbar-bottom {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  right: auto;
+  width: fit-content;
+  max-width: calc(100% - 30px);
+  z-index: 10;
+  padding: 2px 6px 3px;
+  background: rgba(6, 16, 28, 0.35);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+#shipcombat-sensor-popout .shipcombat-popout-toolbar-bottom > * {
+  pointer-events: auto;
+}
+
+/* Popout radar theme: extend cyan/blue styling to popout radar UI */
+#shipcombat-sensor-popout .shipcombat-popout-radar-body,
+#shipcombat-sensor-popout .shipcombat-radar-wrap {
+  border-color: rgba(0, 234, 255, 0.42);
+  box-shadow: inset 0 0 24px rgba(0, 170, 255, 0.08);
+}
+#shipcombat-sensor-popout .shipcombat-radar-zoom-wrap,
+#shipcombat-sensor-popout .shipcombat-radar-zoom-label,
+#shipcombat-sensor-popout .shipcombat-radar-zoom-wrap i {
+  color: var(--sc-accent, #5577dd);
+}
+#shipcombat-sensor-popout .shipcombat-radar-zoom {
+  accent-color: var(--sc-accent, #5577dd);
+}
+
+/* Popout canvas: hide scrollbars (canvas fills the window) */
+#shipcombat-sensor-popout .window-content,
+#shipcombat-sensor-popout .shipcombat-popout-radar-body {
+  overflow: hidden;
+  scrollbar-width: none;
+}
+#shipcombat-sensor-popout .window-content::-webkit-scrollbar,
+#shipcombat-sensor-popout .shipcombat-popout-radar-body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* Radar: restore core blip colors (remove hue-rotation filter). */
+/* Border/zoom accent keeps the SF2e blue as before. */
+
+/* Heat bar: keep the cover layer, but tint it to the panel background. */
+.shipcombat-ship .shipcombat-resource-bar-fill-cover {
+  background: rgba(248, 244, 241, 0.88);
+}
+
+/* Plasma bars: tint the unfilled track area with the relevant bar color. */
+/* Uses :has() to target by the fill class inside the track element.       */
+.shipcombat-ship .shipcombat-resource-bar-track:has(.shipcombat-bar-ammo) {
+  background: rgba(230, 126, 34, 0.15);
+}
+.shipcombat-ship .shipcombat-resource-bar-track:has(.shipcombat-bar-charge) {
+  background: rgba(126, 200, 227, 0.15);
+}
+.shipcombat-ship .shipcombat-resource-bar-track:has(.shipcombat-bar-aux) {
+  background: rgba(126, 200, 227, 0.15);
+}
+.shipcombat-ship .shipcombat-resource-bar-track:has(.shipcombat-bar-data) {
+  background: rgba(126, 200, 227, 0.15);
+}
+/* Pilot / Engineer / Captain aux-power bar fills now carry shipcombat-bar-aux
+   (added to core templates), so :has(.shipcombat-bar-aux) above covers them. */
+.shipcombat-ship .shipcombat-resource-bar-track:has(.shipcombat-bar-op) {
+  background: rgba(192, 86, 10, 0.12);
+}
+
+/* ── Ship Config Section: vertical single-column layout ─────────────────── */
+
+/* Container is a column; left/right sections stack and each take full width */
+.shipcombat-ship .shipcombat-ship-config-grid {
+  flex-direction: column;
+  gap:            0.5rem;
+}
+
+/* Both the basic-config section and the launch-direction section become
+   vertical single-column lists with aligned labels and inputs */
+.shipcombat-ship .shipcombat-ship-config-left {
+  display:        flex;
+  flex-direction: column;
+  gap:            0.4rem;
+  width:          100%;
+}
+
+/* Each config row is a two-column grid so all labels/inputs line up */
+.shipcombat-ship .shipcombat-ship-config-left .shipcombat-config-row {
+  display:               grid;
+  grid-template-columns: 11rem 1fr;
+  column-gap:            0.75rem;
+  align-items:           center;
+}
+
+/* Keep the label non-bold and full-width within its grid cell */
+.shipcombat-ship .shipcombat-ship-config-left .shipcombat-config-label {
+  flex:       unset;    /* cancel any inherited flex shorthand */
+  width:      auto;
+  white-space: nowrap;
+}
+
+/* Dropdowns: remove browser default arrow, add a small black triangle */
+.shipcombat-ship .shipcombat-config-select {
+  appearance:        none;
+  -webkit-appearance: none;
+  background-color:  rgba(0, 0, 0, 0.08);
+  background-image:  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23333'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.4em center;
+  background-size:   0.55em 0.55em;
+  border:            1px solid rgba(0, 0, 0, 0.25);
+  border-radius:     3px;
+  padding:           2px 1.4em 2px 5px;
+  font-family:       inherit;
+  font-size:         0.85em;
+  color:             inherit;
+  cursor:            pointer;
+  min-width:         7rem;
+}
+.shipcombat-ship .shipcombat-config-select:hover:not(:disabled) {
+  background-color: rgba(0, 0, 0, 0.14);
+  border-color:     rgba(0, 0, 0, 0.40);
+}
+.shipcombat-ship .shipcombat-config-select:disabled {
+  opacity:          0.45;
+  cursor:           not-allowed;
+}
+
+/* Launch direction section sits below, full width */
+.shipcombat-ship .shipcombat-ship-config-right {
+  flex-direction:  row;
+  flex-wrap:       wrap;
+  align-items:     flex-start;
+  justify-content: flex-start;
+  gap:             0.5rem 2rem;
+  padding-left:    0;
+  padding-top:     0.5rem;
+  border-top:      1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Allow "Valid … Launch Directions" label to wrap */
+.shipcombat-ship .shipcombat-config-label--launch {
+  white-space: normal;
+  text-align:  left;
+}
+
+/* Launch side toggle pills: restyle for parchment background */
+.shipcombat-ship .shipcombat-launch-side-toggle {
+  background: rgba(0, 0, 0, 0.06);
+  border:     1px solid rgba(0, 0, 0, 0.18);
+  color:      rgba(0, 0, 0, 0.50);
+}
+.shipcombat-ship .shipcombat-launch-side-toggle:has(input:checked) {
+  background:   rgba(74, 158, 255, 0.15);
+  border-color: rgba(74, 158, 255, 0.50);
+  color:        #1a65c0;
+}
+.shipcombat-ship .shipcombat-launch-side-toggle:not(:has(input:disabled)):hover {
+  border-color: rgba(0, 0, 0, 0.30);
+  color:        rgba(0, 0, 0, 0.75);
+}
+.shipcombat-ship .shipcombat-launch-side-toggle:has(input:disabled) {
+  opacity: 0.40;
+}
+
+/* IWR editor popup (ShipIWREditor) */
+.ship-iwr-editor table { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+.ship-iwr-editor tbody tr td { padding: 0.1rem 0.3rem; }
+.ship-iwr-editor tbody tr.active { background: rgba(200,170,90,0.12); }
+.ship-iwr-editor .iwr-value { width: 4rem; }
+
+/* ── SF2e-style popup restyling ───────────────────────────────────────────────
+   Mirrors .roll-modifiers-dialog from sf2e.css exactly:
+     • Outer window: background:none (canvas shows around the window frame)
+     • .window-header: navy-blue gradient (--color-pf-secondary)
+     • .window-content: ornate border-image from sf2e corner-box.webp
+     • buttons: copper/brown (--color-pf-alternate), white text
+     • inner section bars: use --sub (#605856) dark-brownish tag style
+
+   Class coverage:
+     .shipcombat-targeting-popup  → TargetingPopup, BattleClarityPopup,
+                                     StrikeCraftAttackPopup, RecoverCraftPopup
+     .shipcombat-ram-target-popup → RamTargetPopup
+     .shipcombat-dead-reckoning-popup → DeadReckoningPopup
+     .shipcombat-bda-popup        → BDAPopup                               */
+
+/* 1 ── Outer window: clear core's dark background; let window-content show
+         Matches: .roll-modifiers-dialog { background: none; box-shadow: none } */
+.shipcombat-targeting-popup,
+.shipcombat-ram-target-popup,
+.shipcombat-bda-popup,
+.shipcombat-dead-reckoning-popup {
+  background: none !important;
+  box-shadow: none;
+}
+
+/* 2 ── Window title bar: navy-blue gradient
+         Matches: .roll-modifiers-dialog .window-header                     */
+.shipcombat-targeting-popup .window-header,
+.shipcombat-ram-target-popup .window-header,
+.shipcombat-bda-popup .window-header,
+.shipcombat-dead-reckoning-popup .window-header {
+  border: none;
+  border-radius: 0;
+  margin-bottom: 2px;
+  font-size: var(--font-size-13);
+  background: linear-gradient(
+    90deg,
+    var(--color-pf-secondary, #171f69) 0%,
+    var(--color-pf-secondary-light, #202b93) 50%,
+    var(--color-pf-secondary, #171f69) 100%
+  );
+  box-shadow:
+    inset 0 0 0 1px #9f725b,
+    inset 0 0 0 2px var(--tertiary, #e9d7a1),
+    inset 0 0 0 3px #956d58,
+    0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+/* 3 ── Window content area: ornate border-image
+         Matches: .roll-modifiers-dialog .window-content exactly.
+         NO explicit background — SF2e's check dialog also sets none here;
+         Foundry's default .window-content parchment background applies.   */
+.shipcombat-targeting-popup .window-content,
+.shipcombat-ram-target-popup .window-content,
+.shipcombat-bda-popup .window-content,
+.shipcombat-dead-reckoning-popup .window-content {
+  border-style: solid;
+  border-image-outset: 0;
+  border-width: 9px;
+  border-image: url("../../../systems/sf2e/assets/sheet/corner-box.webp") 9 repeat;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  color: var(--color-text-primary, #1a1a1a);
+  padding-top: 0;
+}
+
+/* 4 ── All buttons inside the popups: navy/purple SF2e Roll-button style
+         Matches: .roll-modifiers-dialog button[type=submit]                */
+.shipcombat-targeting-popup button,
+.shipcombat-ram-target-popup button,
+.shipcombat-bda-popup button,
+.shipcombat-dead-reckoning-popup button {
+  background-color: var(--color-pf-secondary, #171f69);
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3), inset 0 0 0 2px rgba(255, 255, 255, 0.2);
+  color: var(--text-light, #f0e8d8);
+  cursor: pointer;
+  font-family: var(--sans-serif);
+}
+.shipcombat-targeting-popup button:hover,
+.shipcombat-ram-target-popup button:hover,
+.shipcombat-bda-popup button:hover,
+.shipcombat-dead-reckoning-popup button:hover {
+  text-shadow: 0 0 2px var(--color-pf-tertiary, #e9d7a1);
+}
+
+/* 4b ── Fire button: square with centered icon
+          width:auto is now in Core; override Core's asymmetric padding
+          and apply flex centering for the icon glyph.                     */
+.shipcombat-targeting-popup .shipcombat-tp-fire-btn,
+.shipcombat-ram-target-popup .shipcombat-tp-fire-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0.4rem;
+  aspect-ratio: 1 / 1;
+}
+
+/* 5 ── Weapon/mode summary bar → dark tag style using --sub (#605856)
+         Matches the .modifier-container .dialog-row .tag style             */
+.shipcombat-targeting-popup .shipcombat-tp-header,
+.shipcombat-ram-target-popup .shipcombat-tp-header {
+  background:    var(--sub, #605856);
+  box-shadow:    inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+  color:         var(--text-light, #f0e8d8);
+  border-radius: 2px;
+  border:        none;
+}
+
+/* 6 ── Stat badges within the dark header bar */
+.shipcombat-targeting-popup .shipcombat-tp-stat,
+.shipcombat-ram-target-popup .shipcombat-tp-stat {
+  background: rgba(0, 0, 0, 0.22);
+  color: inherit;
+}
+.shipcombat-targeting-popup .shipcombat-tp-stat--cost,
+.shipcombat-ram-target-popup .shipcombat-tp-stat--cost  { color: var(--color-pf-tertiary, #e9d7a1); }
+.shipcombat-targeting-popup .shipcombat-tp-stat--bonus,
+.shipcombat-ram-target-popup .shipcombat-tp-stat--bonus { color: #9de8ff; }
+
+/* 7 ── Target rows: match .modifier-container .dialog-row border style     */
+.shipcombat-targeting-popup .shipcombat-tp-target,
+.shipcombat-ram-target-popup .shipcombat-tp-target {
+  border-color:   rgba(0, 0, 0, 0.1);
+  background:     transparent;
+  color:          var(--color-text-primary, #1a1a1a);
+}
+.shipcombat-targeting-popup .shipcombat-tp-target:hover,
+.shipcombat-ram-target-popup .shipcombat-tp-target:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+.shipcombat-targeting-popup .shipcombat-tp-target--done:hover,
+.shipcombat-ram-target-popup .shipcombat-tp-target--done:hover {
+  background: transparent;
+}
+
+/* 8 ── Zone / accuracy accent colors: readable on parchment bg             */
+.shipcombat-targeting-popup .shipcombat-tp-zone--1 { color: #1d8046; }
+.shipcombat-targeting-popup .shipcombat-tp-zone--2 { color: #907000; }
+.shipcombat-targeting-popup .shipcombat-tp-zone--3 { color: #b03030; }
+.shipcombat-targeting-popup .shipcombat-tp-acc--auto    { color: #1d8046; }
+.shipcombat-targeting-popup .shipcombat-tp-acc--boosted { color: #2266aa; }
+.shipcombat-targeting-popup .shipcombat-tp-acc--ranged  { color: #907000; }
+.shipcombat-targeting-popup .shipcombat-tp-armour-val   { color: #8a5a00; }
+
+/* 9 ── Overcharge "on" state: brighter secondary to distinguish from base  */
+.shipcombat-targeting-popup .shipcombat-tp-overcharge--on {
+  background-color: var(--color-pf-secondary-light, #202b93) !important;
+  color:            var(--text-light, #f0e8d8) !important;
+}
+
+/* 10 ── Empty state */
+.shipcombat-targeting-popup .shipcombat-tp-empty,
+.shipcombat-ram-target-popup .shipcombat-tp-empty {
+  color: var(--color-text-secondary, #666);
+}
+
+/* 11 ── Ram warning footer */
+.shipcombat-ram-target-popup .shipcombat-ram-warning {
+  border-top-color: rgba(0, 0, 0, 0.1);
+  color:            var(--color-text-secondary, #555);
+}
+
+/* 11b ── Ram popup: damage preview per target (parchment bg overrides) */
+.shipcombat-ram-target-popup .shipcombat-ram-dmg-in  { color: #b03030; }
+
+/* 12 ── Dead Reckoning popup content                                       */
+.shipcombat-dead-reckoning-popup .shipcombat-dr-popup {
+  color: var(--color-text-primary, #1a1a1a);
+}
+.shipcombat-dead-reckoning-popup .shipcombat-dr-instruction {
+  color: var(--color-text-secondary, #555);
+}
+.shipcombat-dead-reckoning-popup .shipcombat-dr-card {
+  border-color: rgba(0, 0, 0, 0.1);
+  background:   transparent;
+  color:        var(--color-text-primary, #1a1a1a);
+}
+.shipcombat-dead-reckoning-popup .shipcombat-dr-card:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+.shipcombat-dead-reckoning-popup .shipcombat-dr-card.shipcombat-dr-drag-over {
+  border-color: #1d8046;
+  background:   rgba(29, 128, 70, 0.06);
+}
+.shipcombat-dead-reckoning-popup .shipcombat-dr-pos {
+  background: rgba(0, 0, 0, 0.10);
+  color:      var(--color-text-secondary, #555);
+}
+.shipcombat-dead-reckoning-popup .shipcombat-dr-tail {
+  color: var(--color-text-secondary, #666);
+}
+.shipcombat-dead-reckoning-popup .shipcombat-dr-footer {
+  border-top-color: rgba(0, 0, 0, 0.10);
+}
+
+/* 13 ── BDA popup content                                                  */
+.shipcombat-bda-popup .shipcombat-bda-result-header {
+  background:   rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+.shipcombat-bda-popup .shipcombat-bda-sl-value {
+  color: var(--color-pf-secondary, #171f69);
+}
+.shipcombat-bda-popup .shipcombat-bda-retain-desc,
+.shipcombat-bda-popup .shipcombat-bda-correction-prompt {
+  color: var(--color-text-secondary, #555);
+}
+.shipcombat-bda-popup .shipcombat-bda-correction-btn {
+  /* inherits copper button style from rule 4; just ensure text is visible  */
+  color: var(--text-light, #f0e8d8);
+}
+.shipcombat-bda-popup .shipcombat-bda-correction-name {
+  color: inherit;
+}
+.shipcombat-bda-popup .shipcombat-bda-correction-hint {
+  color: var(--color-pf-tertiary, #e9d7a1);
+  opacity: 0.8;
+}
+
+
+/* ════════════════════════════════════════════════════════════════════════════
+ * NPC SHIP & ORDNANCE SHEETS (AppV1) — SF2e parchment retheme
+ *
+ * Both sheets render `<form class="crb-style shipcombat-ship shipcombat-v1 ...">`
+ * so they inherit SF2e crb-style typography, parchment background, navy/crimson
+ * accents, and most `.shipcombat-ship` rules above (frame-elegant cards, list
+ * headers, etc.).
+ *
+ * The rules in this block:
+ *   1. Provide AppV1 tab visibility (Foundry V14 removed the global rule).
+ *   2. Style the bespoke `.npc-sheet-tabs` / `.ordnance-sheet-tabs` nav like
+ *      SF2e's circular nav.sheet-navigation items.
+ *   3. Lay out form padding and body overflow.
+ *   4. Make numeric / text inputs match crb-style details-input.
+ * ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Form base ──────────────────────────────────────────────────────────── */
+/* NPC ship: SF2e NPC-style flex-row layout (sidebar | npc-body).
+   Override the vehicle crb-style grid with row flex.
+   height: 100% is still needed for the form to fill the window. */
+form.shipcombat-npc-sheet {
+  --faded-border-color: #7a7971;
+  --font-primary: var(--sans-serif);
+  --color-pf-inventory-header-bg: var(--primary-background);
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+  padding: var(--space-8, 0.5rem);
+  overflow: hidden;
+  height: 100%;
+}
+/* Ordnance sheet keeps the original column layout */
+form.shipcombat-ordnance-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: var(--space-8, 0.5rem);
+  overflow: hidden;
+  height: 100%;
+}
+
+/* ── NPC sidebar ────────────────────────────────────────────────────────── */
+/* Width matches native SF2e NPC sidebar (10rem) so portrait scales the same */
+form.shipcombat-npc-sheet > .sidebar {
+  flex: 10rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12, 0.75rem);
+  height: 100%;
+  overflow: hidden auto;
+  scrollbar-gutter: stable;
+  padding-right: var(--space-4, 0.25rem);
+}
+
+/* ── NPC sidebar subsection structure (mirrors SF2e NPC .subsection) ────── */
+form.shipcombat-npc-sheet .sidebar .subsection {
+  align-items: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+form.shipcombat-npc-sheet .sidebar .subsection > header {
+  align-items: baseline;
+  border-bottom: 1px solid var(--faded-border-color, #7a7971);
+  display: flex;
+  margin-bottom: var(--space-2, 0.125rem);
+  padding-right: var(--space-5, 0.3125rem);
+  width: 100%;
+}
+form.shipcombat-npc-sheet .sidebar .subsection > header label {
+  align-items: center;
+  display: flex;
+  flex: 0 1 100%;
+  font-family: var(--sans-serif);
+  font-weight: 500;
+  gap: var(--space-3, 0.1875rem);
+  margin-bottom: 0;
+  padding-left: var(--space-2, 0.125rem);
+}
+/* Sidebar subsection header: number inputs match native NPC font-size-16 */
+form.shipcombat-npc-sheet .sidebar .subsection > header input[type=number] {
+  font-size: var(--font-size-16, 1rem);
+  font-weight: 700;
+}
+form.shipcombat-npc-sheet .sidebar .subsection.armor-class > header input[type=number] {
+  width: 2rem;
+}
+/* HP value display: value / max inputs side-by-side */
+form.shipcombat-npc-sheet .sidebar .subsection .hit-points {
+  display: flex;
+  flex: 0;
+  align-items: center;
+  justify-content: end;
+  margin-left: auto;
+  font-size: var(--font-size-16, 1rem);
+}
+form.shipcombat-npc-sheet .sidebar .subsection .hit-points input.current {
+  font-weight: normal;
+  padding-right: var(--space-3, 0.1875rem);
+  text-align: right;
+  width: 2.25rem;
+}
+form.shipcombat-npc-sheet .sidebar .subsection .hit-points .slash {
+  align-items: center;
+  display: flex;
+  padding: 0 var(--space-1, 0.0625rem);
+}
+form.shipcombat-npc-sheet .sidebar .subsection .hit-points .max {
+  font-size: var(--font-size-16, 1rem);
+  font-weight: 600;
+  text-align: end;
+  width: 2.25rem;
+}
+/* AC value — number input for armor class */
+form.shipcombat-npc-sheet .sidebar .subsection .armor-value {
+  font-weight: 700;
+  margin-left: auto;
+  text-align: right;
+}
+/* AC details text input in side-bar-section-content */
+form.shipcombat-npc-sheet .sidebar .armor-details {
+  font-size: var(--font-size-12, 0.75rem);
+  width: 100%;
+}
+/* Initiative roll link — mirrors native NPC .subsection.initiative a */
+form.shipcombat-npc-sheet .sidebar .subsection.initiative > header a.roll {
+  display: flex;
+  flex-wrap: nowrap;
+  font-size: var(--font-size-16, 1rem);
+  font-weight: 700;
+  gap: 0.25em;
+  margin-bottom: var(--space-2, 0.125rem);
+  padding-left: var(--space-4, 0.25rem);
+  text-decoration: none;
+}
+form.shipcombat-npc-sheet .sidebar .subsection.initiative > header a.roll i {
+  position: relative;
+  top: var(--space-1, 0.0625rem);
+}
+form.shipcombat-npc-sheet .sidebar .subsection.initiative a span {
+  text-underline-offset: 0.125em;
+}
+form.shipcombat-npc-sheet .sidebar .subsection.initiative select {
+  font-size: var(--font-size-12, 0.75rem);
+  text-transform: unset;
+}
+/* side-bar-section-content */
+form.shipcombat-npc-sheet .sidebar .side-bar-section-content {
+  align-items: start;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: start;
+  padding-top: 0.125rem;
+  width: 100%;
+}
+form.shipcombat-npc-sheet .sidebar .side-bar-section-content .threshold {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+form.shipcombat-npc-sheet .sidebar .side-bar-section-content .threshold.selected {
+  font-weight: 600;
+}
+/* value0: dim zero-value rows like native NPC */
+form.shipcombat-npc-sheet .sidebar .subsection .value0 {
+  border-bottom: 1px darkgrey solid;
+  color: darkgrey;
+}
+form.shipcombat-npc-sheet .sidebar .subsection .value0 input {
+  color: darkgrey;
+}
+/* Hardness/shield grid inside sidebar */
+form.shipcombat-npc-sheet .sidebar .shipcombat-hardness-grid {
+  border-collapse: collapse;
+  font-size: var(--font-size-12, 0.75rem);
+  margin: 0;
+  table-layout: fixed;
+  width: 100%;
+}
+form.shipcombat-npc-sheet .sidebar .shipcombat-hardness-grid td {
+  padding: 1px 2px;
+  text-align: center;
+}
+/* Internal fire labeled field */
+form.shipcombat-npc-sheet .sidebar .labeled-field.fire {
+  align-items: baseline;
+  display: flex;
+  flex-direction: row;
+  font-size: var(--font-size-12, 0.75rem);
+  gap: var(--space-4, 0.25rem);
+  width: 100%;
+}
+form.shipcombat-npc-sheet .sidebar .labeled-field.fire label {
+  flex: 1;
+  font-weight: 600;
+}
+form.shipcombat-npc-sheet .sidebar .labeled-field.fire input[type="number"] {
+  text-align: right;
+  width: 2.5rem;
+}
+
+/* ── NPC body (right column: header + nav + tab content) ────────────────── */
+form.shipcombat-npc-sheet > .npc-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+  padding-left: var(--space-5, 0.3125rem);
+}
+/* Roll links: match native NPC a.roll color + hover + d20-svg sizing */
+form.shipcombat-npc-sheet a.roll:not(.inline-roll) {
+  color: var(--color-pf-primary-darker);
+}
+form.shipcombat-npc-sheet a.roll:not(.inline-roll) .d20-svg {
+  height: var(--font-size-16, 1rem);
+  position: relative;
+  top: var(--space-1, 0.0625rem);
+  width: var(--font-size-16, 1rem);
+}
+form.shipcombat-npc-sheet a.roll:not(.inline-roll):hover {
+  color: var(--color-pf-primary-light);
+  text-shadow: none;
+}
+form.shipcombat-npc-sheet a.roll:not(.inline-roll):hover .d20-svg {
+  animation: rotation 2s infinite linear;
+}
+/* Remove browser default select background (mirrors native .actor.npc.sheet form select) */
+form.shipcombat-npc-sheet select {
+  background: none;
+}
+
+/* ── Tab nav: NPC & Ordnance sheets now use SF2e native sub-nav ──────────── */
+/* The nav elements have the `sub-nav` class, so SF2e's own                   */
+/* `.actor.sheet … form.crb-style nav.sub-nav` rules handle the styling.     */
+/* No overrides needed here.                                                  */
+
+/* ── Tab body container — NPC & Ordnance sheets (player-ship paradigm) ───── */
+/* SF2e override templates use .sheet-body > .sheet-content nesting so that  */
+/* Core's ship-sheet-v1.css rule fires:                                       */
+/*   form.shipcombat-v1 .sheet-body .sheet-content > .tab { display: none }  */
+/*   form.shipcombat-v1 .sheet-body .sheet-content > .tab.active { display: flex } */
+form.shipcombat-npc-sheet .sheet-body,
+form.shipcombat-ordnance-sheet .sheet-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+form.shipcombat-npc-sheet .sheet-content,
+form.shipcombat-ordnance-sheet .sheet-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+form.shipcombat-npc-sheet .sheet-content > .tab.active,
+form.shipcombat-ordnance-sheet .sheet-content > .tab.active {
+  padding:    0.35rem 0.1rem 0.2rem;
+  gap:        0.5rem;
+  flex:       1 1 auto;
+  min-height: 0;
+  overflow:   hidden auto;
+  scrollbar-gutter: stable;
+}
+
+/* ── NPC ship: hide shield-allocation controls hint panel ────────────────── */
+form.shipcombat-npc-sheet .shipcombat-arc-hint-panel { display: none; }
+
+/* ── NPC ship: hide Roll Initiative and Refill Shields from Overview tab ─── */
+form.shipcombat-npc-sheet [data-action="npcRollInitiative"],
+form.shipcombat-npc-sheet [data-action="npcRefillShields"] { display: none; }
+
+/* ── NPC ship: shield zone-max panel — matches PC ship left-panel style ──── */
+/* Collapse 3-col grid to 2-col now that the hint panel is gone */
+form.shipcombat-npc-sheet .shipcombat-shield-alloc-row {
+  grid-template-columns: auto 1fr;
+  justify-items: start;
+}
+form.shipcombat-npc-sheet .shipcombat-shield-alloc-row .shipcombat-arc-compass-wrap {
+  justify-self: center;
+}
+/* Zone Max panel — remove the frame-elegant box; keep sizing tweaks only. */
+form.shipcombat-npc-sheet .shipcombat-shield-sector-list {
+  background:  none;
+  border:      none;
+  min-width:   5.5rem;
+  margin-left: 1rem;
+}
+form.shipcombat-npc-sheet .shipcombat-shield-sector-list .shipcombat-ssl-head {
+  color:          var(--color-pf-primary);
+  font:           600 var(--font-size-12, 0.75rem)/1 var(--serif);
+  opacity:        1;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+form.shipcombat-npc-sheet .shipcombat-shield-sector-list .shipcombat-ssl-label {
+  color:   var(--color-text-dark-secondary, #444);
+  opacity: 1;
+}
+/* Style the editable max input to look like the PC's static navy value */
+form.shipcombat-npc-sheet .shipcombat-npc-shield-max-input {
+  color:       var(--color-pf-secondary, #171f69);
+  background:  transparent;
+  border:      none;
+  box-shadow:  none;
+  width:       2.5rem;
+  text-align:  right;
+  font-weight: 700;
+  padding:     0;
+}
+
+/* ── NPC ship: native NPC-style npc-body > header ────────────────────────── */
+form.shipcombat-npc-sheet > .npc-body > header {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+}
+form.shipcombat-npc-sheet > .npc-body > header .name {
+  align-items: baseline;
+  border-bottom: 1px solid var(--faded-border-color, #7a7971);
+  flex-wrap: nowrap;
+  font: 700 1.75rem var(--sans-serif-condensed, var(--sans-serif));
+  padding-bottom: var(--space-2, 0.125rem);
+  width: 100%;
+}
+form.shipcombat-npc-sheet > .npc-body > header .name input {
+  font-weight: inherit;
+  height: 2rem;
+}
+form.shipcombat-npc-sheet > .npc-body > header .name .name-value {
+  font-variant: small-caps;
+  margin-left: 0.375rem;
+  margin-right: 1.125rem;
+}
+/* level-label inherits font-size from .name (1.75rem) to match native NPC */
+form.shipcombat-npc-sheet > .npc-body > header .name .level-label {
+  flex: 0;
+  margin-right: 0.1em;
+  text-align: right;
+  text-transform: uppercase;
+}
+form.shipcombat-npc-sheet > .npc-body > header .name input.level {
+  flex: 0 0 2.5rem;
+  text-align: center;
+  font-weight: 700;
+}
+form.shipcombat-npc-sheet > .npc-body > header .rarity-size {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+form.shipcombat-npc-sheet > .npc-body > header .rarity-size .tags.paizo-style {
+  display: flex;
+  gap: 0;
+}
+/* Trait tag selects — fully re-apply paizo-style pill appearance.
+   Our module CSS (loaded after sf2e) can override sf2e's background rules,
+   so we must explicitly set all pill properties here. */
+form.shipcombat-npc-sheet .tags.paizo-style select.tag {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: var(--color-bg-trait, #5e0000);
+  border: solid var(--color-border-trait, #d8c384);
+  border-radius: 0;
+  border-width: 2px 3px 2px 2px;
+  box-shadow: none;
+  color: var(--color-text-trait, white);
+  font-family: var(--sans-serif);
+  font-size: var(--font-size-13, 0.8125rem);
+  font-weight: 500;
+  height: auto;
+  letter-spacing: 0.05em;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0.15em 0.4em;
+  text-transform: uppercase;
+}
+form.shipcombat-npc-sheet .tags.paizo-style select.tag:first-child {
+  border-left-width: 5px;
+}
+form.shipcombat-npc-sheet .tags.paizo-style select.tag:last-child {
+  border-right-width: 5px;
+}
+form.shipcombat-npc-sheet .tags.paizo-style select.tag.rarity.common {
+  background-color: var(--color-rarity-common, #323232);
+}
+form.shipcombat-npc-sheet .tags.paizo-style select.tag.rarity.uncommon {
+  background-color: var(--color-rarity-uncommon, #98513d);
+}
+form.shipcombat-npc-sheet .tags.paizo-style select.tag.rarity.rare {
+  background-color: var(--color-rarity-rare, #002664);
+}
+form.shipcombat-npc-sheet .tags.paizo-style select.tag.rarity.unique {
+  background-color: var(--color-rarity-unique, #54166e);
+}
+form.shipcombat-npc-sheet .tags.paizo-style select.tag.size {
+  background-color: var(--color-bg-size, #3a7b59);
+}
+
+/* ── Elite / Weak adjustment buttons ────────────────────────────────────── */
+/* Mirror native SF2e .actor.npc.sheet form .trait + .adjustments rules. */
+form.shipcombat-npc-sheet > .npc-body > header .adjustments {
+  align-items: center;
+  display: flex;
+  justify-content: end;
+}
+form.shipcombat-npc-sheet > .npc-body > header .adjustments .trait {
+  background: var(--color-pf-primary, #5e0000);
+  border: 2px solid var(--color-border-trait, #d8c384);
+  color: var(--color-text-trait, white);
+  cursor: pointer;
+  flex: auto 0 0;
+  font-family: var(--sans-serif);
+  font-size: 0.9em;
+  font-weight: 500;
+  padding: 0.25rem;
+  text-transform: uppercase;
+  user-select: none;
+}
+form.shipcombat-npc-sheet > .npc-body > header .adjustments .trait.active {
+  background-color: var(--color-pf-primary, #5e0000);
+  color: var(--color-text-light-0, #f4ece9);
+}
+form.shipcombat-npc-sheet > .npc-body > header .adjustments .trait:not(.active) {
+  background-color: var(--color-disabled, #a9a9a9);
+  color: var(--color-text-trait, #f4ece9);
+}
+
+/* Traits row — tagify-tags component fills full width, same as native NPC */
+form.shipcombat-npc-sheet > .npc-body > header .flexrow tagify-tags {
+  width: 100%;
+}
+/* Blurb input — full-width plain text input */
+form.shipcombat-npc-sheet > .npc-body > header .flexrow input[name="system.details.blurb"] {
+  font-family: var(--sans-serif);
+  font-size: var(--font-size-13, 0.8125rem);
+  width: 100%;
+}
+/* ── NPC stat table: PIL TEC GUN SPD MAN ASR BND RTG ────────────────────── */
+.shipcombat-npc-sheet .shipcombat-stat-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--sans-serif);
+}
+.shipcombat-npc-sheet .shipcombat-stat-table td {
+  text-align: center;
+  padding: 2px 3px;
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.shipcombat-npc-sheet .shipcombat-stat-table tr:first-child td {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--color-pf-primary, #5e0000);
+  background: rgba(0, 0, 0, 0.04);
+  text-transform: uppercase;
+}
+.shipcombat-npc-sheet .shipcombat-stat-table input[type="number"] {
+  width: 100%;
+  text-align: center;
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-weight: 600;
+  color: var(--text-dark, #1c1c1c);
+}
+/* ── NPC sidebar: portrait image ────────────────────────────────────────── */
+form.shipcombat-npc-sheet .sidebar .image-container {
+  line-height: 0;
+}
+form.shipcombat-npc-sheet .sidebar .image-container .profile-img {
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0 1px #918c88, 0 0 0 2px #e1d8cf, 0 0 0 3px #a98f39,
+              inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  height: auto;
+  object-fit: cover;
+  width: 100%;
+}
+
+/* ── NPC sidebar: identity section (Classification + Model) ─────────────── */
+form.shipcombat-npc-sheet .sidebar .subsection.identity {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2, 0.125rem);
+}
+form.shipcombat-npc-sheet .sidebar .subsection.identity select,
+form.shipcombat-npc-sheet .sidebar .subsection.identity input[type="text"] {
+  background: rgba(28, 28, 28, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+  color: var(--text-dark, #1c1c1c);
+  font-family: var(--sans-serif);
+  font-size: var(--font-size-12, 0.75rem);
+  font-weight: 600;
+  min-height: 1.5rem;
+  padding: 2px 6px;
+  width: 100%;
+}
+
+/* ── NPC sidebar: IWR (Immunities / Weaknesses / Resistances) ───────────── */
+/* Edit-pencil button sits at the trailing edge of the subsection header */
+form.shipcombat-npc-sheet .sidebar .subsection > header .controls {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+form.shipcombat-npc-sheet .sidebar .subsection > header .controls a {
+  color: var(--color-text-dark-secondary, #555);
+  font-size: var(--font-size-12, 0.75rem);
+  opacity: 0.6;
+}
+form.shipcombat-npc-sheet .sidebar .subsection > header .controls a:hover {
+  opacity: 1;
+}
+/* Dim label when the IWR list is empty — mirrors native .empty rule */
+form.shipcombat-npc-sheet .sidebar .subsection > header label.empty {
+  border-color: var(--color-text-dark-inactive);
+  color: var(--color-text-dark-inactive);
+}
+/* Comma-separated inline list for IWR entries — mirrors native NPC */
+form.shipcombat-npc-sheet .sidebar .comma-separated {
+  display: inline;
+  font-size: var(--font-size-12, 0.75rem);
+  list-style: none;
+  margin: 0 0 var(--space-3, 0.1875rem);
+  padding: 0;
+}
+form.shipcombat-npc-sheet .sidebar .comma-separated li {
+  display: inline;
+  margin: 0;
+}
+form.shipcombat-npc-sheet .sidebar .comma-separated li::after { content: ","; }
+form.shipcombat-npc-sheet .sidebar .comma-separated li:last-child::after { content: ""; }
+
+/* ── Overview stat table: fills available width ────────────────────────── */
+.shipcombat-npc-body .shipcombat-overview-stat-table {
+  width: 100%;
+}
+
+/* ── Generic inputs inside both sheets ──────────────────────────────────── */
+.shipcombat-npc-sheet input[type="text"],
+.shipcombat-npc-sheet input[type="number"],
+.shipcombat-npc-sheet select,
+.shipcombat-ordnance-sheet input[type="text"],
+.shipcombat-ordnance-sheet input[type="number"],
+.shipcombat-ordnance-sheet select {
+  font-family: var(--body-serif, var(--serif));
+  color: var(--text-dark, #1c1c1c);
+}
+/* Inputs inside the ordnance/torpedo header card */
+.shipcombat-ordnance-sheet .shipcombat-torpedo-header-block .details-row.name input[name="name"] {
+  width: 100%;
+  font: 600 var(--font-size-16, 1rem)/1.2 var(--serif);
+  background: rgba(28, 28, 28, 0.08);
+  border: none;
+  border-bottom: 1px solid var(--color-border-dark-input, #786452);
+  border-radius: 0;
+  padding: 2px 4px;
+  color: var(--text-dark, #1c1c1c);
+}
+
+/* ── Ordnance header: portrait + bars ───────────────────────────────────── */
+.shipcombat-ordnance-sheet .shipcombat-header {
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--color-border-divider, rgba(0, 0, 0, 0.12));
+}
+.shipcombat-ordnance-sheet .sheet-header {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+}
+.shipcombat-ordnance-sheet .sheet-header .profile {
+  flex: 0 0 70px;
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 0;
+  border: none;
+  box-shadow: 0 0 0 1px #918c88, 0 0 0 2px #e1d8cf, 0 0 0 3px #a98f39,
+              inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+.shipcombat-ordnance-sheet .header-details {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+}
+.shipcombat-ordnance-sheet .shipcombat-torpedo-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* ── Buttons inside NPC + ordnance sheets: navy SF2e action style ───────── */
+.shipcombat-npc-sheet button:not(.shipcombat-ram-btn),
+.shipcombat-ordnance-sheet button:not(.shipcombat-ram-btn) {
+  background: var(--color-pf-secondary, #171f69);
+  border: 1px solid var(--color-pf-secondary-lighter, rgb(41, 56, 189));
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.5);
+  color: var(--text-light, #f7f5ee);
+  font-family: var(--sans-serif);
+  font-weight: 500;
+  padding: 2px 8px;
+  text-shadow: none;
+}
+.shipcombat-npc-sheet button:not(.shipcombat-ram-btn):hover:not([disabled]),
+.shipcombat-ordnance-sheet button:not(.shipcombat-ram-btn):hover:not([disabled]) {
+  background: var(--color-pf-secondary-light, rgb(32, 43, 147));
+  border-color: var(--color-pf-secondary-lighter, rgb(41, 56, 189));
+}
+.shipcombat-npc-sheet button[disabled],
+.shipcombat-ordnance-sheet button[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+/* AppV1 sets width:100% on bare <button>; constrain to content width */
+.window-app form.shipcombat-npc-sheet button,
+.window-app form.shipcombat-ordnance-sheet button {
+  width: auto;
+}
+
+/* ── Section headers (list-header) inside both sheets ───────────────────── */
+.shipcombat-npc-sheet .sheet-list .list-header,
+.shipcombat-ordnance-sheet .sheet-list .list-header {
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--color-border-divider, rgba(0, 0, 0, 0.15));
+  border-radius: 0;
+  box-shadow: none;
+  color: var(--color-pf-primary, #5e0000);
+  font: 600 var(--font-size-14, 0.875rem)/1 var(--serif);
+  margin: 0.4rem 0 0.2rem;
+  padding: 0 0 0.2rem;
+  text-transform: none;
+  height: auto;
+}
+.shipcombat-npc-sheet .sheet-list .list-header .list-name,
+.shipcombat-ordnance-sheet .sheet-list .list-header .list-name {
+  color: var(--color-pf-primary, #5e0000);
+}
+
+/* ── Ordnance config rows: align labels and inputs ──────────────────────── */
+.shipcombat-ordnance-sheet .shipcombat-config-row {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  column-gap: 0.6rem;
+  align-items: center;
+  margin: 0.25rem 0;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Ordnance / Torpedo actor sheet — SF2e-style visual polish
+   Mirrors the SF2e targeting-popup rules already in this file (lines ~2133+):
+     • Outer window:  background:none, canvas visible
+     • .window-header: navy gradient (--color-pf-secondary)  + ornate inset
+     • .window-content: corner-box.webp border-image (parchment bg from Foundry)
+     • Header block: var(--sub, #605856) dark-brownish card  ← .shipcombat-tp-header
+     • Readout pills: var(--sub) tags                        ← .shipcombat-tp-stat
+     • Buttons: inherited navy (already set above)
+     • Config inputs: crb-style border-bottom                ← roll-dialog inputs
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Window chrome — exact mirror of .shipcombat-targeting-popup rules ── */
+.window-app.shipcombat-ordnance {
+  background: none;
+  box-shadow: none;
+}
+.window-app.shipcombat-ordnance .window-header {
+  border: none;
+  border-radius: 0;
+  margin-bottom: 2px;
+  font-size: var(--font-size-13);
+  background: linear-gradient(
+    90deg,
+    var(--color-pf-secondary, #171f69) 0%,
+    var(--color-pf-secondary-light, #202b93) 50%,
+    var(--color-pf-secondary, #171f69) 100%
+  );
+  box-shadow:
+    inset 0 0 0 1px #9f725b,
+    inset 0 0 0 2px var(--tertiary, #e9d7a1),
+    inset 0 0 0 3px #956d58,
+    0 0 20px rgba(0, 0, 0, 0.8);
+}
+.window-app.shipcombat-ordnance .window-header .window-title {
+  color: var(--text-light, #f0e8d8);
+}
+.window-app.shipcombat-ordnance .window-content {
+  border-style: solid;
+  border-image-outset: 0;
+  border-width: 9px;
+  border-image: url("../../../systems/sf2e/assets/sheet/corner-box.webp") 9 repeat;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  color: var(--color-text-primary, #1a1a1a);
+  padding-top: 0;
+}
+
+/* ── 2. Header block → var(--sub) dark card (mirrors .shipcombat-tp-header) ─
+   torpedo.css uses rgb(0,0,0,0.3) track on a dark bg; we need light text.  */
+form.shipcombat-ordnance-sheet .shipcombat-header {
+  background:    var(--sub, #605856);
+  box-shadow:    inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+  border-radius: 2px;
+  border:        none;
+  padding:       0.45rem 0.5rem;
+}
+/* Name input: light text on sub background */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-header-block .details-row.name input,
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-header-block .details-row.name input[name="name"] {
+  color:         var(--text-light, #f0e8d8);
+  background:    rgba(0, 0, 0, 0.15);
+  border:        none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 0;
+  padding:       2px 4px;
+}
+/* Bar labels: light on sub background (torpedo.css has no color, inherits dark) */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-header-block .shipcombat-torpedo-bar > label {
+  color:   var(--text-light, #f0e8d8);
+  opacity: 0.75;
+}
+/* Bar track: slightly more visible on sub */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-header-block .shipcombat-torpedo-bar-track {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+/* ── 3. Tab body: small top gap after nav ────────────────────────────────── */
+form.shipcombat-ordnance-sheet .sheet-content > .tab.active {
+  gap: 0.5rem;
+}
+
+/* ── 4. Inner sheet wrapper: remove torpedo.css default padding (already 8px)
+   so sections sit flush in the flex column                                 */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-sheet {
+  padding: 0;
+  background: transparent;
+  gap: 0.5rem;
+}
+
+/* ── 5. Movement card → .shipcombat-tp-target row style (transparent + border) */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-movement {
+  background:    rgba(0, 0, 0, 0.03);
+  border:        1px solid rgba(0, 0, 0, 0.10);
+  border-radius: 2px;
+}
+/* "MOVEMENT" h4: navy, like roll-dialog section labels */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-movement h4 {
+  color:           var(--color-pf-secondary, #171f69);
+  opacity:         1;
+  font-weight:     700;
+  font-size:       0.7rem;
+  text-transform:  uppercase;
+  letter-spacing:  0.04em;
+  margin:          0 0 0.3rem;
+}
+/* Info row (Min Move / Max Bearing): transparent, navy text */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-movement-info {
+  opacity: 1;
+  margin-bottom: 0.4rem;
+}
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-movement-info span {
+  background:    transparent;
+  color:         var(--color-pf-secondary, #171f69);
+  border-radius: 2px;
+  padding:       0.1rem 0.4rem;
+  font-size:     0.65rem;
+  font-weight:   600;
+}
+/* Slider labels: dark on parchment (torpedo.css inherits, which is fine here) */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-power-block > label {
+  color:   var(--color-text-primary, #1a1a1a);
+  opacity: 0.65;
+}
+/* Readout cells (bearing °, power %): transparent, navy text */
+form.shipcombat-ordnance-sheet .shipcombat-readout-cell {
+  background:    transparent;
+  color:         var(--color-pf-secondary, #171f69);
+  border-radius: 2px;
+  padding:       0.05rem 0.35rem;
+  font-size:     0.7rem;
+  font-weight:   600;
+}
+/* Confirm button row: centre within movement card */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-movement-buttons {
+  justify-content: center;
+  margin-top: 0.4rem;
+}
+
+/* ── 6. Detonate / Attack / Turn-done rows: full-width block layout ─────── */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-detonate,
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-turn {
+  display: block;
+}
+/* Override the global width:auto rule for these specific buttons */
+.window-app form.shipcombat-ordnance-sheet .shipcombat-torpedo-detonate button,
+.window-app form.shipcombat-ordnance-sheet .shipcombat-torpedo-turn button {
+  width: 100% !important;
+}
+
+/* Detonate / attack buttons: solid crimson fill — matches .shipcombat-ram-btn on the ship sheet */
+form.shipcombat-ordnance-sheet .shipcombat-detonate-btn,
+form.shipcombat-ordnance-sheet .shipcombat-attack-btn {
+  background:   #b91c1c !important;
+  border-color: #ef4444 !important;
+  color:        #fff    !important;
+  text-shadow:  0 1px 2px rgba(0, 0, 0, 0.45);
+}
+form.shipcombat-ordnance-sheet .shipcombat-detonate-btn:hover:not([disabled]),
+form.shipcombat-ordnance-sheet .shipcombat-attack-btn:hover:not([disabled]) {
+  background:   #dc2626 !important;
+  border-color: #f87171 !important;
+  color:        #fff    !important;
+}
+form.shipcombat-ordnance-sheet .shipcombat-detonate-btn[disabled],
+form.shipcombat-ordnance-sheet .shipcombat-attack-btn[disabled] {
+  background:   rgba(120, 20, 20, 0.22) !important;
+  border-color: rgba(180, 60, 60, 0.30) !important;
+  color:        rgba(255, 140, 140, 0.40) !important;
+  cursor:       not-allowed;
+}
+
+/* ── 7. Config section headers (h4 inside .shipcombat-torpedo-traits) ───────
+   Mirrors SF2e roll-dialog modifier-section dividers                        */
+
+/* Ordnance Type row: h4 label + select inline (first traits block only) */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-sheet .shipcombat-torpedo-traits:first-child {
+  display:     flex;
+  align-items: center;
+  flex-direction: row;
+  gap:         0.5rem;
+}
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-sheet .shipcombat-torpedo-traits:first-child h4 {
+  margin:     0;
+  padding:    0;
+  border:     none;
+  white-space: nowrap;
+  flex:        0 0 auto;
+}
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-sheet .shipcombat-torpedo-traits:first-child .shipcombat-torpedo-trait-grid {
+  flex: 1;
+}
+
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-traits h4 {
+  color:           var(--color-pf-secondary, #171f69);
+  opacity:         1;
+  font-weight:     700;
+  font-size:       0.7rem;
+  text-transform:  uppercase;
+  letter-spacing:  0.04em;
+  margin:          0 0 0.25rem;
+  padding-bottom:  0.2rem;
+  border-bottom:   1px solid rgba(0, 0, 0, 0.10);
+}
+
+/* ── Damage trio (.shipcombat-torpedo-traits--damage): h4 + 3 inline inputs ─ */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-traits--damage {
+  display:        flex;
+  align-items:    center;
+  flex-direction: row;
+  gap:            0.5rem;
+  margin-bottom:  0.25rem;
+}
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-traits--damage h4 {
+  margin:      0;
+  padding:     0;
+  border:      none;
+  white-space: nowrap;
+  flex:        0 0 auto;
+  min-width:   3.5rem;
+}
+form.shipcombat-ordnance-sheet .shipcombat-payload-dmg-trio {
+  display:     flex;
+  gap:         0.25rem;
+  align-items: center;
+  flex:        1;
+}
+form.shipcombat-ordnance-sheet .shipcombat-payload-dmg-trio input[type="number"],
+form.shipcombat-ordnance-sheet .shipcombat-payload-dmg-trio select {
+  height:      1.75rem;
+  box-sizing:  border-box;
+}
+form.shipcombat-ordnance-sheet .shipcombat-payload-dmg-trio input[type="number"] {
+  width:       3rem;
+  flex:        0 0 3rem;
+  text-align:  center;
+}
+form.shipcombat-ordnance-sheet .shipcombat-payload-dmg-trio select {
+  flex: 1;
+}
+
+/* ── 8. Config stat / trait inputs → crb-style border-bottom (roll-dialog) ─ */
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-stat input,
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-trait input[type="number"],
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-trait input[type="text"] {
+  background:    rgba(0, 0, 0, 0.04);
+  border:        none;
+  border-bottom: 1px solid var(--color-border-dark-input, #786452);
+  border-radius: 0;
+  color:         var(--text-dark, #1c1c1c);
+}
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-stat label,
+form.shipcombat-ordnance-sheet .shipcombat-torpedo-trait label {
+  color:   var(--color-text-secondary, #555);
+  opacity: 1;
+}
+
+/* ── 9. Config selects → crb-style with custom black arrow ─────────────── */
+form.shipcombat-ordnance-sheet select {
+  -webkit-appearance: none;
+  -moz-appearance:    none;
+  appearance:         none;
+  background-color:   rgba(0, 0, 0, 0.04);
+  background-image:   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23111111'/%3E%3C/svg%3E");
+  background-repeat:  no-repeat;
+  background-position: right 0.5rem center;
+  background-size:    8px 5px;
+  /* match the height / padding of .shipcombat-torpedo-stat input */
+  height:  var(--input-height, 1.375rem);
+  padding: 2px 1.5rem 2px 0.25rem;
+  border:        none;
+  border-bottom: 1px solid var(--color-border-dark-input, #786452);
+  border-radius: 0;
+  /* subtle inset shadow to match the depth of the input boxes */
+  box-shadow:  inset 0 1px 3px rgba(0, 0, 0, 0.10);
+  color:       var(--text-dark, #1c1c1c);
+  font-family: var(--body-serif, var(--serif));
+  font-size:   0.85rem;
+}
+form.shipcombat-ordnance-sheet select option {
+  background-color: #ffffff;
+  color:            var(--text-dark, #1c1c1c);
+}
+
+/* ── 10. Inline bar inputs (value / max in config bars) ─────────────────── */
+/* torpedo.css sets color: #fff; the generic input rule above resets to dark */
+/* Already handled by the generic .shipcombat-ordnance-sheet input rule.     */
+
+/* ══════════════════════════════════════════════════════════════════════════ */
+/* SF2e Radar / Popup colour overrides (blue theme, matching PF2e UI)        */
+/* Core sensors.css defines all these selectors with green (#00ff88).        */
+/* SF2e loads after Core, so equal-specificity rules here win by cascade.    */
+/* ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Radar action popup ─────────────────────────────────────────────────── */
+.shipcombat-radar-popup {
+  border-color: rgba(68, 170, 255, 0.3);
+}
+.shipcombat-rpop-header {
+  border-bottom-color: rgba(68, 170, 255, 0.12);
+}
+
+/* ── Radar popup action buttons ─────────────────────────────────────────── */
+.shipcombat-rpop-btn {
+  border-color: rgba(68, 170, 255, 0.12);
+  background:   rgba(68, 170, 255, 0.04);
+}
+.shipcombat-rpop-btn:hover:not(:disabled) {
+  background:   rgba(68, 170, 255, 0.12);
+  border-color: rgba(68, 170, 255, 0.3);
+}
+.shipcombat-rpop-btn--lock {
+  border-color: rgba(68, 170, 255, 0.2);
+  background:   rgba(68, 170, 255, 0.06);
+}
+.shipcombat-rpop-btn--lock:hover:not(:disabled) {
+  background:   rgba(68, 170, 255, 0.15);
+  border-color: rgba(68, 170, 255, 0.4);
+}
+.shipcombat-rpop-tier-badge {
+  background: rgba(68, 170, 255, 0.2);
+  color:      #44aaff;
+}
+
+/* ── Compact intel section (drawer) ─────────────────────────────────────── */
+.shipcombat-rpop-intel {
+  border-top-color: rgba(68, 170, 255, 0.08);
+}
+.shipcombat-rpop-drawer {
+  border-color: rgba(68, 170, 255, 0.1);
+}
+.shipcombat-rpop-drawer[open] {
+  border-color: rgba(68, 170, 255, 0.2);
+}
+.shipcombat-rpop-drawer-hd {
+  color:      rgba(68, 170, 255, 0.85);
+  background: rgba(68, 170, 255, 0.04);
+}
+.shipcombat-rpop-drawer-hd:hover {
+  background: rgba(68, 170, 255, 0.08);
+}
+
+/* ── Shield sector display inside intel ─────────────────────────────────── */
+.shipcombat-rpop-sec-sh      { color:      #44aaff; }
+.shipcombat-rpop-sec-bar-fill { background: #44aaff; }
+
+/* ── Weapon section header inside intel drawer ──────────────────────────── */
+.shipcombat-rpop-wep-section-hd {
+  color:             rgba(68, 170, 255, 0.75);
+  border-bottom-color: rgba(68, 170, 255, 0.08);
+}
+
+/* ── Scan bar (Sensors role scan-depth display) ─────────────────────────── */
+.shipcombat-scan-bar-value { color: #44aaff; }
+.shipcombat-scan-pip {
+  border-color: rgba(68, 170, 255, 0.35);
+}
+.shipcombat-scan-pip--active {
+  background:  #44aaff;
+  border-color: transparent;
+  box-shadow:  0 0 5px rgba(68, 170, 255, 0.65);
+}
+
+/* ── NPC Intel panel (Deep Scan L3+) ────────────────────────────────────── */
+.shipcombat-npc-intel-panel {
+  border-left-color: rgba(68, 170, 255, 0.5);
+}
+
+/* ── Lock tier 3 badge (Deep Scan) ─────────────────────────────────────── */
+/* Core uses #22ccbb (teal) to match canvas TIER_COLOUR[3].                  */
+/* SF2e overrides to blue for visual consistency with the blue radar theme.  */
+.shipcombat-lock-tier--3 {
+  color:      #4a9eff;
+  background: rgba(74, 158, 255, 0.1);
+  border:     1px solid rgba(74, 158, 255, 0.3);
+}
+
+/* ── BDA Fire Correction popup ──────────────────────────────────────────── */
+.shipcombat-bda-result-header {
+  background:   rgba(68, 170, 255, 0.05);
+  border-color: rgba(68, 170, 255, 0.2);
+}
+.shipcombat-bda-sl-value { color: #44aaff; }
+.shipcombat-bda-correction-btn:hover {
+  background:   rgba(68, 170, 255, 0.08);
+  border-color: rgba(68, 170, 255, 0.32);
+}
+
+/* ── AC Modifiers Popup: now uses native modifiers-tooltip.hbs partial ───── */
+
+/* ── Exclusive fire-mode tier (Ranging Fire) — readable amber on parchment  */
+.shipcombat-ship .shipcombat-tier-exclusive .shipcombat-macro-pip-label {
+  color: #8a4000;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+ * Deployed Ordnance Rows — SF2e parchment retheme
+ * Core styles use dark-theme colours (light text, neon-green accents).
+ * These overrides make the deployed torpedo/strike-craft rows legible on
+ * the parchment background used by the SF2e ship sheet.
+ * ══════════════════════════════════════════════════════════════════════════ */
+/* Spacing after the deployed-ordnance section (before the next sheet-list) */
+.shipcombat-ship .shipcombat-deployed-ordnance {
+  margin-bottom: 0.4rem;
+}
+.shipcombat-ship .shipcombat-deployed-row {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.shipcombat-ship .shipcombat-deployed-row:hover {
+  background: rgba(23, 31, 105, 0.06);
+}
+.shipcombat-ship .shipcombat-deployed--done {
+  background: rgba(0, 120, 50, 0.07);
+  border-left: 3px solid rgba(0, 150, 60, 0.55);
+}
+.shipcombat-ship .shipcombat-deployed-name {
+  color: var(--text-dark, #1c1c1c);
+}
+.shipcombat-ship .shipcombat-deployed-type {
+  color: var(--color-pf-secondary, #171f69);
+}
+.shipcombat-ship .shipcombat-deployed-hull {
+  color: #555;
+}
+/* Control buttons in deployed rows */
+.shipcombat-ship .shipcombat-deployed-controls button {
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  background: rgba(0, 0, 0, 0.04);
+  color: #444;
+}
+.shipcombat-ship .shipcombat-deployed-controls button:hover {
+  background: rgba(23, 31, 105, 0.10);
+  color: var(--color-pf-secondary, #171f69);
+}
+.shipcombat-ship .shipcombat-deployed-controls button.active {
+  background: rgba(23, 31, 105, 0.16);
+  border-color: rgba(23, 31, 105, 0.50);
+  color: var(--color-pf-secondary, #171f69);
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+ * Captain Conditions — SF2e parchment retheme
+ * Core's tier badge uses a white-transparent background that vanishes on the
+ * parchment background; replace with a very subtle tint so the badge shape
+ * is visible while the coloured text/border still provides tier context.
+ * The core tier colours (amber #f0a500, orange #e67e22, red #e74c3c) are
+ * very light and unreadable on parchment — replace with dark opaque variants.
+ * Applies to both PC ships (.shipcombat-ship) and NPC ships.
+ * ══════════════════════════════════════════════════════════════════════════ */
+.shipcombat-ship .shipcombat-crit-tier-badge {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* Undo unscoped chat.css tier rules (background + color) bleeding onto actor
+ * sheets. The chat.css rules set dark-amber bg + pale-gold text on ANY
+ * .shipcombat-crit-tier--{low,medium,high} element in the DOM. On actor
+ * sheets those colours are illegible on parchment; reset them here at higher
+ * specificity (2 classes vs 1). */
+.shipcombat-ship .shipcombat-crit-row,
+form.shipcombat-npc-sheet .shipcombat-crit-row {
+  background: transparent;
+  color: var(--color-text-dark-primary, #1a1a1a);
+  border-color: unset;
+}
+
+/* Row left-border accent colours — dark, readable on parchment */
+.shipcombat-ship .shipcombat-crit-tier--low,
+form.shipcombat-npc-sheet .shipcombat-crit-tier--low {
+  border-left-color: #5a7c00;    /* dark olive-green  (clear, distinct from medium/high) */
+}
+.shipcombat-ship .shipcombat-crit-tier--medium,
+form.shipcombat-npc-sheet .shipcombat-crit-tier--medium {
+  border-left-color: #8b4000;    /* dark burnt-sienna */
+}
+.shipcombat-ship .shipcombat-crit-tier--high,
+form.shipcombat-npc-sheet .shipcombat-crit-tier--high {
+  border-left-color: #8b0c0c;    /* dark crimson      */
+}
+
+/* Badge text + border — same dark palette; faint tinted background */
+.shipcombat-ship .shipcombat-crit-tier-badge.shipcombat-crit-tier--low,
+form.shipcombat-npc-sheet .shipcombat-crit-tier-badge.shipcombat-crit-tier--low {
+  color:      #5a7c00;
+  background: rgba(90, 124, 0, 0.10);
+}
+.shipcombat-ship .shipcombat-crit-tier-badge.shipcombat-crit-tier--medium,
+form.shipcombat-npc-sheet .shipcombat-crit-tier-badge.shipcombat-crit-tier--medium {
+  color:      #8b4000;
+  background: rgba(139, 64, 0, 0.10);
+}
+.shipcombat-ship .shipcombat-crit-tier-badge.shipcombat-crit-tier--high,
+form.shipcombat-npc-sheet .shipcombat-crit-tier-badge.shipcombat-crit-tier--high {
+  color:      #8b0c0c;
+  background: rgba(139, 12, 12, 0.10);
+}
+
+/* ── Ordnance Points roll DC table ──────────────────────────────────────── */
+.sc-sl-table {
+  width:           100%;
+  border-collapse: collapse;
+  margin:          4px 0 2px;
+  font-size:       0.78em;
+}
+.sc-sl-table thead tr {
+  background: rgba(0, 0, 0, 0.08);
+}
+.sc-sl-table th,
+.sc-sl-table td {
+  padding:    2px 6px;
+  text-align: center;
+  border:     1px solid rgba(0, 0, 0, 0.12);
+}
+.sc-sl-table th {
+  font-weight: 600;
+  font-size:   0.9em;
+}
+.sc-sl-table .sc-sl-row--active td {
+  background:  rgba(50, 100, 200, 0.15);
+  font-weight: 600;
+  color:       #1a3a6e;
+}
+.sc-sl-table .sc-sl-row--ellipsis td {
+  text-align:  center;
+  color:       rgba(0, 0, 0, 0.35);
+  font-size:   0.9em;
+  border-color: transparent;
+  padding:     1px 0;
+}
+.sc-points-granted {
+  margin-top: 4px;
+  font-size:  0.85em;
+  text-align: center;
+  color:      #1a3a6e;
+}
+
+/* ── Chat Card: Light-background overrides ────────────────────────────────── */
+/* Core/impmal chat.css targets dark-background chat. SF2e uses the default    */
+/* FoundryVTT light-parchment theme, so we override colours here.              */
+
+/* Weapon icon border (was white-based, invisible on light) */
+.shipcombat-fire-icon {
+  border-color: rgba(0,0,0,0.12);
+}
+
+/* Hit/miss colours on salvo dice and outcome text */
+.shipcombat-fire-success { color: #1a7a3c; }
+.shipcombat-fire-failure { color: #b03020; }
+
+/* "Auto-hit" banner */
+.shipcombat-fire-auto {
+  color:        #1a7a3c;
+  background:   rgba(0,100,50,0.07);
+  border-color: rgba(0,100,50,0.2);
+}
+
+/* Salvo die chips (background/border were white-based) */
+.shipcombat-salvo-die {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  text-align:      center;
+  background:   rgba(0,0,0,0.06);
+  border:       1px solid rgba(0,0,0,0.22);
+  border-radius: 4px;
+  font-weight:  700;
+  min-width:    2.2rem;
+  padding:      2px 5px;
+}
+/* Hit: green, crisp on light background */
+.shipcombat-salvo-die.shipcombat-fire-success { color: #1a7a3c; border-color: rgba(0,100,50,0.35); background: rgba(0,100,50,0.08); }
+/* Miss: muted grey */
+.shipcombat-salvo-die.shipcombat-fire-failure { color: #555; border-color: rgba(0,0,0,0.15); background: rgba(0,0,0,0.04); }
+/* Crit success: blue (PF2e critical hit) */
+.shipcombat-salvo-crit      { color: #1a5fb4 !important; border-color: rgba(26,95,180,0.45) !important; background: rgba(26,95,180,0.1) !important; }
+/* Crit failure: deep red */
+.shipcombat-salvo-crit-fail { color: #8b0000 !important; border-color: rgba(139,0,0,0.45) !important; background: rgba(139,0,0,0.08) !important; }
+.shipcombat-salvo-jam {
+  color:        #b03020 !important;
+  border-color: rgba(176,48,32,0.35) !important;
+  background:   rgba(176,48,32,0.06) !important;
+}
+
+/* Armour-blocked line (was white text on dark) */
+.shipcombat-fire-armour-blocked   { color: rgba(0,0,0,0.5);  }
+.shipcombat-fire-armour-blocked i { color: rgba(0,0,0,0.35); }
+
+/* Jam warning strip */
+.shipcombat-fire-jam {
+  color:        #b03020;
+  background:   rgba(176,48,32,0.07);
+  border-color: rgba(176,48,32,0.2);
+}
+
+/* Critical-hit block */
+.shipcombat-fire-crit-header           { color: #7a1515; }
+.shipcombat-fire-crit-header i         { color: #c09000; }
+.shipcombat-fire-crit-detail           { color: #5a2e2e; }
+.shipcombat-fire-crit-note             { color: #6b4040; }
+.shipcombat-crit-tier--low    { background: #fffbe6; color: #7a5c00; border-color: #c8a000; }
+.shipcombat-crit-tier--medium { background: #fff0e6; color: #8b3000; border-color: #c05000; }
+.shipcombat-crit-tier--high   { background: #ffe6e6; color: #7a0000; border-color: #cc0000; }
+
+/* BDA pending card — teal was invisible on light */
+.shipcombat-bda-pending .shipcombat-bda-icon-wrap {
+  background:   rgba(0,100,90,0.08);
+  border-color: rgba(0,100,90,0.25);
+  color:        #0a6b60;
+}
+.shipcombat-bda-pending-msg { color: rgba(0,100,90,0.8); }
+
+/* Weapon/fire-mode summary row (border was white-based) */
+.shipcombat-bda-weapon-summary { border-top-color: rgba(0,0,0,0.1); }
+.shipcombat-bda-weapon-name    { color: #222; }
+.shipcombat-bda-fire-mode      { color: rgba(0,0,0,0.5); }
+
+/* "Launch BDA" button */
+.shipcombat-bda-launch-btn {
+  border-color: rgba(0,100,90,0.35);
+  background:   rgba(0,100,90,0.07);
+  color:        #0a6b60;
+}
+.shipcombat-bda-launch-btn:hover {
+  background:   rgba(0,100,90,0.15);
+  border-color: rgba(0,100,90,0.5);
+}
+
+/* BDA correction result block */
+.shipcombat-bda-correction-result {
+  background:   rgba(0,100,90,0.06);
+  border-color: rgba(0,100,90,0.2);
+}
+.shipcombat-bda-correction-result > i { color: #0a6b60; }
+.shipcombat-bda-correction-label      { color: #0a6b60; }
+.shipcombat-bda-pending-msg--subtle   { color: rgba(0,100,90,0.65); }
+
+/* BDA fire-result section divider (was white rule, invisible on light) */
+.shipcombat-bda-fire-result-divider::before,
+.shipcombat-bda-fire-result-divider::after { background: rgba(0,0,0,0.12); }
+
+/* AP value — dark amber (base #e8a33a too bright on light) */
+.shipcombat-fire-ap   { color: #8a6500; }
+/* Resource cost badge — same dark amber */
+.shipcombat-fire-cost { color: #8a6500; }

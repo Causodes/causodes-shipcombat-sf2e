@@ -1,0 +1,54 @@
+{{!-- Captain tab (5-player: merged Captain+Ordnance) with subtab navigation --}}
+<section class="tab {{tab.cssClass}}" data-group="primary" data-tab="{{tab.id}}">
+
+    {{> "captain-claim-prompt"}}
+    {{> "command-deck-bar"}}
+    {{> "combined-leadership"}}
+
+    {{#if (or isGM (lookup (lookup roles "captain") "isMyRole"))}}
+    {{> "captain-conditions"}}
+    <nav class="sub-nav">
+        <a data-sub-tab="ordnance">{{localize "SHIPCOMBAT.SubTab.Ordnance"}}</a>
+        <a data-sub-tab="orders">{{localize "SHIPCOMBAT.SubTab.Orders"}}</a>
+        <a data-sub-tab="overcharge">{{localize "SHIPCOMBAT.SubTab.Overcharge"}}</a>
+    </nav>
+    <div class="role-panels">
+        <div class="tab" data-sub-tab="ordnance">
+            <div class="sheet-list shipcombat-ordnance-actions">
+                <div class="list-header row-content">
+                    <div class="list-name">{{localize "SHIPCOMBAT.Ordnance.MainAction"}}</div>
+                </div>
+                <div class="list-content">
+                    <div class="shipcombat-ordnance-action-grid">
+                        {{#each ordnanceCtx.actions}}
+                        {{#unless (shipcombatEq id "loadPayload")}}
+                        <button class="shipcombat-ordnance-action-btn" data-action="ordnanceMasterAction" data-action-id="{{id}}"
+                                {{#unless canAfford}}disabled{{/unless}}
+                                data-tooltip="{{tooltip}}">
+                            <i class="{{icon}}"></i>
+                            <span>{{labelLocalized}}</span>
+                            <small>{{effectiveCrew}} {{#if @root.crewScaleSmallCraft}}load{{else}}crew{{/if}} / {{effectiveDuration}}T</small>
+                        </button>
+                        {{/unless}}
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+            {{#if useStrikeCraft}}
+            {{> "deployed-strike-craft"}}
+            {{/if}}
+        </div>
+        <div class="tab" data-sub-tab="orders">
+            {{> "captain-hand"}}
+            {{> "captain-active-orders"}}
+        </div>
+        <div class="tab" data-sub-tab="overcharge">
+            {{> "combined-core-actions"}}
+        </div>
+    </div>
+
+    {{/if}}
+
+    {{> 'complete-turn' tabRoleId="captain" turnDone=(lookup @root.sys.turnDone "captain")}}
+
+</section>

@@ -1,0 +1,80 @@
+/* causodes-shipcombat-sf2e / gunner.css
+ * Weapon battery cards, trait tags, stat labels, fire buttons — SF2e parchment theme.
+ * (Canonical copy; duplicate from original shared.css removed.)
+ */
+
+/* ════════════════════════════════════════════════════════════════════════════
+ * Gunner Weapon Batteries — SF2e light-background retheme
+ * All battery UI was built for a dark background; override for parchment.
+ * ══════════════════════════════════════════════════════════════════════════ */
+
+/* Card border and header */
+.shipcombat-ship .shipcombat-battery-card {
+  border-color: rgba(0, 0, 0, 0.18);
+}
+.shipcombat-ship .shipcombat-battery-header {
+  background: rgba(0, 0, 0, 0.05);
+  border-bottom-color: rgba(0, 0, 0, 0.10);
+}
+/* Trait tags */
+.shipcombat-ship .shipcombat-trait-tag {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.15);
+  color: var(--text-dark, #1c1c1c);
+}
+.shipcombat-ship .shipcombat-trait--shieldBypass     { color: #14607a; border-color: rgba(20,96,122,0.30); }
+.shipcombat-ship .shipcombat-trait--armourPenetration { color: #0d6e57; border-color: rgba(13,110,87,0.30); }
+.shipcombat-ship .shipcombat-trait--unlimitedRof      { color: #7a6000; border-color: rgba(122,96,0,0.30); }
+.shipcombat-ship .shipcombat-trait--shieldBurn        { color: #7a1010; border-color: rgba(122,16,16,0.30); }
+.shipcombat-ship .shipcombat-trait--voidWeakened      { color: #5a1e7a; border-color: rgba(90,30,122,0.30); }
+.shipcombat-ship .shipcombat-trait--rend              { color: #8a4000; border-color: rgba(138,64,0,0.30); }
+/* Stat labels and values */
+.shipcombat-ship .shipcombat-battery-stat-label {
+  opacity: 0.60;
+  color: var(--text-dark, #1c1c1c);
+}
+/* Macro Cannon tier picker */
+.shipcombat-ship .shipcombat-macro-tier-pip {
+  background: rgba(192, 86, 10, 0.08);
+  border-color: rgba(192, 86, 10, 0.22);
+}
+.shipcombat-ship .shipcombat-macro-tier-pip:hover:not(.shipcombat-tier-dimmed) {
+  background: rgba(192, 86, 10, 0.18);
+  border-color: rgba(192, 86, 10, 0.45);
+}
+.shipcombat-ship .shipcombat-macro-tier-pip.shipcombat-macro-pip-selected {
+  background: rgba(192, 86, 10, 0.25);
+  border-color: rgba(192, 86, 10, 0.65);
+  box-shadow: 0 0 0 1px rgba(192, 86, 10, 0.25) inset;
+}
+.shipcombat-ship .shipcombat-macro-pip-ammo { color: #8a4000; }
+.shipcombat-ship .shipcombat-macro-stat-ammo { color: #8a4000; }
+/* Lance / AP tier groups */
+.shipcombat-ship .shipcombat-lance-tier-group {
+  background: rgba(20, 96, 122, 0.07);
+  border-color: rgba(20, 96, 122, 0.20);
+  color: var(--text-dark, #1c1c1c);
+}
+.shipcombat-ship .shipcombat-lance-tier-active {
+  background: rgba(20, 96, 122, 0.18);
+  border-color: rgba(20, 96, 122, 0.55);
+}
+.shipcombat-ship .shipcombat-lance-tier-dmg   { color: #14607a; }
+.shipcombat-ship .shipcombat-lance-charge-value { color: #14607a; }
+/* Plasma fire blocked / shots remaining */
+.shipcombat-ship .shipcombat-plasma-dmg       { color: #7a2810; }
+.shipcombat-ship .shipcombat-val-heat          { color: #7a2810; }
+.shipcombat-ship .shipcombat-plasma-remaining  { color: #7a2810; opacity: 0.85; }
+/* Fire-blocked label */
+.shipcombat-ship .shipcombat-fire-blocked      { color: var(--text-dark, #1c1c1c); opacity: 0.55; }
+/* Fire buttons (macro/plasma/lance/pd) already handled by global navy override;
+   keep the type-accent left borders but update their button colors for parchment */
+.shipcombat-ship .shipcombat-fire--macro  { background: rgba(192, 86, 10, 0.12); color: #8a4000; border-color: rgba(192, 86, 10, 0.30); }
+.shipcombat-ship .shipcombat-fire--plasma { background: rgba(122, 40, 16, 0.10); color: #7a2810; border-color: rgba(122, 40, 16, 0.28); }
+.shipcombat-ship .shipcombat-fire--lance  { background: rgba(20, 96, 122, 0.10); color: #14607a; border-color: rgba(20, 96, 122, 0.28); }
+.shipcombat-ship .shipcombat-fire--pd     { background: rgba(20, 96, 122, 0.10); color: #14607a; border-color: rgba(20, 96, 122, 0.28); }
+.shipcombat-ship .shipcombat-fire--macro:hover:not(:disabled)  { background: rgba(192, 86, 10, 0.22); }
+.shipcombat-ship .shipcombat-fire--plasma:hover:not(:disabled) { background: rgba(122, 40, 16, 0.20); }
+.shipcombat-ship .shipcombat-fire--lance:hover:not(:disabled)  { background: rgba(20, 96, 122, 0.20); }
+.shipcombat-ship .shipcombat-fire--pd:hover:not(:disabled)     { background: rgba(20, 96, 122, 0.20); }
+

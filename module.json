@@ -1,0 +1,86 @@
+{
+  "id": "causodes-shipcombat-sf2e",
+  "title": "Causodes's Ship Combat (Starfinder 2e)",
+  "description": "Starfinder 2e integration for Causodes's Ship Combat (Core). Registers actor/item types, the system adapter, and CSS theming.",
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": "14",
+    "verified": "14",
+    "maximum": "14"
+  },
+  "authors": [
+    {
+      "name": "Causodes",
+      "flags": {}
+    }
+  ],
+  "relationships": {
+    "systems": [
+      {
+        "id": "sf2e",
+        "type": "system",
+        "compatibility": {}
+      }
+    ],
+    "requires": [
+      {
+        "id": "causodes-shipcombat-core",
+        "type": "module",
+        "manifest": "https://github.com/Causodes/causodes-shipcombat-core/releases/latest/download/module.json"
+      }
+    ]
+  },
+  "esmodules": [
+    "causodes-shipcombat-sf2e.js"
+  ],
+  "styles": [
+    { "src": "styles/shared.css" },
+    { "src": "styles/header.css" },
+    { "src": "styles/overview.css" },
+    { "src": "styles/components.css" },
+    { "src": "styles/sidebar.css" },
+    { "src": "styles/pilot.css" },
+    { "src": "styles/engineer.css" },
+    { "src": "styles/captain.css" },
+    { "src": "styles/gunner.css" },
+    { "src": "styles/ordnance.css" },
+    { "src": "styles/sensors.css" },
+    { "src": "styles/npc.css" },
+    { "src": "styles/torpedo.css" },
+    { "src": "styles/popup.css" },
+    { "src": "styles/chat.css" }
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json",
+      "flags": {}
+    }
+  ],
+  "documentTypes": {
+    "Actor": {
+      "ship": {},
+      "npcShip": {},
+      "shipOrdnance": {}
+    },
+    "Item": {
+      "component": {}
+    }
+  },
+  "flags": {
+    "hotReload": {
+      "extensions": [
+        "css",
+        "hbs",
+        "json"
+      ]
+    }
+  },
+  "url": "https://github.com/Causodes/causodes-shipcombat-sf2e",
+  "download": "https://github.com/Causodes/causodes-shipcombat-sf2e/archive/refs/tags/v1.0.0.zip",
+  "manifest": "https://github.com/Causodes/causodes-shipcombat-sf2e/releases/latest/download/module.json",
+  "readme": "https://github.com/Causodes/causodes-shipcombat-sf2e/blob/main/README.md",
+  "changelog": "https://github.com/Causodes/causodes-shipcombat-sf2e/blob/main/CHANGELOG.md",
+  "allowBugReporter": true
+}

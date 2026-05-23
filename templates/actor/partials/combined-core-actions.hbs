@@ -1,0 +1,40 @@
+{{!-- SF2e override: Combined Core Actions with "no core" overlay for 5-man captain Overcharge --}}
+<div class="sheet-list shipcombat-captain-core-actions shipcombat-captain-core-actions--combined shipcombat-role-section">
+    {{#unless captainCtx.hasCoreAssigned}}
+    <div class="shipcombat-section-overlay shipcombat-section-overlay--taken">
+        <div class="shipcombat-overlay-lock-indicator">
+            <i class="fa-solid fa-lock fa-lg"></i>
+            <span>{{localize "SHIPCOMBAT.Tooltip.NoPowerCore"}}</span>
+        </div>
+    </div>
+    {{/unless}}
+    <div class="list-header row-content">
+        <div class="list-name">{{localize "SHIPCOMBAT.Label.CoreActions"}}</div>
+    </div>
+    <div class="list-content">
+        {{#each captainCtx.coreActions}}
+        <div class="shipcombat-core-action-card">
+            <button class="shipcombat-core-action-btn" data-action="captainCoreAction" data-core-action="{{id}}"
+                    {{#unless canAfford}}disabled{{/unless}}
+                    data-tooltip="{{descLocalized}}">
+                <i class="{{icon}}"></i>
+                <span>{{labelLocalized}}</span>
+                <small>{{localize "SHIPCOMBAT.Label.PowerCores"}}</small>
+            </button>
+        </div>
+        {{/each}}
+        {{#each ordnanceCtx.coreActions}}
+        {{#unless (shipcombatEq id "magazineCrossfeed")}}
+        <div class="shipcombat-core-action-card">
+            <button class="shipcombat-core-action-btn" data-action="ordnanceMasterCoreAction" data-core-action="{{id}}"
+                    {{#unless canAfford}}disabled{{/unless}}
+                    data-tooltip="{{descLocalized}}">
+                <i class="{{icon}}"></i>
+                <span>{{labelLocalized}}</span>
+                <small>{{localize "SHIPCOMBAT.Label.PowerCores"}}</small>
+            </button>
+        </div>
+        {{/unless}}
+        {{/each}}
+    </div>
+</div>

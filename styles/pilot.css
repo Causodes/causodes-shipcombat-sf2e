@@ -1,0 +1,209 @@
+/* causodes-shipcombat-sf2e / pilot.css
+ * Helm panel, SF2e skill block, SL allocation buttons, ordnance points table.
+ */
+
+/* ── SF2e skill-block for the piloting roll row (partial override) ─────── */
+/* Layout — mirrors .proficiencies-list li structure from SF2e               */
+.shipcombat-ship .sc-skill-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.shipcombat-ship .sc-skill-row {
+  display: flex;
+  align-items: center;
+  min-height: 2.25rem;
+  padding: 0 0.5rem 0 0.25rem;
+  border-image-repeat: repeat;
+  border-image-slice: 11;
+  border-image-source: url("../../../systems/sf2e/assets/sheet/frame-elegant.svg");
+  border-image-width: 14px;
+  border-style: double;
+  font-family: var(--serif);
+  font-size: var(--font-size-16);
+  cursor: pointer;
+}
+
+.shipcombat-ship .sc-skill-row--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Unified SL allocation row — fancy border wraps roll button + all alloc stats */
+.shipcombat-ship .sc-helm-alloc-row {
+  min-height: 3.5rem;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+  cursor: default;
+}
+.shipcombat-ship .sc-helm-alloc-row .sc-skill-d20 {
+  cursor: pointer;
+}
+/* Vertical separator between roll button and alloc cells */
+.shipcombat-ship .sc-helm-alloc-sep {
+  width: 1px;
+  align-self: stretch;
+  background: currentColor;
+  opacity: 0.2;
+  margin: 0.25rem 0.25rem;
+  flex-shrink: 0;
+}
+/* SL badge + label cell (after rolling) */
+.shipcombat-ship .sc-helm-sl-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 4.5rem;
+  flex: 1;
+}
+/* Alloc stat cells inside unified row */
+.shipcombat-ship .sc-helm-alloc-row .shipcombat-helm-stat {
+  min-width: 4.5rem;
+  flex: 0 0 auto;
+}
+
+/* d20 SVG icon — bare d20 with PF2e-style glow, no background circle */
+.shipcombat-ship .sc-skill-d20 {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  color: var(--color-text-light-1, #f7f5ee);
+  filter:
+    drop-shadow(0 0 1px var(--color-shadow-dark, rgba(0,0,0,0.7)))
+    drop-shadow(0 0 3px var(--color-text-dark-4, #555))
+    drop-shadow(0 0 12px var(--color-text-light-3, rgba(240,235,220,0.5)));
+}
+
+.shipcombat-ship .sc-skill-d20:hover { animation: sc-d20-spin 2s infinite linear; }
+
+@keyframes sc-d20-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(359deg); }
+}
+
+.shipcombat-ship .sc-skill-d20 .d20-svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Modifier value */
+.shipcombat-ship .sc-skill-modifier {
+  color: var(--color-pf-primary, #5e0000);
+  font-weight: 600;
+  width: 1.75rem;
+  text-align: right;
+  margin-right: 0.25rem;
+}
+
+/* Skill name */
+.shipcombat-ship .sc-skill-name {
+  flex: 1;
+  min-width: 0; /* allow flex shrinking so overflow/ellipsis work */
+  color: var(--color-text-primary, #1c1c1c);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shipcombat-rc-recall-btn {
+  border-color: var(--sc-accent-border, rgba(85,119,221,0.45));
+  background:   var(--sc-accent-subtle, rgba(85,119,221,0.10));
+  color:        var(--sc-accent, #5577dd);
+}
+.shipcombat-rc-recall-btn:hover { background: var(--sc-accent-dim, rgba(85,119,221,0.30)); }
+
+/* ── SL allocation buttons — pf-secondary (navy-purple) matches trait tags ── */
+.shipcombat-ship .shipcombat-alloc-btn {
+  background:   var(--color-pf-secondary, #171f69);
+  border:       1px solid var(--color-pf-secondary-lighter, rgb(41,56,189));
+  box-shadow:   inset 0 0 0 1px rgba(0, 0, 0, 0.5);
+  color:        var(--text-light, #f7f5ee);
+  border-radius: 2px;
+}
+.shipcombat-ship .shipcombat-alloc-btn:hover:not([disabled]) {
+  background:   var(--color-pf-secondary-light, rgb(32,43,147));
+  border-color: var(--color-pf-secondary-lighter, rgb(41,56,189));
+}
+/* SL remaining badge — pf-secondary tint, no dark pill background */
+.shipcombat-ship .shipcombat-sl-badge {
+  background: none;
+  border: none;
+  color: var(--color-pf-secondary-lighter, rgb(41,56,189));
+  text-shadow: 0 0 6px rgba(23, 31, 105, 0.5);
+}
+
+/* ── Helm Control: frame-elegant border + contrast fixes ────────────────── */
+.shipcombat-ship .shipcombat-helm-panel {
+  background:          none;
+  border-style:        double;
+  border-image-source: url("../../../systems/sf2e/assets/sheet/frame-elegant.svg");
+  border-image-slice:  11;
+  border-image-width:  14px;
+  border-image-repeat: repeat;
+  padding:             0.85rem;
+}
+/* Power/bearing range slider — navy accent so thumb is visible on parchment */
+.shipcombat-ship .shipcombat-power-range,
+.shipcombat-ship .shipcombat-bearing-slider {
+  accent-color: var(--color-pf-secondary, #171f69);
+}
+/* Power bar track — add navy border so its boundary is clear */
+.shipcombat-ship .shipcombat-power-bar {
+  border-color: rgba(23, 31, 105, 0.35);
+}
+/* Min-move delimiter line — navy so it reads on the amber zone */
+.shipcombat-ship .shipcombat-power-minmove-line {
+  border-color: var(--color-pf-secondary, #171f69);
+  opacity: 0.85;
+}
+
+/* ── Ordnance Points roll DC table ──────────────────────────────────────── */
+.sc-sl-table {
+  width:           100%;
+  border-collapse: collapse;
+  margin:          4px 0 2px;
+  font-size:       0.78em;
+}
+.sc-sl-table thead tr {
+  background: rgba(0, 0, 0, 0.08);
+}
+.sc-sl-table th,
+.sc-sl-table td {
+  padding:    2px 6px;
+  text-align: center;
+  border:     1px solid rgba(0, 0, 0, 0.12);
+}
+.sc-sl-table th {
+  font-weight: 600;
+  font-size:   0.9em;
+}
+.sc-sl-table .sc-sl-row--active td {
+  background:  rgba(50, 100, 200, 0.15);
+  font-weight: 600;
+  color:       #1a3a6e;
+}
+.sc-sl-table .sc-sl-row--ellipsis td {
+  text-align:  center;
+  color:       rgba(0, 0, 0, 0.35);
+  font-size:   0.9em;
+  border-color: transparent;
+  padding:     1px 0;
+}
+.sc-points-granted {
+  margin-top: 4px;
+  font-size:  0.85em;
+  text-align: center;
+  color:      #1a3a6e;
+}
+.sc-nat-bonus {
+  margin-top: 2px;
+  font-size:  0.8em;
+  text-align: center;
+  font-style: italic;
+}
+.sc-nat-20 { color: #1a6e3a; }  /* green for bonus */
+.sc-nat-1  { color: #8b2020; }  /* red for penalty */
+

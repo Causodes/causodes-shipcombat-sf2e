@@ -1,0 +1,202 @@
+/* causodes-shipcombat-sf2e / components.css
+ * Component lists, installed components layout, component item sheet.
+ */
+
+/* -- Component lists ----------------------------------------------------- */
+.shipcombat-ship .component-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.shipcombat-ship .component-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 2px 4px;
+}
+
+/* -- Numeric input sizing ------------------------------------------------ */
+/* Do NOT override width — let .crb-style .details-input width:100% apply */
+/* Overview detail-column inputs (Crew / Passengers / Price): left-aligned
+   to match how SF2e vehicle sheet presents these info fields. */
+.ship-detail-cols input[type="number"],
+.ship-detail-cols input[type="text"] {
+  text-align: left;
+}
+/* Sidebar HP / Fire / Max inputs: centred like the SF2e vehicle sidebar */
+.shipcombat-v1 aside .data-value input[type="number"],
+.shipcombat-v1 aside .hp-big .container input[type="number"] {
+  text-align: center;
+}
+
+/* ── FIRE active: only the number turns red when internalFire > 0 ──────── */
+.shipcombat-fire-active input,
+.shipcombat-fire-active h2 {
+  color: #b91c1c !important;
+}
+
+/* ── Hardness armour rend: only the numeric value turns red ─────────────── */
+.shipcombat-armour--rend {
+  color: #b91c1c;
+}
+
+/* -- Installed Components layout ----------------------------------------- */
+
+.shipcombat-ship .shipcombat-ov-comp-section {
+  margin-bottom: 0.75rem;
+}
+
+.shipcombat-ship .shipcombat-ov-weapon-section-label {
+  font-size: var(--font-size-12, 0.75rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary, #666);
+  margin-bottom: 0.3rem;
+}
+
+.shipcombat-ship .shipcombat-ov-weapon-slots {
+  font-weight: 400;
+  color: var(--color-text-secondary, #888);
+}
+
+.shipcombat-ship .shipcombat-ov-weapon-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.25rem;
+  padding: 0.25rem 0 0.35rem;
+}
+
+.shipcombat-ship .shipcombat-ov-weapon-cell {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+  padding: 0.2rem 0.35rem;
+  min-height: 2rem;
+}
+
+.shipcombat-ship .shipcombat-ov-weapon-pos {
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.55;
+  margin-bottom: 0.15rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.shipcombat-ship .shipcombat-ov-comp-row {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  margin-bottom: 0.1rem;
+}
+
+.shipcombat-ship .shipcombat-ov-comp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.72rem;
+  padding: 0.05rem 0.3rem;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.shipcombat-ship .shipcombat-ov-comp-chip:hover {
+  background: rgba(0, 0, 0, 0.11);
+  text-decoration: none;
+}
+
+.shipcombat-ship .shipcombat-ov-comp-chip img {
+  width: 1rem;
+  height: 1rem;
+  object-fit: cover;
+  flex-shrink: 0;
+  border-radius: 2px;
+}
+
+.shipcombat-ship .shipcombat-ov-comp-chip span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shipcombat-ship .shipcombat-ov-unassign {
+  margin-left: auto;
+  opacity: 0.4;
+  font-size: 0.6rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.shipcombat-ship .shipcombat-ov-unassign:hover { opacity: 1; }
+
+.shipcombat-ship .shipcombat-ov-weapon-add {
+  width: 100%;
+  font-size: var(--font-size-11, 0.6875rem);
+  margin-top: 0.2rem;
+  opacity: 0.65;
+}
+
+.shipcombat-ship .shipcombat-ov-ordnance-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.2rem;
+  padding: 0.25rem 0 0.35rem;
+}
+
+.shipcombat-ship .shipcombat-ov-ordnance-box .shipcombat-ov-comp-row {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+  padding: 0.15rem 0.3rem;
+  min-height: 1.8rem;
+  margin-bottom: 0;
+}
+
+.shipcombat-ship .shipcombat-ov-ordnance-add {
+  grid-column: 1 / -1;
+}
+
+.shipcombat-ship .shipcombat-ov-empty {
+  color: var(--color-text-secondary, #888);
+  opacity: 0.6;
+  font-size: var(--font-size-12, 0.75rem);
+}
+
+/* -- Component item sheet: details tab inputs left-aligned -------------- */
+.shipcombat-component .tab[data-tab="details"] fieldset input[type="number"],
+.shipcombat-component .tab[data-tab="details"] fieldset input[type="text"] {
+  text-align: left;
+}
+
+/* -- Component sheet: use 8em labels (vs PF2e default 11em) so the input  */
+/* area is proportionally wider at the reduced 720px sheet width.  The      */
+/* .dice-data row benefits equally: the type select fills 1fr of the wider  */
+/* input zone so all rows share the same control-start column.              */
+.pf2e.item.sheet.shipcombat-component form fieldset .form-group > label {
+  flex: 0 1 12em;
+}
+/* -- dice-data grid: 1fr last column so type select fills its cell -------- */
+.pf2e.item.sheet.shipcombat-component form .dice-data {
+  grid: "dice die type" / 2.5rem 3.75rem 1fr;
+}
+
+/* ── Component item sheet: numeric input alignment ──────────────────────── */
+/* Sidebar (Quantity, Cost…): right-aligned like a stat column */
+.shipcombat-component .sidebar input[type="number"],
+.shipcombat-component .inventory-details input[type="number"] {
+  text-align: right;
+}
+/* Details tab (weapon stats, shield thresholds…): left-aligned */
+.shipcombat-component .tab.details input[type="number"] {
+  text-align: left;
+}
+

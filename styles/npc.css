@@ -1,0 +1,683 @@
+/* causodes-shipcombat-sf2e / npc.css
+ * NPC ship and ordnance actor sheets (AppV1).
+ */
+
+/* ════════════════════════════════════════════════════════════════════════════
+ * NPC SHIP & ORDNANCE SHEETS (AppV1) — SF2e parchment retheme
+ *
+ * Both sheets render `<form class="crb-style shipcombat-ship shipcombat-v1 ...">`
+ * so they inherit SF2e crb-style typography, parchment background, navy/crimson
+ * accents, and most `.shipcombat-ship` rules above (frame-elegant cards, list
+ * headers, etc.).
+ *
+ * The rules in this block:
+ *   1. Provide AppV1 tab visibility (Foundry V14 removed the global rule).
+ *   2. Style the bespoke `.npc-sheet-tabs` / `.ordnance-sheet-tabs` nav like
+ *      SF2e's circular nav.sheet-navigation items.
+ *   3. Lay out form padding and body overflow.
+ *   4. Make numeric / text inputs match crb-style details-input.
+ * ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Form base ──────────────────────────────────────────────────────────── */
+/* NPC ship: SF2e NPC-style flex-row layout (sidebar | npc-body).
+   Override the vehicle crb-style grid with row flex.
+   height: 100% is still needed for the form to fill the window. */
+form.shipcombat-npc-sheet {
+  --faded-border-color: #7a7971;
+  --font-primary: var(--sans-serif);
+  --color-pf-inventory-header-bg: var(--primary-background);
+  /* .actor.sheet.vehicle .crb-style sets font-family: body-serif; override it. */
+  font-family: var(--sans-serif) !important;
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+  padding: var(--space-8, 0.5rem);
+  overflow: hidden;
+  height: 100%;
+}
+/* Ordnance sheet keeps the original column layout */
+form.shipcombat-ordnance-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: var(--space-8, 0.5rem);
+  overflow: hidden;
+  height: 100%;
+}
+
+/* ── NPC sidebar ────────────────────────────────────────────────────────── */
+/* Width matches native SF2e NPC sidebar (10rem) so portrait scales the same */
+form.shipcombat-npc-sheet > .sidebar {
+  flex: 10rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12, 0.75rem);
+  height: 100%;
+  overflow: hidden auto;
+  scrollbar-gutter: stable;
+  padding-right: var(--space-4, 0.25rem);
+}
+
+/* ── NPC sidebar subsection structure (mirrors SF2e NPC .subsection) ────── */
+form.shipcombat-npc-sheet .sidebar .subsection {
+  align-items: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+form.shipcombat-npc-sheet .sidebar .subsection > header {
+  align-items: baseline;
+  border-bottom: 1px solid var(--faded-border-color, #7a7971);
+  display: flex;
+  margin-bottom: var(--space-2, 0.125rem);
+  padding-right: var(--space-5, 0.3125rem);
+  width: 100%;
+}
+form.shipcombat-npc-sheet .sidebar .subsection > header label {
+  align-items: center;
+  display: flex;
+  flex: 0 1 100%;
+  font-family: var(--sans-serif);
+  font-weight: 500;
+  gap: var(--space-3, 0.1875rem);
+  margin-bottom: 0;
+  padding-left: var(--space-2, 0.125rem);
+}
+/* Sidebar subsection header: number inputs match native NPC font-size-16 */
+form.shipcombat-npc-sheet .sidebar .subsection > header input[type=number] {
+  font-size: var(--font-size-16, 1rem);
+  font-weight: 700;
+}
+form.shipcombat-npc-sheet .sidebar .subsection.armor-class > header input[type=number] {
+  width: 2rem;
+}
+/* HP value display: value / max inputs side-by-side */
+form.shipcombat-npc-sheet .sidebar .subsection .hit-points {
+  display: flex;
+  flex: 0;
+  align-items: center;
+  justify-content: end;
+  margin-left: auto;
+  font-size: var(--font-size-16, 1rem);
+}
+form.shipcombat-npc-sheet .sidebar .subsection .hit-points input.current {
+  font-weight: normal;
+  padding-right: var(--space-3, 0.1875rem);
+  text-align: right;
+  width: 2.25rem;
+}
+form.shipcombat-npc-sheet .sidebar .subsection .hit-points .slash {
+  align-items: center;
+  display: flex;
+  padding: 0 var(--space-1, 0.0625rem);
+}
+form.shipcombat-npc-sheet .sidebar .subsection .hit-points .max {
+  font-size: var(--font-size-16, 1rem);
+  font-weight: 600;
+  text-align: end;
+  width: 2.25rem;
+}
+/* AC value — number input for armor class */
+form.shipcombat-npc-sheet .sidebar .subsection .armor-value {
+  font-weight: 700;
+  margin-left: auto;
+  text-align: right;
+}
+/* AC details text input in side-bar-section-content */
+form.shipcombat-npc-sheet .sidebar .armor-details {
+  font-size: var(--font-size-12, 0.75rem);
+  width: 100%;
+}
+/* Initiative roll link — mirrors native NPC .subsection.initiative a */
+form.shipcombat-npc-sheet .sidebar .subsection.initiative > header a.roll {
+  display: flex;
+  flex-wrap: nowrap;
+  font-size: var(--font-size-16, 1rem);
+  font-weight: 700;
+  gap: 0.25em;
+  margin-bottom: var(--space-2, 0.125rem);
+  padding-left: var(--space-4, 0.25rem);
+  text-decoration: none;
+}
+form.shipcombat-npc-sheet .sidebar .subsection.initiative > header a.roll i {
+  position: relative;
+  top: var(--space-1, 0.0625rem);
+}
+form.shipcombat-npc-sheet .sidebar .subsection.initiative a span {
+  text-underline-offset: 0.125em;
+}
+form.shipcombat-npc-sheet .sidebar .subsection.initiative select {
+  font-size: var(--font-size-12, 0.75rem);
+  text-transform: unset;
+}
+/* side-bar-section-content */
+form.shipcombat-npc-sheet .sidebar .side-bar-section-content {
+  align-items: start;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: start;
+  padding-top: 0.125rem;
+  width: 100%;
+}
+form.shipcombat-npc-sheet .sidebar .side-bar-section-content .threshold {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+form.shipcombat-npc-sheet .sidebar .side-bar-section-content .threshold.selected {
+  font-weight: 600;
+}
+/* value0: dim zero-value rows like native NPC */
+form.shipcombat-npc-sheet .sidebar .subsection .value0 {
+  border-bottom: 1px darkgrey solid;
+  color: darkgrey;
+}
+form.shipcombat-npc-sheet .sidebar .subsection .value0 input {
+  color: darkgrey;
+}
+/* Hardness/shield grid inside sidebar */
+form.shipcombat-npc-sheet .sidebar .shipcombat-hardness-grid {
+  border-collapse: collapse;
+  font-size: var(--font-size-12, 0.75rem);
+  margin: 0;
+  table-layout: fixed;
+  width: 100%;
+}
+form.shipcombat-npc-sheet .sidebar .shipcombat-hardness-grid td {
+  padding: 1px 2px;
+  text-align: center;
+}
+/* Internal fire labeled field */
+form.shipcombat-npc-sheet .sidebar .labeled-field.fire {
+  align-items: baseline;
+  display: flex;
+  flex-direction: row;
+  font-size: var(--font-size-12, 0.75rem);
+  gap: var(--space-4, 0.25rem);
+  width: 100%;
+}
+form.shipcombat-npc-sheet .sidebar .labeled-field.fire label {
+  flex: 1;
+  font-weight: 600;
+}
+form.shipcombat-npc-sheet .sidebar .labeled-field.fire input[type="number"] {
+  text-align: right;
+  width: 2.5rem;
+}
+
+/* ── NPC body (right column: header + nav + tab content) ────────────────── */
+form.shipcombat-npc-sheet > .npc-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+  padding-left: var(--space-5, 0.3125rem);
+}
+/* Roll links: match native NPC a.roll color + hover + d20-svg sizing */
+form.shipcombat-npc-sheet a.roll:not(.inline-roll) {
+  color: var(--color-pf-primary-darker);
+}
+form.shipcombat-npc-sheet a.roll:not(.inline-roll) .d20-svg {
+  height: var(--font-size-16, 1rem);
+  position: relative;
+  top: var(--space-1, 0.0625rem);
+  width: var(--font-size-16, 1rem);
+}
+form.shipcombat-npc-sheet a.roll:not(.inline-roll):hover {
+  color: var(--color-pf-primary-light);
+  text-shadow: none;
+}
+form.shipcombat-npc-sheet a.roll:not(.inline-roll):hover .d20-svg {
+  animation: rotation 2s infinite linear;
+}
+/* Remove browser default select background (mirrors native .actor.npc.sheet form select) */
+form.shipcombat-npc-sheet select {
+  background: none;
+}
+
+/* ── Tab nav: NPC & Ordnance sheets now use SF2e native sub-nav ──────────── */
+/* The nav elements have the `sub-nav` class, so SF2e's own                   */
+/* `.actor.sheet … form.crb-style nav.sub-nav` rules handle the styling.     */
+/* No overrides needed here.                                                  */
+
+/* ── Tab body container — NPC & Ordnance sheets (player-ship paradigm) ───── */
+/* SF2e override templates use .sheet-body > .sheet-content nesting so that  */
+/* Core's ship-sheet-v1.css rule fires:                                       */
+/*   form.shipcombat-v1 .sheet-body .sheet-content > .tab { display: none }  */
+/*   form.shipcombat-v1 .sheet-body .sheet-content > .tab.active { display: flex } */
+form.shipcombat-npc-sheet .sheet-body,
+form.shipcombat-ordnance-sheet .sheet-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+form.shipcombat-npc-sheet .sheet-content,
+form.shipcombat-ordnance-sheet .sheet-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+form.shipcombat-npc-sheet .sheet-content > .tab.active,
+form.shipcombat-ordnance-sheet .sheet-content > .tab.active {
+  padding:    0.35rem 0.1rem 0.2rem;
+  gap:        0.5rem;
+  flex:       1 1 auto;
+  min-height: 0;
+  overflow:   hidden auto;
+  scrollbar-gutter: stable;
+}
+
+/* ── NPC ship: hide shield-allocation controls hint panel ────────────────── */
+form.shipcombat-npc-sheet .shipcombat-arc-hint-panel { display: none; }
+
+/* ── NPC ship: hide Roll Initiative and Refill Shields from Overview tab ─── */
+form.shipcombat-npc-sheet [data-action="npcRollInitiative"],
+form.shipcombat-npc-sheet [data-action="npcRefillShields"] { display: none; }
+
+/* ── NPC ship: shield zone-max panel — matches PC ship left-panel style ──── */
+/* Collapse 3-col grid to 2-col now that the hint panel is gone */
+form.shipcombat-npc-sheet .shipcombat-shield-alloc-row {
+  grid-template-columns: auto 1fr;
+  justify-items: start;
+}
+form.shipcombat-npc-sheet .shipcombat-shield-alloc-row .shipcombat-arc-compass-wrap {
+  justify-self: center;
+}
+/* Zone Max panel — remove the frame-elegant box; keep sizing tweaks only. */
+form.shipcombat-npc-sheet .shipcombat-shield-sector-list {
+  background:  none;
+  border:      none;
+  min-width:   5.5rem;
+  margin-left: 1rem;
+}
+form.shipcombat-npc-sheet .shipcombat-shield-sector-list .shipcombat-ssl-head {
+  color:          var(--color-pf-primary);
+  font:           600 var(--font-size-12, 0.75rem)/1 var(--serif);
+  opacity:        1;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+form.shipcombat-npc-sheet .shipcombat-shield-sector-list .shipcombat-ssl-label {
+  color:   var(--color-text-dark-secondary, #444);
+  opacity: 1;
+}
+/* Style the editable max input to look like the PC's static navy value */
+form.shipcombat-npc-sheet .shipcombat-npc-shield-max-input {
+  color:       var(--color-pf-secondary, #171f69);
+  background:  transparent;
+  border:      none;
+  box-shadow:  none;
+  width:       2.5rem;
+  text-align:  right;
+  font-weight: 700;
+  padding:     0;
+}
+
+/* ── NPC ship: native NPC-style npc-body > header ────────────────────────── */
+form.shipcombat-npc-sheet > .npc-body > header {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+}
+form.shipcombat-npc-sheet > .npc-body > header .name {
+  align-items: baseline;
+  border-bottom: 1px solid var(--faded-border-color, #7a7971);
+  flex-wrap: nowrap;
+  font: 700 1.75rem var(--sans-serif-condensed, var(--sans-serif));
+  padding-bottom: var(--space-2, 0.125rem);
+  width: 100%;
+}
+form.shipcombat-npc-sheet > .npc-body > header .name input {
+  font-family: var(--sans-serif-condensed, var(--sans-serif)) !important;
+  font-weight: inherit;
+  height: 2rem;
+}
+form.shipcombat-npc-sheet > .npc-body > header .name .name-value {
+  font-variant: small-caps;
+  margin-left: 0.375rem;
+  margin-right: 1.125rem;
+}
+/* level-label inherits font-size from .name (1.75rem) to match native NPC */
+form.shipcombat-npc-sheet > .npc-body > header .name .level-label {
+  flex: 0;
+  margin-right: 0.1em;
+  text-align: right;
+  text-transform: uppercase;
+}
+form.shipcombat-npc-sheet > .npc-body > header .name input.level {
+  flex: 0 0 2.5rem;
+  font-family: var(--sans-serif) !important;
+  text-align: center;
+  font-weight: 700;
+}
+form.shipcombat-npc-sheet > .npc-body > header .rarity-size {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+form.shipcombat-npc-sheet > .npc-body > header .rarity-size .tags.paizo-style {
+  display: flex;
+  gap: 0;
+}
+/* Trait tag selects — fully re-apply paizo-style pill appearance.
+   Our module CSS (loaded after sf2e) can override sf2e's background rules,
+   so we must explicitly set all pill properties here. */
+form.shipcombat-npc-sheet .tags.paizo-style select.tag {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: var(--color-bg-trait, #5e0000);
+  border: solid var(--color-border-trait, #d8c384);
+  border-radius: 0;
+  border-width: 2px 3px 2px 2px;
+  box-shadow: none;
+  color: var(--color-text-trait, white);
+  font-family: var(--sans-serif);
+  font-size: var(--font-size-13, 0.8125rem);
+  font-weight: 500;
+  height: auto;
+  letter-spacing: 0.05em;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0.15em 0.4em;
+  text-transform: uppercase;
+}
+form.shipcombat-npc-sheet .tags.paizo-style select.tag:first-child {
+  border-left-width: 5px;
+}
+form.shipcombat-npc-sheet .tags.paizo-style select.tag:last-child {
+  border-right-width: 5px;
+}
+form.shipcombat-npc-sheet .tags.paizo-style select.tag.rarity.common {
+  background-color: var(--color-rarity-common, #323232);
+}
+form.shipcombat-npc-sheet .tags.paizo-style select.tag.rarity.uncommon {
+  background-color: var(--color-rarity-uncommon, #98513d);
+}
+form.shipcombat-npc-sheet .tags.paizo-style select.tag.rarity.rare {
+  background-color: var(--color-rarity-rare, #002664);
+}
+form.shipcombat-npc-sheet .tags.paizo-style select.tag.rarity.unique {
+  background-color: var(--color-rarity-unique, #54166e);
+}
+form.shipcombat-npc-sheet .tags.paizo-style select.tag.size {
+  background-color: var(--color-bg-size, #3a7b59);
+}
+
+/* ── Elite / Weak adjustment buttons ────────────────────────────────────── */
+/* Mirror native SF2e .actor.npc.sheet form .trait + .adjustments rules. */
+form.shipcombat-npc-sheet > .npc-body > header .adjustments {
+  align-items: center;
+  display: flex;
+  justify-content: end;
+}
+form.shipcombat-npc-sheet > .npc-body > header .adjustments .trait {
+  background: var(--color-pf-primary, #5e0000);
+  border: 2px solid var(--color-border-trait, #d8c384);
+  color: var(--color-text-trait, white);
+  cursor: pointer;
+  flex: auto 0 0;
+  font-family: var(--sans-serif);
+  font-size: 0.9em;
+  font-weight: 500;
+  padding: 0.25rem;
+  text-transform: uppercase;
+  user-select: none;
+}
+form.shipcombat-npc-sheet > .npc-body > header .adjustments .trait.active {
+  background-color: var(--color-pf-primary, #5e0000);
+  color: var(--color-text-light-0, #f4ece9);
+}
+form.shipcombat-npc-sheet > .npc-body > header .adjustments .trait:not(.active) {
+  background-color: var(--color-disabled, #a9a9a9);
+  color: var(--color-text-trait, #f4ece9);
+}
+
+/* ── Elite / Weak adjustment coloring — stat inputs and HP ──────────────── */
+/* Mirrors .actor.npc.sheet form input.adjustable.adjusted-higher/lower      */
+form.shipcombat-npc-sheet .adjustment-elite-target,
+form.shipcombat-npc-sheet.adjustment-elite .shipcombat-stat-table input[type="number"],
+form.shipcombat-npc-sheet.adjustment-elite .hit-points .current,
+form.shipcombat-npc-sheet.adjustment-elite .hit-points .max {
+  color: var(--color-pf-text-adjusted-higher, #009988) !important;
+}
+form.shipcombat-npc-sheet.adjustment-weak .shipcombat-stat-table input[type="number"],
+form.shipcombat-npc-sheet.adjustment-weak .hit-points .current,
+form.shipcombat-npc-sheet.adjustment-weak .hit-points .max {
+  color: var(--color-pf-text-adjusted-lower, #cc3311) !important;
+}
+
+/* Traits row — tagify-tags component fills full width, same as native NPC */
+form.shipcombat-npc-sheet > .npc-body > header .flexrow tagify-tags {
+  width: 100%;
+}
+/* Blurb input — full-width plain text input */
+form.shipcombat-npc-sheet > .npc-body > header .flexrow input[name="system.details.blurb"] {
+  font-family: var(--sans-serif);
+  font-size: var(--font-size-13, 0.8125rem);
+  width: 100%;
+}
+/* ── NPC stat table: PIL TEC GUN SPD MAN ASR BND RTG ────────────────────── */
+.shipcombat-npc-sheet .shipcombat-stat-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--sans-serif);
+}
+.shipcombat-npc-sheet .shipcombat-stat-table td {
+  text-align: center;
+  padding: 2px 3px;
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.shipcombat-npc-sheet .shipcombat-stat-table tr:first-child td {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--color-pf-primary, #5e0000);
+  background: rgba(0, 0, 0, 0.04);
+  text-transform: uppercase;
+}
+.shipcombat-npc-sheet .shipcombat-stat-table input[type="number"] {
+  width: 100%;
+  text-align: center;
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-weight: 600;
+  color: var(--text-dark, #1c1c1c);
+}
+/* ── NPC sidebar: portrait image ────────────────────────────────────────── */
+form.shipcombat-npc-sheet .sidebar .image-container {
+  line-height: 0;
+}
+form.shipcombat-npc-sheet .sidebar .image-container .profile-img {
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0 1px #918c88, 0 0 0 2px #e1d8cf, 0 0 0 3px #a98f39,
+              inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  height: auto;
+  object-fit: cover;
+  width: 100%;
+}
+
+/* ── NPC sidebar: identity section (Classification + Model) ─────────────── */
+form.shipcombat-npc-sheet .sidebar .subsection.identity {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2, 0.125rem);
+}
+form.shipcombat-npc-sheet .sidebar .subsection.identity select,
+form.shipcombat-npc-sheet .sidebar .subsection.identity input[type="text"] {
+  background: rgba(28, 28, 28, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+  color: var(--text-dark, #1c1c1c);
+  font-family: var(--sans-serif);
+  font-size: var(--font-size-12, 0.75rem);
+  font-weight: 600;
+  min-height: 1.5rem;
+  padding: 2px 6px;
+  width: 100%;
+}
+
+/* ── NPC sidebar: IWR (Immunities / Weaknesses / Resistances) ───────────── */
+/* Edit-pencil button sits at the trailing edge of the subsection header */
+form.shipcombat-npc-sheet .sidebar .subsection > header .controls {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+form.shipcombat-npc-sheet .sidebar .subsection > header .controls a {
+  color: var(--color-text-dark-secondary, #555);
+  font-size: var(--font-size-12, 0.75rem);
+  opacity: 0.6;
+}
+form.shipcombat-npc-sheet .sidebar .subsection > header .controls a:hover {
+  opacity: 1;
+}
+/* Dim label when the IWR list is empty — mirrors native .empty rule */
+form.shipcombat-npc-sheet .sidebar .subsection > header label.empty {
+  border-color: var(--color-text-dark-inactive);
+  color: var(--color-text-dark-inactive);
+}
+/* Comma-separated inline list for IWR entries — mirrors native NPC */
+form.shipcombat-npc-sheet .sidebar .comma-separated {
+  display: inline;
+  font-size: var(--font-size-12, 0.75rem);
+  list-style: none;
+  margin: 0 0 var(--space-3, 0.1875rem);
+  padding: 0;
+}
+form.shipcombat-npc-sheet .sidebar .comma-separated li {
+  display: inline;
+  margin: 0;
+}
+form.shipcombat-npc-sheet .sidebar .comma-separated li::after { content: ","; }
+form.shipcombat-npc-sheet .sidebar .comma-separated li:last-child::after { content: ""; }
+
+/* ── Overview stat table: fills available width ────────────────────────── */
+.shipcombat-npc-body .shipcombat-overview-stat-table {
+  width: 100%;
+}
+
+/* ── Generic inputs inside both sheets ──────────────────────────────────── */
+.shipcombat-npc-sheet input[type="text"],
+.shipcombat-npc-sheet input[type="number"],
+.shipcombat-npc-sheet select,
+.shipcombat-ordnance-sheet input[type="text"],
+.shipcombat-ordnance-sheet input[type="number"],
+.shipcombat-ordnance-sheet select {
+  font-family: var(--sans-serif) !important;
+  color: var(--text-dark, #1c1c1c);
+}
+/* Inputs inside the ordnance/torpedo header card */
+.shipcombat-ordnance-sheet .shipcombat-torpedo-header-block .details-row.name input[name="name"] {
+  width: 100%;
+  font: 600 var(--font-size-16, 1rem)/1.2 var(--serif);
+  background: rgba(28, 28, 28, 0.08);
+  border: none;
+  border-bottom: 1px solid var(--color-border-dark-input, #786452);
+  border-radius: 0;
+  padding: 2px 4px;
+  color: var(--text-dark, #1c1c1c);
+}
+
+/* ── Ordnance header: portrait + bars ───────────────────────────────────── */
+.shipcombat-ordnance-sheet .shipcombat-header {
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--color-border-divider, rgba(0, 0, 0, 0.12));
+}
+.shipcombat-ordnance-sheet .sheet-header {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+}
+.shipcombat-ordnance-sheet .sheet-header .profile {
+  flex: 0 0 70px;
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 0;
+  border: none;
+  box-shadow: 0 0 0 1px #918c88, 0 0 0 2px #e1d8cf, 0 0 0 3px #a98f39,
+              inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+.shipcombat-ordnance-sheet .header-details {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+}
+.shipcombat-ordnance-sheet .shipcombat-torpedo-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* ── Buttons inside NPC + ordnance sheets: navy SF2e action style ───────── */
+.shipcombat-npc-sheet button:not(.shipcombat-ram-btn),
+.shipcombat-ordnance-sheet button:not(.shipcombat-ram-btn) {
+  background: var(--color-pf-secondary, #171f69);
+  border: 1px solid var(--color-pf-secondary-lighter, rgb(41, 56, 189));
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.5);
+  color: var(--text-light, #f7f5ee);
+  font-family: var(--sans-serif);
+  font-weight: 500;
+  padding: 2px 8px;
+  text-shadow: none;
+}
+.shipcombat-npc-sheet button:not(.shipcombat-ram-btn):hover:not([disabled]),
+.shipcombat-ordnance-sheet button:not(.shipcombat-ram-btn):hover:not([disabled]) {
+  background: var(--color-pf-secondary-light, rgb(32, 43, 147));
+  border-color: var(--color-pf-secondary-lighter, rgb(41, 56, 189));
+}
+.shipcombat-npc-sheet button[disabled],
+.shipcombat-ordnance-sheet button[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+/* AppV1 sets width:100% on bare <button>; constrain to content width */
+.window-app form.shipcombat-npc-sheet button,
+.window-app form.shipcombat-ordnance-sheet button {
+  width: auto;
+}
+
+/* ── Section headers (list-header) inside both sheets ───────────────────── */
+.shipcombat-npc-sheet .sheet-list .list-header,
+.shipcombat-ordnance-sheet .sheet-list .list-header {
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--color-border-divider, rgba(0, 0, 0, 0.15));
+  border-radius: 0;
+  box-shadow: none;
+  color: var(--color-pf-primary, #5e0000);
+  font: 600 var(--font-size-14, 0.875rem)/1 var(--serif);
+  margin: 0.4rem 0 0.2rem;
+  padding: 0 0 0.2rem;
+  text-transform: none;
+  height: auto;
+}
+.shipcombat-npc-sheet .sheet-list .list-header .list-name,
+.shipcombat-ordnance-sheet .sheet-list .list-header .list-name {
+  color: var(--color-pf-primary, #5e0000);
+}
+
+/* ── Ordnance config rows: align labels and inputs ──────────────────────── */
+.shipcombat-ordnance-sheet .shipcombat-config-row {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  column-gap: 0.6rem;
+  align-items: center;
+  margin: 0.25rem 0;
+}
+

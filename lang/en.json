@@ -1,0 +1,156 @@
+{
+  "TYPES": {
+    "Actor": {
+      "causodes-shipcombat-sf2e.ship": "Player Starship",
+      "causodes-shipcombat-sf2e.npcShip": "NPC Starship",
+      "causodes-shipcombat-sf2e.shipOrdnance": "Starship Ordnance"
+    },
+    "Item": {
+      "causodes-shipcombat-sf2e.component": "Starship Component"
+    }
+  },
+  "SHIPCOMBAT": {
+    "Sheet": {
+      "Ship": "Causodes Ship (SF2e)",
+      "NpcShip": "Causodes NPC Ship (SF2e)",
+      "Ordnance": "Causodes Ordnance (SF2e)",
+      "Component": "Starship Component",
+      "ComponentSummary": "Component Summary"
+    },
+    "SubTab": {
+      "CoreDistribution": "Core Distribution",
+      "HeatManagement": "Heat Management",
+      "FireSuppression": "Fire Suppression",
+      "HullRepair": "Hull Repair",
+      "Voidshields": "Voidshields",
+      "Shields": "Shields",
+      "HelmControl": "Helm Control",
+      "Core": "Core",
+      "Overcharge": "Overcharge",
+      "Leadership": "Leadership",
+      "Conditions": "Conditions",
+      "Orders": "Orders",
+      "Ordnance": "Ordnance",
+      "Payload": "Payloads",
+      "Actions": "Actions",
+      "Weapons": "Weapons",
+      "Deployed": "Deployed",
+      "Radar": "Radar",
+      "BDA": "BDA",
+      "Abilities": "Abilities",
+      "Sensors": "Sensors"
+    },
+    "SF2E": {
+      "MainSkill": {
+        "Diplomacy": "Diplomacy",
+        "Crafting": "Crafting",
+        "Piloting": "Piloting",
+        "Computers": "Computers",
+        "Acrobatics": "Acrobatics",
+        "Athletics": "Athletics",
+        "Perception": "Perception"
+      }
+    },
+    "Label": {
+      "Fire": "Fire",
+      "Hardness": "Hardness",
+      "Crew": "Crew",
+      "Passengers": "Passengers",
+      "Price": "Price",
+      "Components": "Components",
+      "Slot": "Slot",
+      "Cost": "Cost (SP)",
+      "Equipped": "Equipped",
+      "Armour": "Hardness",
+      "ArmourVoidshields": "Hardness | Shields",
+      "ShipLevel": "Ship"
+    },
+    "Action": {
+      "AddTrait": "Add Trait"
+    },
+    "Gunner": {
+      "AccuracyTooltip": "+1 to hit per point allocated",
+      "DevastatingBroadside": "Max Firepower",
+      "StatusTitle": "Weapons Status",
+      "OrdnanceAllocation": "Weapons Allocation",
+      "OrdnanceSL": "Gunnery Points",
+      "OrdnanceSLTooltip": "Roll Gunnery to generate Points for Accuracy, Penetration, and Firepower allocation.",
+      "Accuracy": "Accuracy",
+      "FirepowerTooltip": "+1 damage per point allocated",
+      "RangingFireDesc": "Fires half a salvo at −2 to hit. If any shot connects, it brackets the target – granting +2 to hit against that ship with ALL weapon batteries for the rest of the round.",
+      "PenetrationTooltip": "+1 Hardness Penetration per point allocated"
+    },
+    "Helm": {
+      "EvasionTooltip": "Each point allocated increases your ship's AC by 1 this round.",
+      "PilotingSL": "Piloting Points",
+      "PilotingSLTooltip": "Roll Piloting to generate Points for Speed, Maneuverability, and Evasion allocation.",
+      "Evasion": "Evasion"
+    },
+    "Engineer": {
+      "EngineeringSL": "Engineering Points",
+      "EngineeringSLTooltip": "Roll Engineering to generate Points for Speed, Maneuverability, and Evasion allocation."
+    },
+    "Captain": {
+      "LeadershipSL": "Command Points",
+      "LeadershipSLTooltip": "Roll Leadership to generate Points for Inspire, Resolve, and Initiative allocation.",
+      "Card": {
+        "repairArmour": "Hardness Repair",
+        "Desc": {
+          "repairArmour": "Fully restore rend damage on one sector, resetting its effective hardness to maximum."
+        }
+      },
+      "Core": {
+        "BCPrompt": "Choose an enemy to designate as the priority target. All weapons fired at this target gain +10 accuracy, 2 hardness penetration, and 2 shield burn this round.",
+        "RATitle": "Hardness Repair - Select Sector",
+        "RAPrompt": "Choose which sector to fully restore rend hardness damage."
+      }
+    },
+    "Component": {
+      "Rating": "Hit Modifier",
+      "SensorRating": "Sensor Hit Modifier",
+      "AutoScanRange": "Optimal Range",
+      "HitRatingModifier": "Hit Modifier",
+      "HitRatingModifierDesc": "Applies a flat bonus or penalty to the hit roll for all shots from this battery.",
+      "ArmorClass": "Armor Class",
+      "ArmourClassContribution": "AC Contribution",
+
+      "ArmourValues": "Hardness Plating"
+    },
+    "Tooltip": {
+      "Classification": "The ship's class or type designation",
+      "Model": "The manufacturer's model designation for this vessel",
+      "Crew": "Minimum number of crew members required to operate this ship",
+      "Passengers": "Maximum number of passengers this ship can carry",
+      "Price": "The purchase price of this ship"
+    },
+    "Sensors": {
+      "DeepScanDesc": "Upgrade to Lock 3. Reveals hardness, shield values, hull, AC, and weapon fire arcs per sector. Shows actual ship name.",
+      "TargetingSolutionDesc": "Upgrade to Lock 4. Reveals conditions and defenses (immunities, weaknesses, resistances). Gunner gets +2 to accuracy against this target."
+    },
+    "BDA": {
+      "ResultLabel": "Points Granted:",
+      "AdjustBearingDesc": "+2 to hit on the next attack with this weapon at this target.",
+      "TargetWeakPointDesc": "+Points bonus to hardness penetration on the next attack.",
+      "FireForEffectDesc": "Each Point reduces the critical hit threshold by 1 (base crit requires exceeding AC by 10; stacks with the Devastating weapon trait)."
+    },
+    "Slot": {
+      "Armour": "Hardness"
+    },
+    "Fire": {
+      "Armour": "hardness",
+      "SectorArmour": "sector hardness",
+      "BlockedByArmour": "Blocked by Hardness"
+    },
+    "Payload": {
+      "APShellsDesc": "+2 hardness penetration on all macro cannon attacks this round."
+    },
+    "Trait": {
+      "RendDesc": "Each hit that gets through shields permanently reduces sector hardness by this value - even if hardness absorbs all resulting hull damage. The hardness reduction still occurs regardless of whether hull damage is dealt.",
+      "ArmourPenetration": "Hardness Penetration",
+      "ArmourPenetrationDesc": "Reduces the target sector's effective hardness by this value when calculating damage per hit.",
+      "DevastatingDesc": "Doubles (11, 22, 33, etc.) that hit deal additional damage equal to this value, still reduced by the target's hardness.",
+      "Unreliable": "Unreliable",
+      "UnreliableDesc": "On a critical failure — the shot misses by 10 or more after nat-20/nat-1 degree adjustments — the shot jams and the entire salvo is lost. A natural 1 that is promoted to a miss (e.g. nat-1 on a hit) does not trigger a jam."
+    }
+  }
+}

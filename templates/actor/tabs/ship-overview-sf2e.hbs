@@ -1,0 +1,338 @@
+{{!--
+  modules/causodes-shipcombat-sf2e/templates/actor/tabs/ship-overview-sf2e.hbs
+
+  SF2e ship overview tab — registered via partTemplates["overview"] override
+  in ShipSheet.getData(). Loaded under its full path in the "setup" hook.
+
+  Context note: called from inside {{#with @root}} in ship-sheet-sf2e.hbs, so
+  all root-level vars (isGM, sys, roles, …) resolve directly on `this`.
+  Inside nested {{#each}} blocks, use @root.isGM / @root.isOwner.
+--}}
+<section class="tab {{tab.cssClass}}" data-group="primary" data-tab="{{tab.id}}">
+
+    {{!-- ── Compact identity block ──────────────────────────────────────────── --}}
+    {{!--  [portrait]  [ Classification       | Model            ]              --}}
+    {{!--              [ Crew | Passengers     | Price            ]              --}}
+    {{!--              [ Traits  [R] [S] [custom…] [+]           ]              --}}
+    <section class="ship-identity">
+
+        {{!-- Square portrait (data-edit triggers Foundry's native file picker) --}}
+        <div class="ship-portrait image-container">
+            <img class="actor-image" src="{{actor.img}}" alt="{{actor.name}}"
+                 data-edit="img" />
+        </div>
+
+        {{!-- Detail column: three rows of fields --}}
+        <div class="ship-detail-cols">
+
+            {{!-- Row 1: Classification + Model --}}
+            <div class="ship-detail-row">
+                <div class="inputSplit flex-2" title="{{localize 'SHIPCOMBAT.Tooltip.Classification'}}">
+                    <label class="details-label">{{localize "SHIPCOMBAT.NpcShip.Classification"}}</label>
+                    {{#if isGM}}
+                    <select class="details-input" name="system.classification">
+                        <option value="">—</option>
+                        {{#each shipClassifications as |cls|}}
+                        <option value="{{cls.value}}" {{#if (eq ../sys.classification cls.value)}}selected{{/if}}>{{cls.label}}</option>
+                        {{/each}}
+                    </select>
+                    {{else}}
+                    <span class="details-input">{{#if sys.classification}}{{sys.classification}}{{else}}&mdash;{{/if}}</span>
+                    {{/if}}
+                </div>
+                <div class="inputSplit flex-3" title="{{localize 'SHIPCOMBAT.Tooltip.Model'}}">
+                    <label class="details-label">{{localize "SHIPCOMBAT.NpcShip.Model"}}</label>
+                    {{#if isGM}}
+                    <input class="details-input" type="text" name="system.model" value="{{sys.model}}" placeholder="—">
+                    {{else}}
+                    <span class="details-input">{{#if sys.model}}{{sys.model}}{{else}}&mdash;{{/if}}</span>
+                    {{/if}}
+                </div>
+            </div>
+
+            {{!-- Row 2: Crew + Passengers + Price --}}
+            <div class="ship-detail-row">
+                <div class="inputSplit flex-3" title="{{localize 'SHIPCOMBAT.Tooltip.Crew'}}">
+                    <label class="details-label">{{localize "SHIPCOMBAT.Label.Crew"}}</label>
+                    <input class="details-input" type="text" name="system.crew"
+                           value="{{sys.crew}}" {{#unless isGM}}disabled{{/unless}}>
+                </div>
+                <div class="inputSplit flex-3" title="{{localize 'SHIPCOMBAT.Tooltip.Passengers'}}">
+                    <label class="details-label">{{localize "SHIPCOMBAT.Label.Passengers"}}</label>
+                    <input class="details-input" type="text" name="system.passengers"
+                           value="{{sys.passengers}}" {{#unless isGM}}disabled{{/unless}}>
+                </div>
+                <div class="inputSplit flex-3" title="{{localize 'SHIPCOMBAT.Tooltip.Price'}}">
+                    <label class="details-label">{{localize "SHIPCOMBAT.Label.Price"}}</label>
+                    <input class="details-input" type="number" name="system.price"
+                           value="{{sys.price}}" min="0" {{#unless isGM}}disabled{{/unless}}>
+                </div>
+            </div>
+
+            {{!-- Row 3: Traits — matches SF2e vehicle sheet 1:1 --}}
+            {{!-- traitsList is [{value,label}] built in ShipSheet.getData()   --}}
+            <div class="ship-detail-row">
+                <div class="inputSplit flex-full">
+                    <span class="details-label">{{localize "PF2E.Traits"}}</span>
+                    <ul class="tags">
+                        {{!-- Custom trait tags — localized label from vehicleTraits config --}}
+                        {{#each traitsList as |trait|}}
+                        <li class="tag tag_alt" data-slug="{{trait.value}}">{{trait.label}}</li>
+                        {{/each}}
+                        {{!-- Edit button: opens ShipTraitSelector (mirrors SF2e vehicle sheet) --}}
+                        {{#if isGM}}
+                        <li class="tag tag_secondary edit-btn">
+                            <a class="tag-selector" data-tag-selector="basic"
+                               data-config-types="vehicleTraits"
+                               data-property="system.traits">
+                                <i class="fa-solid fa-plus"></i>
+                            </a>
+                        </li>
+                        {{/if}}
+                    </ul>
+                </div>
+            </div>
+
+        </div>{{!-- end .ship-detail-cols --}}
+    </section>{{!-- end .ship-identity --}}
+
+    <hr class="ship-identity-divider" />
+
+    {{!-- Sub-nav: Bridge Crew ↔ Installed Components --}}
+    <nav class="sub-nav overview-sub-nav">
+        <a data-sub-tab="crew">{{localize "SHIPCOMBAT.Label.Crew"}}</a>
+        <a data-sub-tab="components">{{localize "SHIPCOMBAT.Label.Components"}}</a>
+    </nav>
+
+    {{!-- Sub-tab panels --}}
+    <div class="overview-panels">
+
+        {{!-- ── Panel: Bridge Crew ────────────────────────────────────────── --}}
+        <div class="tab" data-sub-tab="crew">
+            <section class="crew-inventory-list">
+                <header>
+                    <h3 class="crew-col-name">{{localize "SHIPCOMBAT.Label.BridgeCrew"}}</h3>
+                    <span class="crew-col-role">{{localize "SHIPCOMBAT.Label.Role"}}</span>
+                    <span class="crew-col-ready">{{localize "SHIPCOMBAT.Label.ActionReady"}}</span>
+                    <span class="crew-col-skill">{{localize "SHIPCOMBAT.Label.MainSkill"}}</span>
+                    <div class="crew-col-controls item-controls">
+                        {{#if isGM}}<a data-action="fullReset" class="crew-reset" data-tooltip="{{localize 'SHIPCOMBAT.Tooltip.FullReset'}}"><i class="fa-solid fa-rotate"></i></a>{{/if}}
+                    </div>
+                </header>
+                <ul class="items">
+                    {{#each roles}}
+                    {{#if assignedActor}}
+                    <li data-role-id="{{id}}" data-role-drop="{{id}}">
+                        <div class="crew-col-name crew-name-wrap">
+                            {{#if assignedActor.img}}<img src="{{assignedActor.img}}" class="crew-portrait">{{/if}}
+                            <span>{{assignedActor.name}}</span>
+                            {{#if isMyRole}}
+                            <button data-action="releaseRole" data-role-id="{{id}}" class="crew-release" data-tooltip="{{localize 'SHIPCOMBAT.Action.Release'}}"><i class="fa-solid fa-right-from-bracket"></i></button>
+                            {{else if @root.isGM}}
+                            <a data-action="unassignRole" data-role-id="{{id}}" class="crew-release" data-tooltip="{{localize 'SHIPCOMBAT.Action.Release'}}"><i class="fa-solid fa-xmark"></i></a>
+                            {{/if}}
+                        </div>
+                        <span class="crew-col-role">
+                            {{#if @root.isOwner}}<input class="crew-role-input" type="text" data-role-title="{{id}}" value="{{labelLocalized}}" placeholder="{{defaultLabel}}">{{else}}{{labelLocalized}}{{/if}}
+                        </span>
+                        <span class="crew-col-ready {{#if turnDone}}crew-yes{{else}}crew-no{{/if}}">
+                            {{#if turnDone}}{{localize "SHIPCOMBAT.Value.Yes"}}{{else}}{{localize "SHIPCOMBAT.Value.No"}}{{/if}}
+                        </span>
+                        <span class="crew-col-skill">
+                            {{#if @root.isOwner}}
+                            <select class="crew-skill-select" data-role-skill-override="{{id}}">
+                                {{#each skillOptions}}
+                                <option value="{{value}}" {{#if selected}}selected{{/if}} data-base-label="{{baseLabel}}" data-full-label="{{label}}">{{label}}</option>
+                                {{/each}}
+                            </select>
+                            {{else}}{{mainSkill.label}}{{#if mainSkill.hasValue}} {{mainSkill.value}}{{/if}}{{/if}}
+                        </span>
+                        <div class="crew-col-controls item-controls"></div>
+                    </li>
+                    {{else if assignedUser}}
+                    <li data-role-id="{{id}}" data-role-drop="{{id}}">
+                        <div class="crew-col-name crew-name-wrap">
+                            <i class="fa-solid fa-user"></i>
+                            <span>{{assignedUser.name}}</span>
+                            {{#if isMyRole}}
+                            <button data-action="releaseRole" data-role-id="{{id}}" class="crew-release" data-tooltip="{{localize 'SHIPCOMBAT.Action.Release'}}"><i class="fa-solid fa-right-from-bracket"></i></button>
+                            {{else if @root.isGM}}
+                            <a data-action="unassignRole" data-role-id="{{id}}" class="crew-release" data-tooltip="{{localize 'SHIPCOMBAT.Action.Release'}}"><i class="fa-solid fa-xmark"></i></a>
+                            {{/if}}
+                        </div>
+                        <span class="crew-col-role">
+                            {{#if @root.isOwner}}<input class="crew-role-input" type="text" data-role-title="{{id}}" value="{{labelLocalized}}" placeholder="{{defaultLabel}}">{{else}}{{labelLocalized}}{{/if}}
+                        </span>
+                        <span class="crew-col-ready {{#if turnDone}}crew-yes{{else}}crew-no{{/if}}">
+                            {{#if turnDone}}{{localize "SHIPCOMBAT.Value.Yes"}}{{else}}{{localize "SHIPCOMBAT.Value.No"}}{{/if}}
+                        </span>
+                        <span class="crew-col-skill">
+                            {{#if @root.isOwner}}
+                            <select class="crew-skill-select" data-role-skill-override="{{id}}">
+                                {{#each skillOptions}}
+                                <option value="{{value}}" {{#if selected}}selected{{/if}} data-base-label="{{baseLabel}}" data-full-label="{{label}}">{{label}}</option>
+                                {{/each}}
+                            </select>
+                            {{else}}{{defaultSkillLabel}}{{/if}}
+                        </span>
+                        <div class="crew-col-controls item-controls"></div>
+                    </li>
+                    {{else}}
+                    <li class="crew-empty" data-role-id="{{id}}" data-role-drop="{{id}}">
+                        <div class="crew-col-name crew-name-wrap">
+                            <span class="crew-muted">{{localize "SHIPCOMBAT.Label.Unassigned"}}</span>
+                        </div>
+                        <span class="crew-col-role">
+                            {{#if @root.isOwner}}<input class="crew-role-input crew-muted" type="text" data-role-title="{{id}}" value="{{labelLocalized}}" placeholder="{{defaultLabel}}">{{else}}<span class="crew-muted">{{labelLocalized}}</span>{{/if}}
+                        </span>
+                        <span class="crew-col-ready">&mdash;</span>
+                        <span class="crew-col-skill">
+                            {{#if @root.isOwner}}
+                            <select class="crew-skill-select" data-role-skill-override="{{id}}">
+                                {{#each skillOptions}}
+                                <option value="{{value}}" {{#if selected}}selected{{/if}} data-base-label="{{baseLabel}}" data-full-label="{{label}}">{{label}}</option>
+                                {{/each}}
+                            </select>
+                            {{else}}{{defaultSkillLabel}}{{/if}}
+                        </span>
+                        <div class="crew-col-controls item-controls">
+                            {{#unless @root.isGM}}<button data-action="claimRole" data-role-id="{{id}}" class="crew-claim">{{localize "SHIPCOMBAT.Action.Claim"}}</button>{{/unless}}
+                        </div>
+                    </li>
+                    {{/if}}
+                    {{/each}}
+                </ul>
+                <div class="crew-end-turn">
+                    <button class="blue crew-end-turn-btn" data-action="endShipTurn"
+                            {{#unless (and allRolesReady isActiveCombatant)}}disabled{{/unless}}
+                            data-tooltip="{{#if (and allRolesReady isActiveCombatant)}}{{localize 'SHIPCOMBAT.Tooltip.EndShipTurn'}}{{else if isActiveCombatant}}{{localize 'SHIPCOMBAT.Tooltip.EndShipTurnLocked'}}{{else}}{{localize 'SHIPCOMBAT.Tooltip.EndShipTurnNotActive'}}{{/if}}">
+                        {{localize "SHIPCOMBAT.Action.EndShipTurn"}}
+                    </button>
+                </div>
+            </section>
+        </div>{{!-- [data-sub-tab=crew] --}}
+
+        {{!-- ── Panel: Installed Components ──────────────────────────────── --}}
+        <div class="tab" data-sub-tab="components">
+            <ol class="directory-list">
+                <li class="action-header">
+                    <h3>{{localize "SHIPCOMBAT.Label.InstalledComponents"}}</h3>
+                </li>
+                <li class="components-li">
+
+        {{!-- Weapon Batteries --}}
+        <div class="shipcombat-ov-comp-section">
+            <div class="shipcombat-ov-weapon-section-label">{{localize "SHIPCOMBAT.Slot.Weapon"}}</div>
+            <div class="shipcombat-ov-weapon-grid shipcombat-ov-weapon-grid--battery">
+                {{#each weaponSectionsAll}}
+                {{#if slotCount}}
+                <div class="shipcombat-ov-weapon-cell">
+                    <div class="shipcombat-ov-weapon-pos">{{labelLocalized}} {{#if slotCount}}<span class="shipcombat-ov-weapon-slots">{{items.length}}&thinsp;/&thinsp;{{slotCount}}</span>{{/if}}</div>
+                    {{#each items}}
+                    <div class="shipcombat-ov-comp-row" data-id="{{id}}" data-uuid="{{uuid}}">
+                        <a class="shipcombat-ov-comp-chip" data-action="openItem" data-id="{{id}}" data-tooltip="{{name}}">
+                            <img src="{{img}}"><span>{{name}}</span>
+                        </a>
+                        {{#if @root.canEditComponents}}
+                        <a data-action="unassignWeapon" class="shipcombat-ov-unassign" data-tooltip="{{localize 'SHIPCOMBAT.Action.RemoveFromSlot'}}"><i class="fa-solid fa-xmark"></i></a>
+                        {{/if}}
+                    </div>
+                    {{/each}}
+                    {{#if @root.canEditComponents}}
+                    {{#unless slotFull}}
+                    <select data-weapon-assign="{{id}}" class="shipcombat-ov-weapon-add" {{#unless inventory.length}}disabled{{/unless}}>
+                        <option value="">{{#if inventory.length}}— {{localize "SHIPCOMBAT.Label.AddFromInventory"}} —{{else}}{{localize "SHIPCOMBAT.Label.NoWeapons"}}{{/if}}</option>
+                        {{#each inventory}}
+                        <option value="{{id}}">{{name}}</option>
+                        {{/each}}
+                    </select>
+                    {{/unless}}
+                    {{/if}}
+                </div>
+                {{/if}}
+                {{/each}}
+            </div>
+        </div>
+
+        {{!-- Ordnance Slots --}}
+        {{#if ordnanceSlotCount}}
+        <div class="shipcombat-ov-comp-section">
+            <div class="shipcombat-ov-weapon-section-label">{{localize "SHIPCOMBAT.Label.OrdnanceSlots"}} <span class="shipcombat-ov-weapon-slots">{{ordnanceOccupiedCount}}/{{ordnanceSlotCount}}</span></div>
+            <div class="shipcombat-ov-ordnance-box">
+                {{#each ordnanceSelectorSlots}}
+                {{#if activeName}}
+                <div class="shipcombat-ov-comp-row">
+                    <a class="shipcombat-ov-comp-chip" data-action="viewOrdnanceActor" data-actor-id="{{activeId}}" data-tooltip="{{activeName}}">
+                        {{#if activeImg}}<img src="{{activeImg}}">{{/if}}<span>{{activeName}}</span>
+                    </a>
+                    {{#if @root.canEditComponents}}
+                    <a data-action="clearOrdnanceSlot" data-slot-index="{{index}}" class="shipcombat-ov-unassign" data-tooltip="{{localize 'SHIPCOMBAT.Action.RemoveFromSlot'}}"><i class="fa-solid fa-xmark"></i></a>
+                    {{/if}}
+                </div>
+                {{/if}}
+                {{/each}}
+                {{#if canEditComponents}}{{#if ordnanceHasRoom}}{{#if ordnanceInventory.length}}
+                <select data-ordnance-slot-index="{{nextOrdnanceSlotIndex}}" class="shipcombat-ov-weapon-add shipcombat-ov-ordnance-add">
+                    <option value="">— {{localize "SHIPCOMBAT.Label.AddFromInventory"}} —</option>
+                    {{#each ordnanceInventory}}
+                    <option value="{{value}}">{{name}}</option>
+                    {{/each}}
+                </select>
+                {{/if}}{{/if}}{{/if}}
+                {{#unless ordnanceOccupiedCount}}{{#unless canEditComponents}}
+                <span class="shipcombat-ov-empty">&mdash;</span>
+                {{/unless}}{{/unless}}
+            </div>
+        </div>
+        {{/if}}
+
+        {{!-- Equipment Slots --}}
+        {{#if equipmentDropdowns.length}}
+        <div class="shipcombat-ov-comp-section">
+            <div class="shipcombat-ov-weapon-section-label">{{localize "SHIPCOMBAT.Label.Equipment"}}</div>
+            <div class="shipcombat-ov-weapon-grid">
+                {{#each equipmentDropdowns}}
+                <div class="shipcombat-ov-weapon-cell">
+                    <div class="shipcombat-ov-weapon-pos">{{label}}</div>
+                    {{#if @root.canEditComponents}}
+                    {{#if installedId}}
+                    {{!-- Slot full: chip + remove button, no dropdown --}}
+                    <div class="shipcombat-ov-comp-row">
+                        <a class="shipcombat-ov-comp-chip" data-action="openItem" data-id="{{installedId}}" data-tooltip="{{installedName}}">
+                            {{#if installedImg}}<img src="{{installedImg}}">{{/if}}<span>{{installedName}}</span>
+                        </a>
+                        <a data-unassign-equip="{{id}}" class="shipcombat-ov-unassign" data-tooltip="{{localize 'SHIPCOMBAT.Action.RemoveFromSlot'}}"><i class="fa-solid fa-xmark"></i></a>
+                    </div>
+                    {{else}}
+                    {{!-- Slot empty: dropdown to add --}}
+                    <select data-equip-slot="{{id}}" class="shipcombat-ov-weapon-add">
+                        <option value="">— {{localize "SHIPCOMBAT.Label.AddFromInventory"}} —</option>
+                        {{#each options}}
+                        <option value="{{id}}" data-img="{{img}}">{{name}}</option>
+                        {{/each}}
+                    </select>
+                    {{/if}}
+                    {{else}}
+                    {{#if installedId}}
+                    <div class="shipcombat-ov-comp-row" data-id="{{installedId}}">
+                        <a class="shipcombat-ov-comp-chip" data-action="openItem" data-id="{{installedId}}" data-tooltip="{{installedName}}">
+                            {{#if installedImg}}<img src="{{installedImg}}">{{/if}}<span>{{installedName}}</span>
+                        </a>
+                    </div>
+                    {{else}}
+                    <span class="shipcombat-ov-empty">&mdash;</span>
+                    {{/if}}
+                    {{/if}}
+                </div>
+                {{/each}}
+            </div>
+        </div>
+        {{/if}}
+
+                </li>{{!-- .components-li --}}
+            </ol>{{!-- .directory-list --}}
+        </div>{{!-- [data-sub-tab=components] --}}
+
+    </div>{{!-- .overview-panels --}}
+
+</section>

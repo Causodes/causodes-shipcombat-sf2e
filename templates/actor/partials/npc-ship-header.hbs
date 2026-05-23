@@ -1,0 +1,51 @@
+{{!-- SF2e adapter: NPC ship identity header — matches native SF2e NPC header layout. --}}
+<header>
+
+  {{!-- Name row: ship name + "SHIP" label + level number ------------------- --}}
+  <div class="name flexrow bottom-separator">
+    <input class="name-value" name="name" type="text" value="{{actor.name}}"
+      placeholder="{{localize 'SHIPCOMBAT.NpcShip.ShipName'}}" autocomplete="off" spellcheck="false">
+    <label class="level-label" for="{{document.uuid}}-level">SHIP</label>
+    <input class="level adjustable{{#if isElite}} adjusted-higher{{else if isWeak}} adjusted-lower{{/if}}"
+      type="number" id="{{document.uuid}}-level"
+      value="{{displayLevel}}" placeholder="1"
+      name="system.details.level.value">
+  </div>
+
+  {{!-- Rarity / Size / Elite / Weak (mirrors native NPC rarity-size row) -- --}}
+  <div class="rarity-size">
+    <div class="tags paizo-style">
+      <select class="tag rarity {{sys.traits.rarity}}" name="system.traits.rarity">
+        {{selectOptions actorRarities selected=sys.traits.rarity localize=true}}
+      </select>
+      <select class="tag size" name="system.traits.size.value">
+        {{selectOptions actorSizes selected=sys.traits.size.value localize=true}}
+      </select>
+    </div>
+    {{#if editable}}
+    <div class="adjustments">
+      <a class="adjustment elite trait{{#if isElite}} active{{/if}}"
+        data-action="adjust-elite-weak" data-adjustment="elite">
+        {{localize "PF2E.NPC.Adjustment.EliteLabel"}}
+      </a>
+      <a class="adjustment weak trait{{#if isWeak}} active{{/if}}"
+        data-action="adjust-elite-weak" data-adjustment="weak">
+        {{localize "PF2E.NPC.Adjustment.WeakLabel"}}
+      </a>
+    </div>
+    {{/if}}
+  </div>
+
+  {{!-- Traits row: content traits (acid, fire, …) — mirrors native NPC header third row --}}
+  <div class="flexrow">
+    <tagify-tags class="tags paizo-style" name="system.traits.value"
+      value="{{json traitTagifyData}}"
+      {{#if (eq sys.traits.value.length 0)}}placeholder="{{localize "PF2E.Traits"}}"{{/if}} />
+  </div>
+
+  {{!-- Blurb — mirrors native NPC header fourth row --}}
+  <div class="flexrow">
+    <input name="system.details.blurb" type="text" value="{{sys.details.blurb}}" />
+  </div>
+
+</header>

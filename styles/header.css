@@ -1,0 +1,117 @@
+/* causodes-shipcombat-sf2e / header.css
+ * Ship sheet header: nav icons, compact identity block, Starfinder logo, rarity/size selects.
+ */
+
+/* -- Nav icon sizing (match PF2e 1.5rem circles) ------------------------- */
+.shipcombat-ship form.crb-style nav.sheet-navigation .item {
+  height: 1.5rem;
+  width:  1.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-12, 0.75rem);
+}
+
+/* Ensure tab nav renders above section overlays (z-index: 10) */
+.shipcombat-ship form.crb-style nav.sheet-navigation {
+  position: relative;
+  z-index: 15;
+}
+
+/* -- Compact ship identity block ----------------------------------------- */
+.shipcombat-ship .ship-identity {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 0.25rem;
+}
+
+.shipcombat-ship .ship-portrait {
+  flex: 0 0 120px;
+}
+
+.shipcombat-ship .ship-portrait .actor-image {
+  display: block;
+  width:  120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 0;
+  border: none;
+  box-shadow: 0 0 0 1px #918c88, 0 0 0 2px #e1d8cf, 0 0 0 3px #a98f39,
+              inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px black;
+  cursor: pointer;
+}
+
+.shipcombat-ship .ship-detail-cols {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.shipcombat-ship .ship-detail-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.shipcombat-ship .inputSplit {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.shipcombat-ship .flex-3    { flex: 3; min-width: 0; }
+.shipcombat-ship .flex-2    { flex: 2; min-width: 0; }
+.shipcombat-ship .flex-full { flex: 1 0 100%; }
+
+/* Rely on SF2e's .crb-style .details-label for font/color matching.
+   Only override min-width so flex containers don't overflow. */
+.shipcombat-ship .details-input { min-width: 0; }
+
+.shipcombat-ship hr.ship-identity-divider {
+  margin: 0.3rem 0;
+  border-color: var(--color-border-light, #ccc);
+}
+
+/* ── Starfinder logo in ship sheet sidebar ─────────────────────────────── */
+/* Reference the logo from the original pf2e system location (not a copy).  */
+/* Negative side margins extend the image to the full sidebar width,        */
+/* matching the SF2e character sheet .logo dimensions exactly.              */
+.sf2e-ship-logo {
+  display: block;
+  height: 53px;
+  /* calc matches SF2e character sheet: 14rem + space-10 (2×var(--space-5)) */
+  width: calc(100% + 2 * var(--space-6, 0.75rem));
+  margin: 0 calc(-1 * var(--space-6, 0.75rem)) 0.25rem calc(-1 * var(--space-6, 0.75rem));
+  background: url("/systems/pf2e/assets/starfinder_logo.webp") no-repeat center / contain;
+  pointer-events: none;
+}
+
+/* ── Rarity / size selects: match SF2e vehicle header style ────────────── */
+.shipcombat-ship .char-header .rarity-select,
+.shipcombat-ship .char-header .size-select {
+  border:         2px solid var(--color-border-trait, #d8c384);
+  color:          var(--color-text-trait, white);
+  font-family:    var(--sans-serif);
+  font-size:      0.75rem;
+  font-weight:    500;
+  padding:        1px 6px;
+  border-radius:  2px;
+  -webkit-appearance: none;
+  appearance:     none;
+  cursor:         pointer;
+}
+/* Size select background — green, same as SF2e vehicle */
+.shipcombat-ship .char-header .size-select {
+  background-color: var(--color-bg-size, #3a7b59);
+}
+/* Rarity backgrounds per tier */
+.shipcombat-ship .char-header .rarity-select.common   { background-color: var(--color-rarity-common,   #323232); }
+.shipcombat-ship .char-header .rarity-select.uncommon { background-color: var(--color-rarity-uncommon, #98513d); }
+.shipcombat-ship .char-header .rarity-select.rare     { background-color: var(--color-rarity-rare,     #002664); }
+.shipcombat-ship .char-header .rarity-select.unique   { background-color: var(--color-rarity-unique,   #54166e); }
+

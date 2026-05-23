@@ -1,0 +1,182 @@
+{{!--
+  modules/causodes-shipcombat-sf2e/templates/actor/npc-ship-sheet-sf2e.hbs
+
+  SF2e adapter wrapper for the NPC ship sheet.  Structure cloned from the
+  SF2e native NPC sheet: form > section.sidebar + div.npc-body.
+
+  The sidebar holds quick-reference stats (HP, AC/Hardness, Shields,
+  Initiative) mirroring the SF2e NPC sheet's left-hand panel.
+
+  The npc-body contains the header partial, tab nav, and tab content.
+  This preserves the .sheet-body > .sheet-content nesting that lets
+  Core's ship-sheet-v1.css tab-visibility rules fire correctly.
+
+  The "npc-ship-header" partial is overridden by the SF2e adapter (see
+  templates/actor/partials/npc-ship-header.hbs).  Hull Damage and Internal
+  Fire have moved from the header into the sidebar below.  All tab-body
+  partials are the Core originals.
+--}}
+<form class="{{cssClass}} shipcombat-npc-sheet shipcombat-v1{{#if adjustmentClass}} {{adjustmentClass}}{{/if}}" autocomplete="off">
+
+  {{!-- ── Left sidebar ─────────────────────────────────────────────────── --}}
+  {{!-- Order mirrors native SF2e NPC sidebar (portrait → AC → HP → Initiative) --}}
+  {{!-- then appends ship-specific sections (stats, armour, shields).            --}}
+  <section class="sidebar">
+
+    {{!-- Portrait (native NPC image-container pattern) --------------------- --}}
+    <div class="image-container">
+      <img class="profile-img" src="{{actor.img}}" data-action="editImage" data-edit="img" alt="{{actor.name}}">
+    </div>
+
+    {{!-- Ship Identity: Classification + Model (above AC) ----------------- --}}
+    <div class="subsection identity">
+      <select class="identity-classification" name="system.classification" required>
+        <option value="" {{#unless sys.classification}}selected{{/unless}} disabled>{{localize 'SHIPCOMBAT.NpcShip.Classification'}}</option>
+        {{#each shipClassifications}}
+        <option value="{{this.value}}" {{#if (eq ../sys.classification this.value)}}selected{{/if}}>{{this.label}}</option>
+        {{/each}}
+      </select>
+      <input type="text" class="identity-model" name="system.model" value="{{sys.model}}"
+        placeholder="{{localize 'SHIPCOMBAT.NpcShip.Model'}}">
+    </div>
+
+    {{!-- Armor Class ------------------------------------------------------- --}}
+    <div class="subsection armor-class">
+      <header>
+        <label>
+          <i class="fa-solid fa-fw fa-shield-halved"></i>
+          <span>{{localize "PF2E.ArmorClassShortLabel"}}</span>
+        </label>
+        <input type="number" class="armor-value" name="system.armorClass" value="{{sys.armorClass}}" placeholder="0">
+      </header>
+      <div class="side-bar-section-content">
+        <input type="text" name="system.acDetails" value="{{sys.acDetails}}" class="armor-details"
+          placeholder="{{localize 'PF2E.NPC.ArmorExtraInfoLabelPlaceholder'}}">
+      </div>
+    </div>
+
+    {{!-- Hit Points -------------------------------------------------------- --}}
+    <div class="subsection health">
+      <header>
+        <label>
+          <i class="fa-solid fa-fw fa-heart"></i>
+          <span>HP</span>
+        </label>
+        <span class="hit-points">
+          <input type="number" name="system.hull.value" class="current" value="{{sys.hull.value}}" min="0" placeholder="0">
+          <span class="slash">/</span>
+          <input type="number" name="system.hull.max" class="max" value="{{sys.hull.max}}" min="0" placeholder="0">
+        </span>
+      </header>
+      <div class="side-bar-section-content">
+        <div class="labeled-field fire">
+          <label>{{localize "SHIPCOMBAT.Engineer.InternalFire"}}</label>
+          <input type="number" name="system.internalFire" value="{{sys.internalFire}}" min="0" placeholder="0">
+        </div>
+      </div>
+    </div>
+
+    {{!-- Initiative -------------------------------------------------------- --}}
+    <div class="subsection initiative">
+      <header>
+        <label>
+          <i class="fa-solid fa-fw fa-swords"></i>
+          <span>{{localize "PF2E.InitiativeLabel"}}</span>
+        </label>
+        <a class="roll" data-action="npcRollInitiative" data-tooltip="{{localize 'SHIPCOMBAT.NpcShip.RollInitiative'}}">
+          {{> "systems/sf2e/templates/actors/character/icons/d20.hbs"}}
+          <span>{{initiativeMod}}</span>
+        </a>
+      </header>
+    </div>
+
+    {{!-- ── Appended: Immunities, Weaknesses, Resistances ────────────────── --}}
+
+    {{!-- Immunities -------------------------------------------------------- --}}
+    <div class="subsection iwr">
+      <header>
+        <label {{#unless immunities.length}}class="empty"{{/unless}}>
+          <i class="fa-solid fa-ankh fa-fw" inert></i>
+          <span>{{localize "PF2E.ImmunitiesLabel"}}</span>
+        </label>
+        <div class="controls">
+          <a data-action="editImmunities" data-tooltip="Edit Immunities"><i class="fa-solid fa-pen-to-square"></i></a>
+        </div>
+      </header>
+      <ul class="comma-separated">
+        {{#each immunities}}
+        <li>{{label}}</li>
+        {{/each}}
+      </ul>
+    </div>
+
+    {{!-- Weaknesses -------------------------------------------------------- --}}
+    <div class="subsection iwr">
+      <header>
+        <label {{#unless weaknesses.length}}class="empty"{{/unless}}>
+          <i class="fa-solid fa-heart-crack fa-fw" inert></i>
+          <span>{{localize "PF2E.WeaknessesLabel"}}</span>
+        </label>
+        <div class="controls">
+          <a data-action="editWeaknesses" data-tooltip="Edit Weaknesses"><i class="fa-solid fa-pen-to-square"></i></a>
+        </div>
+      </header>
+      <ul class="comma-separated">
+        {{#each weaknesses}}
+        <li>{{label}} {{value}}</li>
+        {{/each}}
+      </ul>
+    </div>
+
+    {{!-- Resistances ------------------------------------------------------- --}}
+    <div class="subsection iwr">
+      <header>
+        <label {{#unless resistances.length}}class="empty"{{/unless}}>
+          <i class="fa-solid fa-shield-virus fa-fw" inert></i>
+          <span>{{localize "PF2E.ResistancesLabel"}}</span>
+        </label>
+        <div class="controls">
+          <a data-action="editResistances" data-tooltip="Edit Resistances"><i class="fa-solid fa-pen-to-square"></i></a>
+        </div>
+      </header>
+      <ul class="comma-separated">
+        {{#each resistances}}
+        <li>{{label}} {{value}}</li>
+        {{/each}}
+      </ul>
+    </div>
+
+  </section>{{!-- .sidebar --}}
+
+  {{!-- ── Right body: header + tabs + content ──────────────────────────── --}}
+  <div class="npc-body">
+
+    {{!-- Header (SF2e adapter overrides the "npc-ship-header" partial) --}}
+    {{> "npc-ship-header"}}
+
+    {{!-- Tab navigation --}}
+    <nav class="npc-sheet-tabs sheet-tabs tabs sub-nav" data-group="primary">
+      <a class="item" data-tab="main"     data-group="primary">{{localize "SHIPCOMBAT.Tab.Overview"}}</a>
+      <a class="item" data-tab="movement" data-group="primary">{{localize "SHIPCOMBAT.Tab.Movement"}}</a>
+      <a class="item" data-tab="gunner"   data-group="primary">{{localize "SHIPCOMBAT.Tab.NpcWeapons"}}</a>
+      <a class="item" data-tab="ordnance" data-group="primary">{{localize "SHIPCOMBAT.NpcShip.OrdnanceTab"}}</a>
+    </nav>
+
+    {{!-- Tab content — the Core partials are self-wrapping:
+           <section class="tab" data-group="primary" data-tab="{{tab.id}}">
+         We pass a `tab` context object so {{tab.id}} renders the correct value
+         instead of empty string, which would cause Foundry's global
+         `.tab[data-tab]:not(.active) { display: none }` to permanently hide them.
+         No outer <div class="tab"> wrapper — the partials ARE the tab panels. --}}
+    <section class="sheet-body">
+      <section class="sheet-content">
+        {{> "modules/causodes-shipcombat-core/templates/actor/tabs/npc/npc-ship-body.hbs"     tab=(lookup tabsById "main")}}
+        {{> "modules/causodes-shipcombat-sf2e/templates/actor/tabs/npc-movement-sf2e.hbs" tab=(lookup tabsById "movement")}}
+        {{> "modules/causodes-shipcombat-sf2e/templates/actor/tabs/npc-gunner-sf2e.hbs"   tab=(lookup tabsById "gunner")}}
+        {{> "modules/causodes-shipcombat-core/templates/actor/tabs/npc/npc-ship-ordnance.hbs" tab=(lookup tabsById "ordnance")}}
+      </section>
+    </section>
+
+  </div>{{!-- .npc-body --}}
+
+</form>

@@ -1,0 +1,37 @@
+{{!--
+  modules/causodes-shipcombat-sf2e/templates/actor/ordnance-sheet-sf2e.hbs
+
+  SF2e adapter wrapper for the ordnance sheet (torpedo / strike craft).
+  Overrides the Core's ordnance-v1.hbs so that tab content lives inside
+  .sheet-body > .sheet-content — the same nesting the player ship uses —
+  letting Core's ship-sheet-v1.css tab visibility rules fire automatically.
+--}}
+<form class="{{cssClass}} shipcombat-ordnance-sheet shipcombat-v1" autocomplete="off">
+
+  {{!-- Header --}}
+  {{> "modules/causodes-shipcombat-core/templates/actor/sheets/ordnance-header.hbs"}}
+
+  {{!-- Tab navigation --}}
+  <nav class="ordnance-sheet-tabs sheet-tabs tabs sub-nav" data-group="primary">
+    <a class="item" data-tab="main" data-group="primary">{{localize mainTabLabel}}</a>
+    {{#if owner}}
+    <a class="item" data-tab="config" data-group="primary">{{localize "SHIPCOMBAT.Tab.Configuration"}}</a>
+    {{/if}}
+  </nav>
+
+  {{!-- Tab content — the Core partials are self-wrapping:
+         <section class="tab" data-group="primary" data-tab="{{tab.id}}">
+       We pass a `tab` context object so {{tab.id}} renders the correct value
+       instead of empty string, which would cause Foundry's global
+       `.tab[data-tab]:not(.active) { display: none }` to permanently hide them.
+       No outer <div class="tab"> wrapper — the partials ARE the tab panels. --}}
+  <section class="sheet-body">
+    <section class="sheet-content">
+      {{> "modules/causodes-shipcombat-core/templates/actor/sheets/ordnance-main.hbs"   tab=(lookup tabsById "main")}}
+      {{#if owner}}
+      {{> "modules/causodes-shipcombat-core/templates/actor/sheets/ordnance-config.hbs" tab=(lookup tabsById "config")}}
+      {{/if}}
+    </section>
+  </section>
+
+</form>

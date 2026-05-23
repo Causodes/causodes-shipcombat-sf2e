@@ -1,0 +1,114 @@
+/* causodes-shipcombat-sf2e / chat.css
+ * Chat card light-background colour overrides.
+ */
+
+/* ── Chat Card: Light-background overrides ────────────────────────────────── */
+/* Core/impmal chat.css targets dark-background chat. SF2e uses the default    */
+/* FoundryVTT light-parchment theme, so we override colours here.              */
+
+/* Weapon icon border (was white-based, invisible on light) */
+.shipcombat-fire-icon {
+  border-color: rgba(0,0,0,0.12);
+}
+
+/* Hit/miss colours on salvo dice and outcome text */
+.shipcombat-fire-success { color: #1a7a3c; }
+.shipcombat-fire-failure { color: #b03020; }
+
+/* "Auto-hit" banner */
+.shipcombat-fire-auto {
+  color:        #1a7a3c;
+  background:   rgba(0,100,50,0.07);
+  border-color: rgba(0,100,50,0.2);
+}
+
+/* Salvo die chips (background/border were white-based) */
+.shipcombat-salvo-die {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  text-align:      center;
+  background:   rgba(0,0,0,0.06);
+  border:       1px solid rgba(0,0,0,0.22);
+  border-radius: 4px;
+  font-weight:  700;
+  min-width:    2.2rem;
+  padding:      2px 5px;
+}
+/* Hit: green, crisp on light background */
+.shipcombat-salvo-die.shipcombat-fire-success { color: #1a7a3c; border-color: rgba(0,100,50,0.35); background: rgba(0,100,50,0.08); }
+/* Miss: muted grey */
+.shipcombat-salvo-die.shipcombat-fire-failure { color: #555; border-color: rgba(0,0,0,0.15); background: rgba(0,0,0,0.04); }
+/* Crit success: blue (PF2e critical hit) */
+.shipcombat-salvo-crit      { color: #1a5fb4 !important; border-color: rgba(26,95,180,0.45) !important; background: rgba(26,95,180,0.1) !important; }
+/* Crit failure: deep red */
+.shipcombat-salvo-crit-fail { color: #8b0000 !important; border-color: rgba(139,0,0,0.45) !important; background: rgba(139,0,0,0.08) !important; }
+/* Damage die pips: match hit-die dark green (same as .shipcombat-fire-success override above) */
+.shipcombat-die-pip { color: #1a7a3c; border-color: rgba(0,100,50,0.35); background: rgba(0,100,50,0.08); }
+.shipcombat-salvo-jam {
+  color:        #b03020 !important;
+  border-color: rgba(176,48,32,0.35) !important;
+  background:   rgba(176,48,32,0.06) !important;
+}
+
+/* Armour-blocked line (was white text on dark) */
+.shipcombat-fire-armour-blocked   { color: rgba(0,0,0,0.5);  }
+.shipcombat-fire-armour-blocked i { color: rgba(0,0,0,0.35); }
+
+/* Jam warning strip */
+.shipcombat-fire-jam {
+  color:        #b03020;
+  background:   rgba(176,48,32,0.07);
+  border-color: rgba(176,48,32,0.2);
+}
+
+/* Critical-hit block */
+.shipcombat-fire-crit-header           { color: #7a1515; }
+.shipcombat-fire-crit-header i         { color: #c09000; }
+.shipcombat-fire-crit-detail           { color: #5a2e2e; }
+.shipcombat-fire-crit-note             { color: #6b4040; }
+.shipcombat-crit-tier--low    { background: #fffbe6; color: #7a5c00; border-color: #c8a000; }
+.shipcombat-crit-tier--medium { background: #fff0e6; color: #8b3000; border-color: #c05000; }
+.shipcombat-crit-tier--high   { background: #ffe6e6; color: #7a0000; border-color: #cc0000; }
+
+/* BDA pending card — teal was invisible on light */
+.shipcombat-bda-pending .shipcombat-bda-icon-wrap {
+  background:   rgba(0,100,90,0.08);
+  border-color: rgba(0,100,90,0.25);
+  color:        #0a6b60;
+}
+.shipcombat-bda-pending-msg { color: rgba(0,100,90,0.8); }
+
+/* Weapon/fire-mode summary row (border was white-based) */
+.shipcombat-bda-weapon-summary { border-top-color: rgba(0,0,0,0.1); }
+.shipcombat-bda-weapon-name    { color: #222; }
+.shipcombat-bda-fire-mode      { color: rgba(0,0,0,0.5); }
+
+/* "Launch BDA" button */
+.shipcombat-bda-launch-btn {
+  border-color: rgba(0,100,90,0.35);
+  background:   rgba(0,100,90,0.07);
+  color:        #0a6b60;
+}
+.shipcombat-bda-launch-btn:hover {
+  background:   rgba(0,100,90,0.15);
+  border-color: rgba(0,100,90,0.5);
+}
+
+/* BDA correction result block */
+.shipcombat-bda-correction-result {
+  background:   rgba(0,100,90,0.06);
+  border-color: rgba(0,100,90,0.2);
+}
+.shipcombat-bda-correction-result > i { color: #0a6b60; }
+.shipcombat-bda-correction-label      { color: #0a6b60; }
+.shipcombat-bda-pending-msg--subtle   { color: rgba(0,100,90,0.65); }
+
+/* BDA fire-result section divider (was white rule, invisible on light) */
+.shipcombat-bda-fire-result-divider::before,
+.shipcombat-bda-fire-result-divider::after { background: rgba(0,0,0,0.12); }
+
+/* AP value — dark amber (base #e8a33a too bright on light) */
+.shipcombat-fire-ap   { color: #8a6500; }
+/* Resource cost badge — same dark amber */
+.shipcombat-fire-cost { color: #8a6500; }

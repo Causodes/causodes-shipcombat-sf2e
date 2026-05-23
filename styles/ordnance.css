@@ -1,0 +1,178 @@
+/* causodes-shipcombat-sf2e / ordnance.css
+ * Ordnance master action buttons, readiness cards, pips, commitment pills, deployed ordnance.
+ */
+
+/* ── Ordnance Master: Main Action buttons styled like payload buttons ───── */
+.shipcombat-ship .shipcombat-ordnance-action-btn {
+  background:      rgba(23, 31, 105, 0.08);
+  border-color:    rgba(23, 31, 105, 0.30);
+  color:           var(--color-text-dark-secondary, #444);
+  text-shadow:     none;
+  box-shadow:      none;
+  /* Restructure to column so icon sits above name+cost, all centered */
+  flex-direction:  column !important;
+  justify-content: center !important;
+  align-items:     center !important;
+  height:          auto   !important;
+  min-height:      0      !important;
+  gap:             2px    !important;
+  padding:         5px 6px !important;
+}
+.shipcombat-ship .shipcombat-ordnance-action-btn:hover:not([disabled]) {
+  background:   rgba(23, 31, 105, 0.18);
+  border-color: rgba(23, 31, 105, 0.55);
+}
+.shipcombat-ship .shipcombat-ordnance-action-btn i {
+  color:     var(--color-pf-secondary, #171f69);
+  flex:      0 0 auto;
+  font-size: 0.72rem;
+  line-height: 1;
+}
+.shipcombat-ship .shipcombat-ordnance-action-btn-text {
+  display:        flex !important;
+  flex-direction: column !important;
+  align-items:    center !important;
+  gap:            1px !important;
+}
+.shipcombat-ship .shipcombat-ordnance-action-btn-text span,
+.shipcombat-ship .shipcombat-ordnance-action-btn-text small,
+.shipcombat-ship .shipcombat-ordnance-action-btn > span,
+.shipcombat-ship .shipcombat-ordnance-action-btn > small {
+  margin:      0;
+  padding:     0;
+  line-height: 1.1;
+  text-align:  center;
+  white-space: nowrap;
+}
+
+/* ── Deployed Ordnance: title bars shown (sections now live in subtabs) ───── */
+
+/* ── Manpower (OP) bar: orange instead of impmal green ─────────────────── */
+.shipcombat-ship .shipcombat-bar-op {
+  background: linear-gradient(90deg, #c0560a, #e67e22);
+}
+.shipcombat-ship .shipcombat-resource-bar-row:has(.shipcombat-bar-op) .shipcombat-resource-bar-value {
+  color: #c0560a !important;
+}
+
+/* ── Ordnance Readiness Cards: SF2e parchment retheme ──────────────────── */
+.shipcombat-ship .shipcombat-ordnance-cards {
+  padding: 2px 4px 6px;
+  gap: 6px;
+}
+.shipcombat-ship .shipcombat-ord-card {
+  background: transparent;
+  border: 4px solid transparent;
+  border-image-source: url("../../../systems/sf2e/assets/sheet/frame-elegant.svg");
+  border-image-slice:  11;
+  border-image-width:  14px;
+  border-image-repeat: repeat;
+  border-radius: 0;
+  padding: 5px 8px 5px;
+}
+.shipcombat-ship .shipcombat-ord-card-header {
+  color: var(--text-dark, #1c1c1c);
+  border-bottom-color: rgba(0, 0, 0, 0.14);
+}
+.shipcombat-ship .shipcombat-ord-card-header i:first-child {
+  color: var(--color-pf-secondary, #171f69);
+}
+.shipcombat-ship .shipcombat-ord-flights {
+  color: var(--color-pf-secondary, #171f69);
+}
+/* Ordnance badge states — legible on parchment */
+.shipcombat-ship .shipcombat-ord-badge--ready {
+  color:      #1b5e1b;
+  background: rgba(0, 100, 0, 0.10);
+  border:     1px solid rgba(0, 100, 0, 0.28);
+}
+.shipcombat-ship .shipcombat-ord-badge--ready i   { color: #1b5e1b; }
+.shipcombat-ship .shipcombat-ord-badge--deployed {
+  color:      #172069;
+  background: rgba(23, 31, 105, 0.10);
+  border:     1px solid rgba(23, 31, 105, 0.28);
+}
+.shipcombat-ship .shipcombat-ord-badge--deployed i { color: #172069; }
+.shipcombat-ship .shipcombat-ord-badge--loading {
+  color:      #7a4800;
+  background: rgba(180, 100, 0, 0.10);
+  border:     1px solid rgba(180, 100, 0, 0.28);
+}
+.shipcombat-ship .shipcombat-ord-badge--loading i  { color: #7a4800; }
+.shipcombat-ship .shipcombat-ord-badge--recovering {
+  color:      #6b5a00;
+  background: rgba(180, 150, 0, 0.10);
+  border:     1px solid rgba(180, 150, 0, 0.28);
+}
+.shipcombat-ship .shipcombat-ord-badge--recovering i { color: #6b5a00; }
+/* Strike craft pips — match SF2e palette */
+.shipcombat-ship .shipcombat-ordnance-pip {
+  border-color: rgba(0, 0, 0, 0.18);
+}
+.shipcombat-ship .shipcombat-ordnance-pip--ready     { background: #2b7a45; box-shadow: none; }
+.shipcombat-ship .shipcombat-ordnance-pip--deployed   { background: var(--color-pf-secondary, #171f69); box-shadow: none; }
+.shipcombat-ship .shipcombat-ordnance-pip--destroyed  { background: var(--color-pf-primary, #5e0000); box-shadow: none; }
+.shipcombat-ship .shipcombat-ordnance-pip--recovering { background: #8a6e00; box-shadow: none; }
+.shipcombat-ship .shipcombat-ordnance-pip--loading    { background: #8a6e00; box-shadow: none; }
+/* Commitment pills — SF2e parchment */
+.shipcombat-ship .shipcombat-commitment-pill {
+  background: rgba(23, 31, 105, 0.12);
+  border-color: rgba(23, 31, 105, 0.30);
+  color: var(--color-pf-secondary, #171f69);
+}
+.shipcombat-ship .shipcombat-commitment-pill--new {
+  background: rgba(230, 126, 34, 0.14);
+  border-color: rgba(200, 80, 10, 0.40);
+  color: #a04000;
+}
+.shipcombat-ship .shipcombat-commitment-pill--new:hover {
+  background: rgba(94, 0, 0, 0.12);
+  border-color: rgba(94, 0, 0, 0.40);
+  color: var(--color-pf-primary, #5e0000);
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+ * Deployed Ordnance Rows — SF2e parchment retheme
+ * Core styles use dark-theme colours (light text, neon-green accents).
+ * These overrides make the deployed torpedo/strike-craft rows legible on
+ * the parchment background used by the SF2e ship sheet.
+ * ══════════════════════════════════════════════════════════════════════════ */
+/* Spacing after the deployed-ordnance section (before the next sheet-list) */
+.shipcombat-ship .shipcombat-deployed-ordnance {
+  margin-bottom: 0.4rem;
+}
+.shipcombat-ship .shipcombat-deployed-row {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.shipcombat-ship .shipcombat-deployed-row:hover {
+  background: rgba(23, 31, 105, 0.06);
+}
+.shipcombat-ship .shipcombat-deployed--done {
+  background: rgba(0, 120, 50, 0.07);
+  border-left: 3px solid rgba(0, 150, 60, 0.55);
+}
+.shipcombat-ship .shipcombat-deployed-name {
+  color: var(--text-dark, #1c1c1c);
+}
+.shipcombat-ship .shipcombat-deployed-type {
+  color: var(--color-pf-secondary, #171f69);
+}
+.shipcombat-ship .shipcombat-deployed-hull {
+  color: #555;
+}
+/* Control buttons in deployed rows */
+.shipcombat-ship .shipcombat-deployed-controls button {
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  background: rgba(0, 0, 0, 0.04);
+  color: #444;
+}
+.shipcombat-ship .shipcombat-deployed-controls button:hover {
+  background: rgba(23, 31, 105, 0.10);
+  color: var(--color-pf-secondary, #171f69);
+}
+.shipcombat-ship .shipcombat-deployed-controls button.active {
+  background: rgba(23, 31, 105, 0.16);
+  border-color: rgba(23, 31, 105, 0.50);
+  color: var(--color-pf-secondary, #171f69);
+}
+

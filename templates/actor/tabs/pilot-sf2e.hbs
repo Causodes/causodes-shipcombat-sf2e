@@ -1,0 +1,26 @@
+{{!-- Pilot tab (6-player) with subtab navigation --}}
+<section class="tab {{tab.cssClass}}" data-group="primary" data-tab="{{tab.id}}">
+
+    {{> "pilot-claim-prompt"}}
+    {{> "pilot-captain-boost"}}
+    {{> "pilot-status-bar"}}
+    {{> "pilot-helm-sl-alloc"}}
+
+    {{#if (or isGM (lookup (lookup roles "pilot") "isMyRole"))}}
+    <nav class="sub-nav">
+        <a data-sub-tab="helm-control">{{localize "SHIPCOMBAT.SubTab.HelmControl"}}</a>
+        <a data-sub-tab="overcharge">{{localize "SHIPCOMBAT.SubTab.Overcharge"}}</a>
+    </nav>
+    <div class="role-panels">
+        <div class="tab" data-sub-tab="helm-control">
+            {{> "pilot-helm-control"}}
+        </div>
+        <div class="tab" data-sub-tab="overcharge">
+            {{> "pilot-overcharged-actions"}}
+        </div>
+    </div>
+    {{/if}}
+
+    {{> 'complete-turn' tabRoleId="pilot" turnDone=(lookup @root.sys.turnDone "pilot")}}
+
+</section>

@@ -1,0 +1,270 @@
+/* causodes-shipcombat-sf2e / sensors.css
+ * Sensors, augur abilities table, radar pop-out, scan bar, NPC intel, lock tiers, BDA.
+ */
+
+/* ── Sensors: bearing-toggle, radar wrap, zoom, augur category ──────────── */
+.shipcombat-bearing-toggle-btn {
+  color:        var(--sc-accent, #5577dd);
+  border-color: var(--sc-accent-border, rgba(85,119,221,0.35));
+  width:        auto;
+  flex:         0 0 auto;
+}
+.shipcombat-bearing-toggle-btn:hover,
+.shipcombat-bearing-toggle-btn.active {
+  color:        #c0ccff;
+  border-color: var(--sc-accent-bright, rgba(85,119,221,0.75));
+  background:   var(--sc-accent-subtle, rgba(85,119,221,0.10));
+}
+.shipcombat-radar-zoom-wrap,
+.shipcombat-radar-zoom-label   { color: var(--sc-accent, #5577dd); }
+.shipcombat-radar-zoom         { accent-color: var(--sc-accent, #5577dd); }
+.shipcombat-lock-ref-table thead { background: rgba(0, 255, 136, 0.06); } /* restored core default */
+.shipcombat-abl-category-row td {
+  color:               var(--color-pf-secondary, #171f69);
+  border-bottom-color: rgba(41, 55, 188, 0.20);
+}
+.shipcombat-abl-name i { color: var(--color-pf-secondary, #171f69); }
+
+/* ── Sensor abilities reference table — SF2e parchment retheme ──────────── */
+/* thead row: match Bridge Crew overlay (crimson bar, light text) */
+.shipcombat-ship .shipcombat-augur-abilities-table thead tr {
+  background: var(--color-pf-primary, #5e0000);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.3), inset 0 0 0 2px rgba(255,255,255,0.2);
+}
+.shipcombat-ship .shipcombat-augur-abilities-table th {
+  color:         var(--text-light, #f0e8d8);
+  border-bottom: none;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: var(--sans-serif);
+}
+.shipcombat-ship .shipcombat-augur-abilities-table td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+.shipcombat-ship .shipcombat-abl-category-row td {
+  color:         var(--color-pf-secondary, #171f69);
+  border-bottom: 1px solid rgba(41, 55, 188, 0.30) !important;
+}
+.shipcombat-ship .shipcombat-abl-name {
+  color: var(--color-text-dark-primary, #1a1a1a);
+}
+.shipcombat-ship .shipcombat-abl-name i {
+  color: var(--color-pf-secondary, #171f69);
+}
+/* Tier-level icon tints — match core TIER_COLOUR lock-pip palette */
+.shipcombat-ship .shipcombat-abl-name i.shipcombat-abl-icon--t0 { color: #666; }
+.shipcombat-ship .shipcombat-abl-name i.shipcombat-abl-icon--t1 { color: #c04040; } /* Pinged - red */
+.shipcombat-ship .shipcombat-abl-name i.shipcombat-abl-icon--t2 { color: #e67e22; } /* Analyzed - orange */
+.shipcombat-ship .shipcombat-abl-name i.shipcombat-abl-icon--t3 { color: #22ccbb; } /* Scanned - teal */
+.shipcombat-ship .shipcombat-abl-name i.shipcombat-abl-icon--t4 { color: #cc44cc; } /* Locked - magenta */
+.shipcombat-ship .shipcombat-abl-cost {
+  color: var(--color-text-dark-secondary, #555);
+}
+.shipcombat-ship .shipcombat-abl-desc {
+  color: var(--color-text-dark-secondary, #555);
+}
+.shipcombat-ship .shipcombat-abl-meta {
+  color: var(--color-text-dark-secondary, #777);
+  opacity: 1;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+ * Sensor Radar Pop-out — fix canvas not filling full window height
+ * Foundry V1 .window-content doesn’t reliably propagate height to children;
+ * switching to flex layout fixes the gap at the bottom of the radar circle.
+ * ══════════════════════════════════════════════════════════════════════════ */
+#shipcombat-sensor-popout .window-content {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+#shipcombat-sensor-popout .shipcombat-popout-radar-body {
+  flex: 1 1 0;
+  height: auto;
+  min-height: 0;
+}
+#shipcombat-sensor-popout .shipcombat-popout-radar-body {
+  position: relative;
+}
+/* Toolbar overlays the canvas corner — does not eat vertical space */
+#shipcombat-sensor-popout .shipcombat-popout-toolbar-bottom {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  right: auto;
+  width: fit-content;
+  max-width: calc(100% - 30px);
+  z-index: 10;
+  padding: 2px 6px 3px;
+  background: rgba(6, 16, 28, 0.35);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+#shipcombat-sensor-popout .shipcombat-popout-toolbar-bottom > * {
+  pointer-events: auto;
+}
+
+/* Popout radar theme: extend cyan/blue styling to popout radar UI */
+#shipcombat-sensor-popout .shipcombat-popout-radar-body,
+#shipcombat-sensor-popout .shipcombat-radar-wrap {
+  border-color: rgba(0, 234, 255, 0.42);
+  box-shadow: inset 0 0 24px rgba(0, 170, 255, 0.08);
+}
+#shipcombat-sensor-popout .shipcombat-radar-zoom-wrap,
+#shipcombat-sensor-popout .shipcombat-radar-zoom-label,
+#shipcombat-sensor-popout .shipcombat-radar-zoom-wrap i {
+  color: var(--sc-accent, #5577dd);
+}
+#shipcombat-sensor-popout .shipcombat-radar-zoom {
+  accent-color: var(--sc-accent, #5577dd);
+}
+
+/* Popout canvas: hide scrollbars (canvas fills the window) */
+#shipcombat-sensor-popout .window-content,
+#shipcombat-sensor-popout .shipcombat-popout-radar-body {
+  overflow: hidden;
+  scrollbar-width: none;
+}
+#shipcombat-sensor-popout .window-content::-webkit-scrollbar,
+#shipcombat-sensor-popout .shipcombat-popout-radar-body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* Radar: restore core blip colors (remove hue-rotation filter). */
+/* Border/zoom accent keeps the SF2e blue as before. */
+
+/* Heat bar: keep the cover layer, but tint it to the panel background. */
+.shipcombat-ship .shipcombat-resource-bar-fill-cover {
+  background: rgba(248, 244, 241, 0.88);
+}
+
+/* Plasma bars: tint the unfilled track area with the relevant bar color. */
+/* Uses :has() to target by the fill class inside the track element.       */
+.shipcombat-ship .shipcombat-resource-bar-track:has(.shipcombat-bar-ammo) {
+  background: rgba(230, 126, 34, 0.15);
+}
+.shipcombat-ship .shipcombat-resource-bar-track:has(.shipcombat-bar-charge) {
+  background: rgba(126, 200, 227, 0.15);
+}
+.shipcombat-ship .shipcombat-resource-bar-track:has(.shipcombat-bar-aux) {
+  background: rgba(126, 200, 227, 0.15);
+}
+.shipcombat-ship .shipcombat-resource-bar-track:has(.shipcombat-bar-data) {
+  background: rgba(126, 200, 227, 0.15);
+}
+/* Pilot / Engineer / Captain aux-power bar fills now carry shipcombat-bar-aux
+   (added to core templates), so :has(.shipcombat-bar-aux) above covers them. */
+.shipcombat-ship .shipcombat-resource-bar-track:has(.shipcombat-bar-op) {
+  background: rgba(192, 86, 10, 0.12);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════ */
+/* SF2e Radar / Popup colour overrides (blue theme, matching PF2e UI)        */
+/* Core sensors.css defines all these selectors with green (#00ff88).        */
+/* SF2e loads after Core, so equal-specificity rules here win by cascade.    */
+/* ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Radar action popup ─────────────────────────────────────────────────── */
+.shipcombat-radar-popup {
+  border-color: rgba(68, 170, 255, 0.3);
+}
+.shipcombat-rpop-header {
+  border-bottom-color: rgba(68, 170, 255, 0.12);
+}
+
+/* ── Radar popup action buttons ─────────────────────────────────────────── */
+.shipcombat-rpop-btn {
+  border-color: rgba(68, 170, 255, 0.12);
+  background:   rgba(68, 170, 255, 0.04);
+}
+.shipcombat-rpop-btn:hover:not(:disabled) {
+  background:   rgba(68, 170, 255, 0.12);
+  border-color: rgba(68, 170, 255, 0.3);
+}
+.shipcombat-rpop-btn--lock {
+  border-color: rgba(68, 170, 255, 0.2);
+  background:   rgba(68, 170, 255, 0.06);
+}
+.shipcombat-rpop-btn--lock:hover:not(:disabled) {
+  background:   rgba(68, 170, 255, 0.15);
+  border-color: rgba(68, 170, 255, 0.4);
+}
+.shipcombat-rpop-tier-badge {
+  background: rgba(68, 170, 255, 0.2);
+  color:      #44aaff;
+}
+
+/* ── Compact intel section (drawer) ─────────────────────────────────────── */
+.shipcombat-rpop-intel {
+  border-top-color: rgba(68, 170, 255, 0.08);
+}
+.shipcombat-rpop-drawer {
+  border-color: rgba(68, 170, 255, 0.1);
+}
+.shipcombat-rpop-drawer[open] {
+  border-color: rgba(68, 170, 255, 0.2);
+}
+.shipcombat-rpop-drawer-hd {
+  color:      rgba(68, 170, 255, 0.85);
+  background: rgba(68, 170, 255, 0.04);
+}
+.shipcombat-rpop-drawer-hd:hover {
+  background: rgba(68, 170, 255, 0.08);
+}
+
+/* ── Shield sector display inside intel ─────────────────────────────────── */
+.shipcombat-rpop-sec-sh      { color:      #44aaff; }
+.shipcombat-rpop-sec-bar-fill { background: #44aaff; }
+
+/* ── Weapon section header inside intel drawer ──────────────────────────── */
+.shipcombat-rpop-wep-section-hd {
+  color:             rgba(68, 170, 255, 0.75);
+  border-bottom-color: rgba(68, 170, 255, 0.08);
+}
+
+/* ── Scan bar (Sensors role scan-depth display) ─────────────────────────── */
+.shipcombat-scan-bar-value { color: #44aaff; }
+.shipcombat-scan-pip {
+  border-color: rgba(68, 170, 255, 0.35);
+}
+.shipcombat-scan-pip--active {
+  background:  #44aaff;
+  border-color: transparent;
+  box-shadow:  0 0 5px rgba(68, 170, 255, 0.65);
+}
+
+/* ── NPC Intel panel (Deep Scan L3+) ────────────────────────────────────── */
+.shipcombat-npc-intel-panel {
+  border-left-color: rgba(68, 170, 255, 0.5);
+}
+
+/* ── Lock tier 3 badge (Deep Scan) ─────────────────────────────────────── */
+/* Core uses #22ccbb (teal) to match canvas TIER_COLOUR[3].                  */
+/* SF2e overrides to blue for visual consistency with the blue radar theme.  */
+.shipcombat-lock-tier--3 {
+  color:      #4a9eff;
+  background: rgba(74, 158, 255, 0.1);
+  border:     1px solid rgba(74, 158, 255, 0.3);
+}
+
+/* ── BDA Fire Correction popup ──────────────────────────────────────────── */
+.shipcombat-bda-result-header {
+  background:   rgba(68, 170, 255, 0.05);
+  border-color: rgba(68, 170, 255, 0.2);
+}
+.shipcombat-bda-sl-value { color: #44aaff; }
+.shipcombat-bda-correction-btn:hover {
+  background:   rgba(68, 170, 255, 0.08);
+  border-color: rgba(68, 170, 255, 0.32);
+}
+
+/* ── AC Modifiers Popup: now uses native modifiers-tooltip.hbs partial ───── */
+
+/* ── Exclusive fire-mode tier (Ranging Fire) — readable amber on parchment  */
+.shipcombat-ship .shipcombat-tier-exclusive .shipcombat-macro-pip-label {
+  color: #8a4000;
+}
+

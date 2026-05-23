@@ -1,0 +1,346 @@
+/* causodes-shipcombat-sf2e / captain.css
+ * Captain action cards, drag-over, mark done, standing orders, action button theme, captain conditions.
+ */
+
+/* ── Captain drag-over + confirm button ─────────────────────────────────── */
+.shipcombat-dr-card.shipcombat-dr-drag-over {
+  border-color: var(--sc-accent, #5577dd);
+  background:   var(--sc-accent-subtle, rgba(85,119,221,0.10));
+}
+.shipcombat-captain-card--drag-over { outline-color: var(--sc-accent, #5577dd); }
+.shipcombat-dr-confirm-btn {
+  background:   var(--sc-accent-subtle, rgba(85,119,221,0.12));
+  border-color: var(--sc-accent-border, rgba(85,119,221,0.30));
+  color:        var(--sc-accent, #5577dd);
+}
+.shipcombat-dr-confirm-btn:hover { background: var(--sc-accent-dim, rgba(85,119,221,0.22)); }
+
+/* ── Captain action cards — remove scan lines, use frame-elegant border ── */
+/* The repeating-linear-gradient scan lines look great on dark/impmal but   */
+/* clash with SF2e's parchment theme. Replace with a light color wash and   */
+/* the same fancy SVG border used on the SL allocation rows.                */
+.shipcombat-ship .shipcombat-captain-card {
+  background: rgba(var(--shipcombat-card-rgb), 0.05);
+  border-style:        double;
+  border-image-repeat: repeat;
+  border-image-slice:  11;
+  border-image-source: url("../../../systems/sf2e/assets/sheet/frame-elegant.svg");
+  border-image-width:  14px;
+  box-shadow:          none;
+  padding:             0.75rem 0.9rem;
+}
+.shipcombat-ship .shipcombat-captain-card:hover {
+  background: rgba(var(--shipcombat-card-rgb), 0.10);
+  box-shadow: none;
+}
+
+/* Per-card discard icon: match SF2e parchment (not dark background) */
+.shipcombat-ship .shipcombat-captain-card-action--mulligan {
+  color:        rgba(0, 0, 0, 0.40);
+  border-color: rgba(0, 0, 0, 0.12);
+  background:   rgba(0, 0, 0, 0.03);
+}
+.shipcombat-ship .shipcombat-captain-card-action--mulligan:hover {
+  background:   rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.25);
+  color:        rgba(0, 0, 0, 0.65);
+}
+
+/* ── Mark Action Done → SF2e "Add Spellcasting Entry" blue button style ─── */
+.shipcombat-ship .shipcombat-mark-done-btn {
+  align-items:      center;
+  background:       var(--color-pf-secondary, #171f69);
+  border:           1px solid var(--color-pf-secondary-lighter, rgb(41,55,189));
+  border-radius:    2px;
+  box-shadow:       inset 0 0 0 1px rgba(0,0,0,0.5);
+  color:            var(--text-light, #f7f5ee);
+  display:          flex;
+  font-weight:      500;
+  gap:              0.35em;
+  justify-content:  center;
+  line-height:      1.8em;
+  padding:          0 0.75em;
+  font-style:       normal;
+  letter-spacing:   0.01em;
+  text-shadow:      none;
+  opacity:          1;
+  border-style:     solid;
+}
+.shipcombat-ship .shipcombat-mark-done-btn:hover {
+  border-color: transparent;
+  text-shadow:  0 0 0.1em var(--text-light, #f7f5ee);
+}
+.shipcombat-ship .shipcombat-mark-done-btn.done {
+  background:   rgba(0,0,0,0.08);
+  border:       1px dashed var(--color-border-divider, rgba(0,0,0,0.25));
+  box-shadow:   none;
+  color:        var(--color-text-dark-secondary, #555);
+  opacity:      1;
+}
+
+/* ── Standing Orders footer: layout + opacity fix ──────────────────────── */
+.shipcombat-ship .shipcombat-deck-footer {
+  justify-content: flex-start;
+  flex-wrap:        wrap;         /* allow piles/actions to wrap to a 2nd row */
+  gap:              0.4rem 0.6rem;
+  overflow:         visible !important;
+  opacity:          1;            /* Core sets 0.75 on the footer; reset here so
+                                     our navy buttons aren't washed out */
+}
+/* Re-apply the dim to just the pile counts, not the action buttons */
+.shipcombat-ship .shipcombat-deck-footer-piles { opacity: 0.75; }
+/* SF2e system's input[type="number"] specificity beats Core's class rule;
+   pin the draw count input to its intended width with a higher-specificity rule */
+.shipcombat-ship .shipcombat-draw-count-input {
+  width:         2.4rem  !important;
+  min-width:     0       !important;
+  height:        auto    !important;
+  padding:       0 4px   !important;  /* vertical padding removed — align-self:stretch sets height */
+  font-size:     0.7rem  !important;
+  box-sizing:    border-box !important;
+  flex-shrink:   0;
+  align-self:    stretch !important;  /* stretch to match the Draw button's height */
+  /* Inverted palette: cream interior, navy border + text */
+  background:    var(--text-light, #f7f5ee) !important;
+  border:        1px solid var(--color-pf-secondary, #171f69) !important;
+  box-shadow:    none !important;
+  border-radius: 2px     !important;
+  color:         var(--color-pf-secondary, #171f69) !important;
+  text-align:    center  !important;
+}
+.shipcombat-ship .shipcombat-full-redraw-btn,
+.shipcombat-ship .shipcombat-draw-row button {
+  max-width:     none;
+  background:    var(--color-pf-secondary, #171f69);
+  border:        1px solid var(--color-pf-secondary-lighter, rgb(41,56,189));
+  box-shadow:    inset 0 0 0 1px rgba(0, 0, 0, 0.5);
+  color:         var(--text-light, #f7f5ee);
+  border-radius: 2px;
+}
+/* AppV1 only: Foundry AppV1's global CSS sets width:100% on all <button> elements */
+.window-app .shipcombat-full-redraw-btn,
+.window-app .shipcombat-draw-row button { width: auto; }
+.shipcombat-ship .shipcombat-full-redraw-btn:hover:not([disabled]),
+.shipcombat-ship .shipcombat-draw-row button:hover:not([disabled]) {
+  background:    var(--color-pf-secondary-light, rgb(32,43,147));
+  border-color:  var(--color-pf-secondary-lighter, rgb(41,56,189));
+}
+
+/* ── SF2e action button theme ───────────────────────────────────────────────
+   Replaces the impmal green (#00ff88) palette with SF2e navy/purple on all
+   "spend-action" buttons: Captain core actions, Ordnance master actions,
+   Engineer actions/confirm, Pilot confirm, Gunner fire, BDA roll.
+   Danger buttons (vent / fire suppression) and ram button keep their own red.
+   ────────────────────────────────────────────────────────────────────────── */
+.shipcombat-ship .shipcombat-core-action-btn,
+.shipcombat-ship .shipcombat-eng-btn:not(.shipcombat-action-danger),
+.shipcombat-ship .shipcombat-eng-confirm,
+.shipcombat-ship .shipcombat-helm-confirm:not(.shipcombat-ram-btn),
+.shipcombat-ship .shipcombat-bda-roll-btn,
+.shipcombat-ship .shipcombat-battery-fire-btn {
+  background:   var(--color-pf-secondary);
+  border-color: var(--color-pf-secondary-lighter);
+  color:        var(--text-light);
+  text-shadow:  none;
+  box-shadow:   none;
+}
+/* Core-action buttons: column layout to match ordnance action buttons */
+.shipcombat-ship .shipcombat-core-action-btn {
+  flex-direction:  column !important;
+  justify-content: center !important;
+  align-items:     center !important;
+  height:          auto   !important;
+  min-height:      0      !important;
+  gap:             2px    !important;
+  padding:         5px 6px !important;
+  text-align:      center;
+  width:           100%;
+}
+.shipcombat-ship .shipcombat-core-action-btn > i {
+  line-height: 1;
+}
+.shipcombat-ship .shipcombat-core-action-btn > span,
+.shipcombat-ship .shipcombat-core-action-btn > small {
+  margin:      0 !important;
+  padding:     0;
+  line-height: 1.1;
+  text-align:  center;
+  white-space: nowrap;
+}
+/* Confirm Movement button must not stretch to full width */
+.shipcombat-ship .shipcombat-helm-confirm:not(.shipcombat-ram-btn) {
+  width: auto;
+  flex: 0 0 auto;
+}
+/* Ram button: red/white — matches Emergency Vent danger style.
+   Use !important to override core pilot.css which has color: #ff6b6b !important */
+.shipcombat-ship .shipcombat-ram-btn {
+  width:        auto;
+  flex:         0 0 auto;
+  background:   #b91c1c !important;
+  border-color: #ef4444 !important;
+  color:        #fff !important;
+  text-shadow:  0 1px 2px rgba(0, 0, 0, 0.45);
+}
+.shipcombat-ship .shipcombat-ram-btn:hover:not([disabled]) {
+  background:   #dc2626 !important;
+  border-color: #f87171 !important;
+  color:        #fff !important;
+}
+.shipcombat-ship .shipcombat-ram-btn[disabled] {
+  background:   rgba(120, 20, 20, 0.22);
+  border-color: rgba(180, 60, 60, 0.30);
+  color:        rgba(255, 140, 140, 0.40);
+  cursor:       not-allowed;
+}
+/* Engineer Execute button must not stretch to full width */
+.shipcombat-ship .shipcombat-eng-confirm {
+  width: auto;
+  flex: 0 0 auto;
+}
+.shipcombat-ship .shipcombat-core-action-btn:hover:not([disabled]),
+.shipcombat-ship .shipcombat-eng-btn:not(.shipcombat-action-danger):hover:not([disabled]),
+.shipcombat-ship .shipcombat-eng-confirm:hover:not([disabled]),
+.shipcombat-ship .shipcombat-helm-confirm:not(.shipcombat-ram-btn):hover:not([disabled]),
+.shipcombat-ship .shipcombat-bda-roll-btn:hover:not([disabled]),
+.shipcombat-ship .shipcombat-battery-fire-btn:hover:not([disabled]) {
+  background:   var(--color-pf-secondary-light);
+  border-color: var(--color-pf-secondary-lighter);
+}
+/* Icons inside action buttons: inherit the white text color */
+.shipcombat-ship .shipcombat-core-action-btn i,
+.shipcombat-ship .shipcombat-eng-btn:not(.shipcombat-action-danger) i,
+.shipcombat-ship .shipcombat-bda-roll-btn i {
+  color: inherit;
+}
+
+/* ── Core status banner & payload badge chips ─────────────────────────────── */
+.shipcombat-ship .shipcombat-core-badge,
+.shipcombat-ship .shipcombat-payload-badge {
+  display:        inline-flex;
+  align-items:    center;
+  gap:            0.25em;
+  flex:           0 0 auto;          /* never shrink — badge always shows fully */
+  white-space:    nowrap;
+  padding:        0.28em 0.55em;
+  border-radius:  3px;
+  border:         1px solid;
+  font-size:      0.65rem;
+  font-weight:    600;
+  letter-spacing: 0.02em;
+  line-height:    1;
+  margin-inline-start: 0.35em;
+  pointer-events: none;
+}
+/* Ensure icon and text share the same line metrics so align-items:center works */
+.shipcombat-ship .shipcombat-core-badge i,
+.shipcombat-ship .shipcombat-core-badge span,
+.shipcombat-ship .shipcombat-payload-badge i,
+.shipcombat-ship .shipcombat-payload-badge span {
+  line-height: 1;
+  vertical-align: middle;
+}
+
+/* Core assigned / ready → SF2e navy */
+.shipcombat-ship .shipcombat-core-badge--assigned {
+  background:   rgba(23, 31, 105, 0.85);
+  border-color: rgba(41, 55, 188, 0.55);
+  color:        var(--text-light, #f7f5ee);
+}
+
+/* Core staged → amber */
+.shipcombat-ship .shipcombat-core-badge--staged {
+  background:   rgba(130, 82, 8, 0.80);
+  border-color: rgba(210, 150, 30, 0.55);
+  color:        #fce8b2;
+}
+
+/* Core none → neutral muted */
+.shipcombat-ship .shipcombat-core-badge--none {
+  background:   rgba(50, 50, 50, 0.55);
+  border-color: rgba(110, 110, 110, 0.40);
+  color:        rgba(220, 215, 205, 0.55);
+}
+
+/* Payload badge → SF2e crimson */
+.shipcombat-ship .shipcombat-payload-badge {
+  background:   rgba(94, 0, 0, 0.80);
+  border-color: rgba(160, 20, 20, 0.55);
+  color:        var(--text-light, #f7f5ee);
+}
+
+/* ── Payload allocation buttons — SF2e parchment theme (override impmal neon green) ── */
+.shipcombat-ship .shipcombat-payload-btn {
+  border-color: rgba(23, 31, 105, 0.30);
+  background:   rgba(23, 31, 105, 0.07);
+  color:        var(--color-text-dark-secondary, #444);
+}
+.shipcombat-ship .shipcombat-payload-btn:hover:not([disabled]) {
+  background:   rgba(23, 31, 105, 0.18);
+  border-color: rgba(23, 31, 105, 0.55);
+}
+.shipcombat-ship .shipcombat-payload-btn.active {
+  background:   rgba(23, 31, 105, 0.28);
+  border-color: var(--color-pf-secondary, #171f69);
+  color:        var(--color-pf-secondary, #171f69);
+}
+.shipcombat-ship .shipcombat-payload-btn i {
+  color: var(--color-pf-secondary, #171f69);
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+ * Captain Conditions — SF2e parchment retheme
+ * Core's tier badge uses a white-transparent background that vanishes on the
+ * parchment background; replace with a very subtle tint so the badge shape
+ * is visible while the coloured text/border still provides tier context.
+ * The core tier colours (amber #f0a500, orange #e67e22, red #e74c3c) are
+ * very light and unreadable on parchment — replace with dark opaque variants.
+ * Applies to both PC ships (.shipcombat-ship) and NPC ships.
+ * ══════════════════════════════════════════════════════════════════════════ */
+.shipcombat-ship .shipcombat-crit-tier-badge {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* Undo unscoped chat.css tier rules (background + color) bleeding onto actor
+ * sheets. The chat.css rules set dark-amber bg + pale-gold text on ANY
+ * .shipcombat-crit-tier--{low,medium,high} element in the DOM. On actor
+ * sheets those colours are illegible on parchment; reset them here at higher
+ * specificity (2 classes vs 1). */
+.shipcombat-ship .shipcombat-crit-row,
+form.shipcombat-npc-sheet .shipcombat-crit-row {
+  background: transparent;
+  color: var(--color-text-dark-primary, #1a1a1a);
+  border-color: unset;
+}
+
+/* Row left-border accent colours — dark, readable on parchment */
+.shipcombat-ship .shipcombat-crit-tier--low,
+form.shipcombat-npc-sheet .shipcombat-crit-tier--low {
+  border-left-color: #5a7c00;    /* dark olive-green  (clear, distinct from medium/high) */
+}
+.shipcombat-ship .shipcombat-crit-tier--medium,
+form.shipcombat-npc-sheet .shipcombat-crit-tier--medium {
+  border-left-color: #8b4000;    /* dark burnt-sienna */
+}
+.shipcombat-ship .shipcombat-crit-tier--high,
+form.shipcombat-npc-sheet .shipcombat-crit-tier--high {
+  border-left-color: #8b0c0c;    /* dark crimson      */
+}
+
+/* Badge text + border — same dark palette; faint tinted background */
+.shipcombat-ship .shipcombat-crit-tier-badge.shipcombat-crit-tier--low,
+form.shipcombat-npc-sheet .shipcombat-crit-tier-badge.shipcombat-crit-tier--low {
+  color:      #5a7c00;
+  background: rgba(90, 124, 0, 0.10);
+}
+.shipcombat-ship .shipcombat-crit-tier-badge.shipcombat-crit-tier--medium,
+form.shipcombat-npc-sheet .shipcombat-crit-tier-badge.shipcombat-crit-tier--medium {
+  color:      #8b4000;
+  background: rgba(139, 64, 0, 0.10);
+}
+.shipcombat-ship .shipcombat-crit-tier-badge.shipcombat-crit-tier--high,
+form.shipcombat-npc-sheet .shipcombat-crit-tier-badge.shipcombat-crit-tier--high {
+  color:      #8b0c0c;
+  background: rgba(139, 12, 12, 0.10);
+}
+

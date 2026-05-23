@@ -1,0 +1,217 @@
+{{!--
+  modules/causodes-shipcombat-sf2e/templates/actor/ship-sheet-sf2e.hbs
+  V1 wrapper template for the ship actor sheet.
+
+  Context keys provided by ShipSheetV1Mixin.getData():
+    cssClass      – Foundry-supplied class string
+    tabs          – object keyed by tabId, each { id, group, label }
+    partsArray    – string[] of allowed part ids in canonical order
+    partTemplates – { [partId]: templatePath } lookup map
+
+  Additional keys from ShipController.buildContext():
+    sys           – actor system data
+    isOwner       – boolean
+    shipSectors   – array of sector objects { id, label, abbr, armour, shield, … }
+--}}
+<form class="{{cssClass}} crb-style shipcombat-v1" autocomplete="off">
+
+  {{!-- Left sidebar (mirrors SF2e vehicle aside/sidebar structure) --}}
+  <aside>
+    <div class="sidebar" data-group="dashboard" data-tab="sidebar">
+
+      {{!-- Starfinder banner + Hit Points (Fire / Current / Max) --}}
+      <div class="sf2e-ship-logo"></div>
+      <header>
+        <h2>{{localize "PF2E.HitPointsHeader"}}</h2>
+      </header>
+      <div class="hitpoints">
+        <div class="hp-big">
+          <div class="container temp-hp {{#if (shipcombatGt sys.internalFire 0)}}shipcombat-fire-active{{/if}}"
+               title="{{localize 'SHIPCOMBAT.Engineer.InternalFire'}}">
+            <span class="sidebar_label">{{localize "SHIPCOMBAT.Label.Fire"}}</span>
+            <div class="data-value">
+              {{#if isOwner}}
+                <input type="number" name="system.internalFire" value="{{sys.internalFire}}" min="0" placeholder="0" size="1">
+              {{else}}
+                <h2>{{sys.internalFire}}</h2>
+              {{/if}}
+            </div>
+          </div>
+          <div class="container current-hp">
+            <label class="sidebar_label">{{localize "PF2E.CurrentHitPointsShortLabel"}}</label>
+            <div class="data-value">
+              {{#if isOwner}}
+                <input type="number" name="system.hull.value" value="{{sys.hull.value}}" min="0" placeholder="0" size="1">
+              {{else}}
+                <h2>{{sys.hull.value}}</h2>
+              {{/if}}
+            </div>
+          </div>
+          <div class="container max-hp">
+            <label class="sidebar_label">{{localize "PF2E.MaxHitPointsShortLabel"}}</label>
+            <div class="data-value">
+              {{#if isOwner}}
+                <input type="number" name="system.hull.max" value="{{sys.hull.max}}" min="0" placeholder="0" size="1">
+              {{else}}
+                <h2>{{sys.hull.max}}</h2>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {{!-- Armor Class + Hardness (merged) ────────────────────────────────── --}}
+      <header>
+        <h2>{{localize "PF2E.ArmorClassLabel"}}</h2>
+        <button type="button" class="modifiers_button hover" data-tooltip-content="#{{options.id}}-ship-ac-modifiers">
+          {{localize "PF2E.ModifiersTitle"}}
+        </button>
+      </header>
+      {{!-- AC modifier popup — native modifiers-tooltip.hbs (same as SF2e character/NPC sheets) --}}
+      {{> "systems/sf2e/templates/actors/partials/modifiers-tooltip.hbs" slug="ship-ac" title="PF2E.ArmorClassLabel" modifiers=acModifiers}}
+      <div class="armor-class">
+        <div class="ac">
+          <div class="data-value">
+            <h2>{{sys.armorClass}}</h2>
+          </div>
+          <span class="sidebar_label">{{localize "PF2E.ArmorClassShortLabel"}}</span>
+        </div>
+        <div class="hardness shipcombat-hardness-sectors">
+          <span class="sidebar_label">{{localize "SHIPCOMBAT.Label.Hardness"}}</span>
+          <table class="shipcombat-hardness-grid">
+            <tbody>
+              <tr>
+                <td class="shipcombat-sector-lbl" data-tooltip="{{localize 'SHIPCOMBAT.Sector.Bow'}}" data-tooltip-direction="UP">BOW</td>
+                <td><span class="shipcombat-readonly-val{{#if sys.armourRend.bow}} shipcombat-armour--rend{{/if}}">{{sys.armour.bow}}</span></td>
+                <td class="shipcombat-sector-lbl" data-tooltip="{{localize 'SHIPCOMBAT.Sector.Stern'}}" data-tooltip-direction="UP">STN</td>
+                <td><span class="shipcombat-readonly-val{{#if sys.armourRend.stern}} shipcombat-armour--rend{{/if}}">{{sys.armour.stern}}</span></td>
+              </tr>
+              <tr>
+                <td class="shipcombat-sector-lbl" data-tooltip="{{localize 'SHIPCOMBAT.Sector.Port'}}" data-tooltip-direction="UP">PRT</td>
+                <td><span class="shipcombat-readonly-val{{#if sys.armourRend.port}} shipcombat-armour--rend{{/if}}">{{sys.armour.port}}</span></td>
+                <td class="shipcombat-sector-lbl" data-tooltip="{{localize 'SHIPCOMBAT.Sector.Starboard'}}" data-tooltip-direction="UP">STBD</td>
+                <td><span class="shipcombat-readonly-val{{#if sys.armourRend.starboard}} shipcombat-armour--rend{{/if}}">{{sys.armour.starboard}}</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {{!-- Void Shields per sector --}}
+      <header>
+        <h2>{{localize "SHIPCOMBAT.Label.Shield"}}</h2>
+      </header>
+      <table class="shipcombat-stat-table">
+        <tr>
+          {{#each shipSectors}}
+          <td data-tooltip="{{label}}" data-tooltip-direction="UP">{{abbr}}</td>
+          {{/each}}
+        </tr>
+        <tr>
+          {{#each shipSectors}}
+          <td><span class="shipcombat-readonly-val">{{shield}}</span></td>
+          {{/each}}
+        </tr>
+      </table>
+
+      {{!-- Initiative ──────────────────────────────────────────────────────── --}}
+      <header>
+        <h2>{{localize "PF2E.InitiativeLabel"}}</h2>
+      </header>
+      <section class="roll-data initiative">
+        <a class="roll-icon shipcombat-roll-initiative-btn"
+           data-action="rollInitiative"
+           data-tooltip="{{localize 'SHIPCOMBAT.Captain.RollInitiativeBtn'}}">
+          {{> "systems/sf2e/templates/actors/character/icons/d20.hbs"}}
+        </a>
+        <a class="modifier hover" data-tooltip-content="#{{options.id}}-initiative-modifiers">{{captainInitiativeMod}}</a>
+        {{#if captainInitiativeOptions}}
+        <select data-role-skill-override="captain">
+          {{#each captainInitiativeOptions}}
+          <option value="{{value}}" {{#if (eq value @root.captainInitiativeSkill)}}selected{{/if}}>{{label}}</option>
+          {{/each}}
+        </select>
+        {{/if}}
+      </section>
+      {{!-- Initiative modifiers tooltip (captain skill breakdown) --}}
+      {{> "systems/sf2e/templates/actors/partials/modifiers-tooltip.hbs" slug="initiative" title="PF2E.InitiativeLabel" modifiers=captainInitiativeModifiers}}
+
+      {{!-- ── Immunities / Weaknesses / Resistances ────────────────────────
+           Mirrors SF2e vehicle actor sidebar pattern (vehicle/sidebar.hbs).
+           isGM guards the EDIT buttons; tag display is visible to all owners. --}}
+      <header>
+        <h2>{{localize "PF2E.ImmunitiesLabel"}}</h2>
+        {{#if isGM}}
+        <button type="button" class="modifiers_button" data-action="editImmunities">
+          <i class="fa-solid fa-edit"></i> {{localize "PF2E.Edit"}}
+        </button>
+        {{/if}}
+      </header>
+      <ol class="immunities tags">
+        {{#each immunities}}
+        <li class="tag tag_secondary" data-immunity="{{slug}}">{{label}}</li>
+        {{/each}}
+      </ol>
+
+      <header>
+        <h2>{{localize "PF2E.WeaknessesLabel"}}</h2>
+        {{#if isGM}}
+        <button type="button" class="modifiers_button" data-action="editWeaknesses">
+          <i class="fa-solid fa-edit"></i> {{localize "PF2E.Edit"}}
+        </button>
+        {{/if}}
+      </header>
+      <ol class="weaknesses tags">
+        {{#each weaknesses}}
+        <li class="tag tag_secondary" data-weakness="{{type}}">{{label}} {{value}}</li>
+        {{/each}}
+      </ol>
+
+      <header>
+        <h2>{{localize "PF2E.ResistancesLabel"}}</h2>
+        {{#if isGM}}
+        <button type="button" class="modifiers_button" data-action="editResistances">
+          <i class="fa-solid fa-edit"></i> {{localize "PF2E.Edit"}}
+        </button>
+        {{/if}}
+      </header>
+      <ol class="resistances tags">
+        {{#each resistances}}
+        <li class="tag tag_secondary" data-resistance="{{type}}">{{label}} {{value}}</li>
+        {{/each}}
+      </ol>
+
+    </div>
+  </aside>
+
+  {{!-- Header: name + rarity/size (provided by ship-header partial) --}}
+  {{> "ship-header"}}
+
+  {{!-- Tab navigation: panel-title on left (margin-right:auto pushes icons right) --}}
+  <nav class="sheet-navigation" data-group="primary" data-tooltip-direction="UP">
+    <span class="panel-title">{{localize (lookup (lookup tabs "overview") "label")}}</span>
+    {{#each tabs as |tab|}}
+      <a class="item" data-tab="{{tab.id}}" data-group="{{tab.group}}" data-tooltip="{{localize tab.label}}">
+        <i class="{{tab.icon}}"></i>
+      </a>
+    {{/each}}
+  </nav>
+
+  {{!-- Tab content: each partial wraps itself in <section class="tab" data-tab="..."> --}}
+  {{!-- Overview routes to ship-overview-sf2e.hbs via partTemplates.overview override. --}}
+  {{!-- IMPORTANT: {{#with @root}} resets `this` to the root context before calling each  --}}
+  {{!-- partial so that {{isGM}}, {{sys}}, {{roles}} etc. are all directly resolvable     --}}
+  {{!-- inside the partial without needing @root. prefix everywhere.                       --}}
+  <section class="sheet-body">
+    <section class="sheet-content">
+      {{#each partsArray as |partId|}}
+        {{#unless (or (eq partId "header") (eq partId "tabs"))}}
+          {{#with @root}}
+            {{> (lookup partTemplates partId) tab=(lookup tabsById partId)}}
+          {{/with}}
+        {{/unless}}
+      {{/each}}
+    </section>
+  </section>
+
+</form>

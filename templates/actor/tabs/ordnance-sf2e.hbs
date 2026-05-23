@@ -1,0 +1,36 @@
+{{!-- Ordnance Master station tab (6-player) with subtab navigation --}}
+<section class="tab {{tab.cssClass}}" data-group="primary" data-tab="{{tab.id}}">
+
+    {{> "ordnance-claim-prompt"}}
+    {{> "ordnance-captain-boost"}}
+    {{> "ordnance-status-bar"}}
+    {{> "ordnance-requisition"}}
+
+    {{#if (or isGM (lookup (lookup roles "ordnance") "isMyRole"))}}
+    <nav class="sub-nav">
+        <a data-sub-tab="orders">{{localize "SHIPCOMBAT.SubTab.Orders"}}</a>
+        <a data-sub-tab="payload">{{localize "SHIPCOMBAT.SubTab.Payload"}}</a>
+        <a data-sub-tab="overcharge">{{localize "SHIPCOMBAT.SubTab.Overcharge"}}</a>
+    </nav>
+    <div class="role-panels">
+        <div class="tab" data-sub-tab="orders">
+            {{> "ordnance-main-actions"}}
+            {{!-- Deployed ordnance below main actions (moved from above subtabs) --}}
+            {{#if useStrikeCraft}}
+            {{> "ordnance-deployed"}}
+            {{else}}
+            {{> "deployed-torpedoes"}}
+            {{/if}}
+        </div>
+        <div class="tab" data-sub-tab="payload">
+            {{> "ordnance-payload"}}
+        </div>
+        <div class="tab" data-sub-tab="overcharge">
+            {{> "ordnance-core-actions"}}
+        </div>
+    </div>
+    {{/if}}
+
+    {{> 'complete-turn' tabRoleId="ordnance" turnDone=(lookup @root.sys.turnDone "ordnance")}}
+
+</section>
