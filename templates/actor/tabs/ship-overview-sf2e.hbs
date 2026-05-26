@@ -127,7 +127,7 @@
                             {{#if assignedActor.img}}<img src="{{assignedActor.img}}" class="crew-portrait">{{/if}}
                             <span>{{assignedActor.name}}</span>
                             {{#if isMyRole}}
-                            <button data-action="releaseRole" data-role-id="{{id}}" class="crew-release" data-tooltip="{{localize 'SHIPCOMBAT.Action.Release'}}"><i class="fa-solid fa-right-from-bracket"></i></button>
+                            <a data-action="releaseRole" data-role-id="{{id}}" class="crew-release" data-tooltip="{{localize 'SHIPCOMBAT.Action.Release'}}"><i class="fa-solid fa-right-from-bracket"></i></a>
                             {{else if @root.isGM}}
                             <a data-action="unassignRole" data-role-id="{{id}}" class="crew-release" data-tooltip="{{localize 'SHIPCOMBAT.Action.Release'}}"><i class="fa-solid fa-xmark"></i></a>
                             {{/if}}
@@ -155,7 +155,7 @@
                             <i class="fa-solid fa-user"></i>
                             <span>{{assignedUser.name}}</span>
                             {{#if isMyRole}}
-                            <button data-action="releaseRole" data-role-id="{{id}}" class="crew-release" data-tooltip="{{localize 'SHIPCOMBAT.Action.Release'}}"><i class="fa-solid fa-right-from-bracket"></i></button>
+                            <a data-action="releaseRole" data-role-id="{{id}}" class="crew-release" data-tooltip="{{localize 'SHIPCOMBAT.Action.Release'}}"><i class="fa-solid fa-right-from-bracket"></i></a>
                             {{else if @root.isGM}}
                             <a data-action="unassignRole" data-role-id="{{id}}" class="crew-release" data-tooltip="{{localize 'SHIPCOMBAT.Action.Release'}}"><i class="fa-solid fa-xmark"></i></a>
                             {{/if}}
@@ -185,7 +185,9 @@
                         <span class="crew-col-role">
                             {{#if @root.isOwner}}<input class="crew-role-input crew-muted" type="text" data-role-title="{{id}}" value="{{labelLocalized}}" placeholder="{{defaultLabel}}">{{else}}<span class="crew-muted">{{labelLocalized}}</span>{{/if}}
                         </span>
-                        <span class="crew-col-ready">&mdash;</span>
+                        <span class="crew-col-ready">
+                            {{#unless @root.isGM}}<a data-action="claimRole" data-role-id="{{id}}" class="crew-claim" data-tooltip="{{localize 'SHIPCOMBAT.Action.Claim'}}"><i class="fa-solid fa-right-to-bracket"></i></a>{{else}}&mdash;{{/unless}}
+                        </span>
                         <span class="crew-col-skill">
                             {{#if @root.isOwner}}
                             <select class="crew-skill-select" data-role-skill-override="{{id}}">
@@ -195,9 +197,7 @@
                             </select>
                             {{else}}{{defaultSkillLabel}}{{/if}}
                         </span>
-                        <div class="crew-col-controls item-controls">
-                            {{#unless @root.isGM}}<button data-action="claimRole" data-role-id="{{id}}" class="crew-claim">{{localize "SHIPCOMBAT.Action.Claim"}}</button>{{/unless}}
-                        </div>
+                        <div class="crew-col-controls item-controls"></div>
                     </li>
                     {{/if}}
                     {{/each}}
