@@ -14,23 +14,23 @@
  */
 
 import { MODULE_ID, CORE_MODULE_ID, MACRO_FIRE_TIERS, buildChargeTiers }
-  from "../../../causodes-shipcombat-core/scripts/constants.js";
+  from "/modules/causodes-shipcombat-core/scripts/constants.js";
 import { emitToGM }
-  from "../../../causodes-shipcombat-core/scripts/socket.js";
+  from "/modules/causodes-shipcombat-core/scripts/socket.js";
 import { ShipCombatState }
-  from "../../../causodes-shipcombat-core/scripts/state/ShipCombatState.js";
+  from "/modules/causodes-shipcombat-core/scripts/state/ShipCombatState.js";
 import { SystemAdapter }
-  from "../../../causodes-shipcombat-core/scripts/systems/SystemAdapter.js";
+  from "/modules/causodes-shipcombat-core/scripts/systems/SystemAdapter.js";
 import { THEME, pixi }
-  from "../../../causodes-shipcombat-core/scripts/theme.js";
+  from "/modules/causodes-shipcombat-core/scripts/theme.js";
 import { isOrdnance }
-  from "../../../causodes-shipcombat-core/scripts/actors/ordnance/ordnance-types.js";
+  from "/modules/causodes-shipcombat-core/scripts/actors/ordnance/ordnance-types.js";
 import { classifyZone, getHitQuadrant, testArc }
-  from "../../../causodes-shipcombat-core/scripts/apps/TargetingPopup.js";
+  from "/modules/causodes-shipcombat-core/scripts/apps/TargetingPopup.js";
 import { _drawArrow, _makeArrowContainer, _destroyContainer }
-  from "../../../causodes-shipcombat-core/scripts/apps/StrikeCraftPopups.js";
+  from "/modules/causodes-shipcombat-core/scripts/apps/StrikeCraftPopups.js";
 import { HelmPreview }
-  from "../../../causodes-shipcombat-core/scripts/canvas/HelmPreview.js";
+  from "/modules/causodes-shipcombat-core/scripts/canvas/HelmPreview.js";
 
 // ── Shared ──────────────────────────────────────────────────────────────────
 

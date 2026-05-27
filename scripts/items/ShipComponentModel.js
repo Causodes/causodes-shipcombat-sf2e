@@ -6,7 +6,7 @@
  * Uses TypeDataModel as the base class (same pattern as ShipModel).
  */
 
-import { ShipComponentSchemaMixin } from "../../../causodes-shipcombat-core/scripts/items/ShipComponentSchema.js";
+import { ShipComponentSchemaMixin } from "/modules/causodes-shipcombat-core/scripts/items/ShipComponentSchema.js";
 
 class _Base extends foundry.abstract.TypeDataModel {
   static defineSchema() {

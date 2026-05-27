@@ -14,9 +14,9 @@
  * implementation here.
  */
 
-import { SystemAdapter } from "../../../causodes-shipcombat-core/scripts/systems/SystemAdapter.js";
-import { MODULE_ID }     from "../../../causodes-shipcombat-core/scripts/constants.js";
-import { emitToGM }      from "../../../causodes-shipcombat-core/scripts/socket.js";
+import { SystemAdapter } from "/modules/causodes-shipcombat-core/scripts/systems/SystemAdapter.js";
+import { MODULE_ID }     from "/modules/causodes-shipcombat-core/scripts/constants.js";
+import { emitToGM }      from "/modules/causodes-shipcombat-core/scripts/socket.js";
 
 // ── Skill map: abstract role key → SF2e skill slug ────────────────────────
 // Confirmed against CONFIG.PF2E.skills in sf2e.mjs. SF2e-specific skills

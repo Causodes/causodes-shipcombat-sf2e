@@ -1,5 +1,8 @@
+## v1.0.3
+- Fix module not loading on Forge-hosted instances (convert cross-module relative imports to absolute paths)
+
 ## v1.0.2
-- Fix NPC helm not picking up values from stats
+- Fix NPC helm controls not picking up values from stats
 - Rename ASR to OPT and RTG to HIT in Strike Craft configs
 
 ## v1.0.1

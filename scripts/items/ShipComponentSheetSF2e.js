@@ -8,7 +8,7 @@
  */
 
 import { ShipComponentSheetV1Mixin }
-  from "../../../causodes-shipcombat-core/scripts/items/ShipComponentSheetMixin.js";
+  from "/modules/causodes-shipcombat-core/scripts/items/ShipComponentSheetMixin.js";
 
 const MODULE_ID      = "causodes-shipcombat-sf2e";
 const CORE_MODULE_ID = "causodes-shipcombat-core";

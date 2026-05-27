@@ -1,5 +1,5 @@
-import { OrdnanceSheetV1Mixin } from "../../../../causodes-shipcombat-core/scripts/actors/ordnance/OrdnanceSheetMixin.js";
-import { SystemAdapter } from "../../../../causodes-shipcombat-core/scripts/systems/SystemAdapter.js";
+import { OrdnanceSheetV1Mixin } from "/modules/causodes-shipcombat-core/scripts/actors/ordnance/OrdnanceSheetMixin.js";
+import { SystemAdapter } from "/modules/causodes-shipcombat-core/scripts/systems/SystemAdapter.js";
 
 export class OrdnanceSheet extends OrdnanceSheetV1Mixin(foundry.appv1.sheets.ActorSheet) {
   static get defaultOptions() {

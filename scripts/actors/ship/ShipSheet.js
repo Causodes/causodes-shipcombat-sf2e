@@ -17,9 +17,9 @@
  * inheritance from a system-specific sheet base.
  */
 
-import { ShipSheetV1Mixin } from "../../../../causodes-shipcombat-core/scripts/actors/ship/ShipSheetV1Mixin.js";
-import { emitToGM } from "../../../../causodes-shipcombat-core/scripts/socket.js";
-import { SystemAdapter } from "../../../../causodes-shipcombat-core/scripts/systems/SystemAdapter.js";
+import { ShipSheetV1Mixin } from "/modules/causodes-shipcombat-core/scripts/actors/ship/ShipSheetV1Mixin.js";
+import { emitToGM } from "/modules/causodes-shipcombat-core/scripts/socket.js";
+import { SystemAdapter } from "/modules/causodes-shipcombat-core/scripts/systems/SystemAdapter.js";
 
 // ---------------------------------------------------------------------------
 // ShipTraitSelector  —  mirrors SF2e TagSelectorBasic for our custom actor type.

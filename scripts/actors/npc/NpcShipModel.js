@@ -7,7 +7,7 @@
  * stubs required at this time).
  */
 
-import { NpcShipSchemaMixin } from "../../../../causodes-shipcombat-core/scripts/actors/npc/NpcShipSchema.js";
+import { NpcShipSchemaMixin } from "/modules/causodes-shipcombat-core/scripts/actors/npc/NpcShipSchema.js";
 
 class _Base extends foundry.abstract.TypeDataModel {
   static defineSchema() {
