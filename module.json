@@ -2,7 +2,7 @@
   "id": "causodes-shipcombat-sf2e",
   "title": "Causodes's Ship Combat (Starfinder 2e)",
   "description": "Starfinder 2e integration for Causodes's Ship Combat (Core). Registers actor/item types, the system adapter, and CSS theming.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "compatibility": {
     "minimum": "14",
     "verified": "14.361",
@@ -78,7 +78,7 @@
     }
   },
   "url": "https://github.com/Causodes/causodes-shipcombat-sf2e",
-  "download": "https://github.com/Causodes/causodes-shipcombat-sf2e/archive/refs/tags/v1.0.1.zip",
+  "download": "https://github.com/Causodes/causodes-shipcombat-sf2e/archive/refs/tags/v1.0.2.zip",
   "manifest": "https://github.com/Causodes/causodes-shipcombat-sf2e/releases/latest/download/module.json",
   "readme": "https://github.com/Causodes/causodes-shipcombat-sf2e/blob/main/README.md",
   "changelog": "https://github.com/Causodes/causodes-shipcombat-sf2e/blob/main/CHANGELOG.md",

@@ -13,6 +13,18 @@ export class OrdnanceSheet extends OrdnanceSheetV1Mixin(foundry.appv1.sheets.Act
     });
   }
 
+  activateListeners($html) {
+    super.activateListeners($html);
+    // Rename labels in the strike craft config for SF2e nomenclature.
+    // The labels are inline in the core ordnance-config.hbs template; patching
+    // post-render is the SF2e-only approach that avoids touching core.
+    const RENAMES = { ASR: "OPT", RTG: "HIT" };
+    for (const label of $html[0].querySelectorAll(".shipcombat-torpedo-stat label")) {
+      const replacement = RENAMES[label.textContent.trim()];
+      if (replacement) label.textContent = replacement;
+    }
+  }
+
   async getData(options) {
     const ctx = await super.getData(options);
     // Provide tab context objects so {{tab.id}} in the Core partials renders

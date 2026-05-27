@@ -1,4 +1,5 @@
 import { NpcShipSheetV1Mixin } from "../../../../causodes-shipcombat-core/scripts/actors/npc/NpcShipSheetMixin.js";
+import { buildHelmContext } from "../../../../causodes-shipcombat-core/scripts/roles/pilot.js";
 import { ShipIWREditor } from "../ship/ShipSheet.js";
 
 // Tagify is bundled inside sf2e's vendor.mjs and exported as 'b'.
@@ -115,6 +116,30 @@ export class NpcShipSheet extends NpcShipSheetV1Mixin(foundry.appv1.sheets.Actor
                         : slug.charAt(0).toUpperCase() + slug.slice(1);
       return { id: slug, value };
     });
+
+    // Re-build helm context so movement stats are correct for SF2e NPC ships.
+    try {
+      const mv = ctx.sys?.movement ?? {};
+      const components = this.actor.items.filter(i => i.type?.endsWith(".component"));
+      const engine = components.find(c => c.system?.slot === "engine");
+      const npcShipToken = this.actor.getActiveTokens()?.[0];
+
+      // Engine component overrides base stats when installed (mirrors computeDerived).
+      const rawSpeed = engine?.system?.speed          ?? mv.baseSpeed          ?? mv.speed          ?? 0;
+      const rawMano  = engine?.system?.maneuverability ?? mv.baseManeuverability ?? mv.maneuverability ?? 0;
+
+      const patchedSys = {
+        ...ctx.sys,
+        movement: { ...mv, speed: rawSpeed, maneuverability: rawMano },
+      };
+      ctx.helm = buildHelmContext(patchedSys, {
+        engineComponent: engine,
+        velocityBearingMode: this._velocityBearingMode ?? "relative",
+        shipRotation: npcShipToken?.document?.rotation ?? 0,
+      });
+    } catch (err) {
+      // fail silently; keep existing helm context from super
+    }
 
     return ctx;
   }
