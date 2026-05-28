@@ -1,5 +1,4 @@
-import { NpcShipSheetV1Mixin } from "/modules/causodes-shipcombat-core/scripts/actors/npc/NpcShipSheetMixin.js";
-import { buildHelmContext } from "/modules/causodes-shipcombat-core/scripts/roles/pilot.js";
+const { NpcShipSheetV1Mixin, buildHelmContext } = globalThis.ShipCombat._api;
 import { ShipIWREditor } from "../ship/ShipSheet.js";
 
 // Tagify is bundled inside sf2e's vendor.mjs and exported as 'b'.

@@ -7,7 +7,7 @@
  * stubs required at this time).
  */
 
-import { NpcShipSchemaMixin } from "/modules/causodes-shipcombat-core/scripts/actors/npc/NpcShipSchema.js";
+const { NpcShipSchemaMixin } = globalThis.ShipCombat._api;
 
 class _Base extends foundry.abstract.TypeDataModel {
   static defineSchema() {

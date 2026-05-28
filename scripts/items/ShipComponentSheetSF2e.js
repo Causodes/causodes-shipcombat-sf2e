@@ -7,8 +7,7 @@
  * styled WeaponTraitsEditor dialog.
  */
 
-import { ShipComponentSheetV1Mixin }
-  from "/modules/causodes-shipcombat-core/scripts/items/ShipComponentSheetMixin.js";
+const { ShipComponentSheetV1Mixin } = globalThis.ShipCombat._api;
 
 const MODULE_ID      = "causodes-shipcombat-sf2e";
 const CORE_MODULE_ID = "causodes-shipcombat-core";

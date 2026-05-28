@@ -6,7 +6,7 @@
  * including the `subtype` discriminator field ("torpedo" | "strikeCraft").
  */
 
-import { OrdnanceSchemaMixin } from "/modules/causodes-shipcombat-core/scripts/actors/ordnance/OrdnanceSchema.js";
+const { OrdnanceSchemaMixin } = globalThis.ShipCombat._api;
 
 class _Base extends foundry.abstract.TypeDataModel {
   static defineSchema() {

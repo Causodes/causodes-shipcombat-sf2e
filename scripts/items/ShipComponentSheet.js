@@ -1,4 +1,4 @@
-import { ShipComponentSheetMixin } from "/modules/causodes-shipcombat-core/scripts/items/ShipComponentSheetMixin.js";
+const { ShipComponentSheetMixin } = globalThis.ShipCombat._api;
 
 // Extend the Foundry AppV2 item sheet base so the component sheet uses the
 // standard SF2e item sheet look-and-feel.  We apply classes "pf2e" and "item"

@@ -6,7 +6,7 @@
  * the base SystemAdapter.getShipData() / systemPath() defaults work as-is.
  */
 
-import { ShipSchemaMixin } from "/modules/causodes-shipcombat-core/scripts/actors/ship/ShipSchema.js";
+const { ShipSchemaMixin } = globalThis.ShipCombat._api;
 
 // TypeDataModel.defineSchema() is abstract and throws; provide a concrete base
 // so the mixin chain's super.defineSchema() calls return {} rather than throwing.

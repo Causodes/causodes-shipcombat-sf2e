@@ -1,3 +1,6 @@
+## v1.1.0
+- Fix Forge compatibility: access core APIs via globalThis.ShipCombat._api instead of ES imports
+
 ## v1.0.3
 - Fix module not loading on Forge-hosted instances (convert cross-module relative imports to absolute paths)
 

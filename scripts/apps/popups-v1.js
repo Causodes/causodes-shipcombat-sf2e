@@ -13,24 +13,13 @@
  * "init" hook (see causodes-shipcombat-sf2e.js).
  */
 
-import { MODULE_ID, CORE_MODULE_ID, MACRO_FIRE_TIERS, buildChargeTiers }
-  from "/modules/causodes-shipcombat-core/scripts/constants.js";
-import { emitToGM }
-  from "/modules/causodes-shipcombat-core/scripts/socket.js";
-import { ShipCombatState }
-  from "/modules/causodes-shipcombat-core/scripts/state/ShipCombatState.js";
-import { SystemAdapter }
-  from "/modules/causodes-shipcombat-core/scripts/systems/SystemAdapter.js";
-import { THEME, pixi }
-  from "/modules/causodes-shipcombat-core/scripts/theme.js";
-import { isOrdnance }
-  from "/modules/causodes-shipcombat-core/scripts/actors/ordnance/ordnance-types.js";
-import { classifyZone, getHitQuadrant, testArc }
-  from "/modules/causodes-shipcombat-core/scripts/apps/TargetingPopup.js";
-import { _drawArrow, _makeArrowContainer, _destroyContainer }
-  from "/modules/causodes-shipcombat-core/scripts/apps/StrikeCraftPopups.js";
-import { HelmPreview }
-  from "/modules/causodes-shipcombat-core/scripts/canvas/HelmPreview.js";
+const {
+  CORE_MODULE_ID, MACRO_FIRE_TIERS, buildChargeTiers,
+  emitToGM, ShipCombatState, SystemAdapter, THEME, pixi,
+  isOrdnance, classifyZone, getHitQuadrant, testArc,
+  _drawArrow, _makeArrowContainer, _destroyContainer, HelmPreview,
+} = globalThis.ShipCombat._api;
+const MODULE_ID = "causodes-shipcombat-sf2e";
 
 // ── Shared ──────────────────────────────────────────────────────────────────
 
