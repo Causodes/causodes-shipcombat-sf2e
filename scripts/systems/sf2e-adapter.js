@@ -31,6 +31,14 @@ const SKILL_MAP = {
   navigation:  { key: "piloting"   },  // astrogation — DEX
 };
 
+// ── Fallback skills for bare pf2e (no sf2e-anachronism) ──────────────────
+// Maps SF2e-specific slugs to the closest pf2e core equivalent by ability score.
+// Used only when the slug is absent from CONFIG.PF2E.skills at runtime.
+const FALLBACK_SKILLS = {
+  piloting:  "acrobatics",  // DEX → DEX
+  computers: "crafting",    // INT → INT (crafting is already in SKILL_MAP for engineering)
+};
+
 export class Sf2eAdapter extends SystemAdapter {
   get systemName()     { return "Starfinder 2e"; }
   get moduleId()       { return MODULE_ID; }
@@ -90,14 +98,14 @@ export class Sf2eAdapter extends SystemAdapter {
 
   resolveSkill(roleSkill) {
     const mapped = SKILL_MAP[roleSkill];
-    if (mapped) return { ...mapped };
+    if (mapped) return { ...mapped, key: this._resolveSkillSlug(mapped.key) };
 
     // Accept a plain slug string (possibly with "|spec" suffix — SF2e has no
     // specialisations, so we strip the suffix and use the slug directly).
     const slug = typeof roleSkill === "string"
       ? roleSkill.slice(0, roleSkill.includes("|") ? roleSkill.indexOf("|") : undefined)
       : null;
-    if (slug?.length) return { key: slug };
+    if (slug?.length) return { key: this._resolveSkillSlug(slug) };
 
     throw new Error(`Sf2eAdapter: unknown roleSkill "${roleSkill}"`);
   }
@@ -125,13 +133,25 @@ export class Sf2eAdapter extends SystemAdapter {
    * SF2e uses plain skill slugs; no specialisation strings needed.
    */
   getDefaultRoleSkillMapping() {
+    // Resolve sf2e-specific slugs at runtime so bare pf2e worlds (without
+    // sf2e-anachronism) get a working pf2e fallback skill instead of a
+    // missing slug that produces no modifier.
+    const computers = this._resolveSkillSlug("computers");
+    const piloting  = this._resolveSkillSlug("piloting");
+    // Label keys exist in en.json for all possible resolved values.
+    const LABEL_KEYS = {
+      computers:  "SHIPCOMBAT.SF2E.MainSkill.Computers",
+      crafting:   "SHIPCOMBAT.SF2E.MainSkill.Crafting",
+      piloting:   "SHIPCOMBAT.SF2E.MainSkill.Piloting",
+      acrobatics: "SHIPCOMBAT.SF2E.MainSkill.Acrobatics",
+    };
     return {
-      captain:  { skillKey: "diplomacy",  specialisation: "", rootLabel: "Diplomacy",  label: "SHIPCOMBAT.SF2E.MainSkill.Diplomacy"  },
-      engineer: { skillKey: "computers",  specialisation: "", rootLabel: "Computers",  label: "SHIPCOMBAT.SF2E.MainSkill.Computers"  },
-      pilot:    { skillKey: "piloting",   specialisation: "", rootLabel: "Piloting",   label: "SHIPCOMBAT.SF2E.MainSkill.Piloting"   },
-      sensors:  { skillKey: "perception", specialisation: "", rootLabel: "Perception", label: "SHIPCOMBAT.SF2E.MainSkill.Perception" },
-      gunner:   { skillKey: "acrobatics", specialisation: "", rootLabel: "Acrobatics", label: "SHIPCOMBAT.SF2E.MainSkill.Acrobatics" },
-      ordnance: { skillKey: "athletics",  specialisation: "", rootLabel: "Athletics",  label: "SHIPCOMBAT.SF2E.MainSkill.Athletics"  },
+      captain:  { skillKey: "diplomacy",  specialisation: "", rootLabel: "Diplomacy",                    label: "SHIPCOMBAT.SF2E.MainSkill.Diplomacy"   },
+      engineer: { skillKey: computers,    specialisation: "", rootLabel: this.getSkillLabel(computers),  label: LABEL_KEYS[computers]  ?? `SHIPCOMBAT.SF2E.MainSkill.${computers.charAt(0).toUpperCase() + computers.slice(1)}`  },
+      pilot:    { skillKey: piloting,     specialisation: "", rootLabel: this.getSkillLabel(piloting),   label: LABEL_KEYS[piloting]   ?? `SHIPCOMBAT.SF2E.MainSkill.${piloting.charAt(0).toUpperCase() + piloting.slice(1)}`   },
+      sensors:  { skillKey: "perception", specialisation: "", rootLabel: "Perception",                  label: "SHIPCOMBAT.SF2E.MainSkill.Perception"  },
+      gunner:   { skillKey: "acrobatics", specialisation: "", rootLabel: "Acrobatics",                  label: "SHIPCOMBAT.SF2E.MainSkill.Acrobatics"  },
+      ordnance: { skillKey: "athletics",  specialisation: "", rootLabel: "Athletics",                   label: "SHIPCOMBAT.SF2E.MainSkill.Athletics"   },
     };
   }
 
@@ -423,7 +443,7 @@ export class Sf2eAdapter extends SystemAdapter {
       _pendingRerollActorId = null;
 
       // Only act on PF2e reroll results that carry our table.
-      if (!message.flags?.sf2e?.context?.isReroll) return;
+      if (!message.flags?.[game.system.id]?.context?.isReroll) return;
       const tmp = document.createElement("div");
       tmp.innerHTML = message.flavor ?? "";
       if (!tmp.querySelector(".sc-points-table")) return;
@@ -852,12 +872,45 @@ export class Sf2eAdapter extends SystemAdapter {
    * @returns {number|null}
    */
   getHelmRollModifier(actor) {
-    return actor?.system?.skills?.piloting?.totalModifier
-      ?? actor?.system?.skills?.piloting?.total
+    const slug = this._resolveSkillSlug("piloting");
+    return actor?.system?.skills?.[slug]?.totalModifier
+      ?? actor?.system?.skills?.[slug]?.total
       ?? null;
   }
 
   /* ── Private helpers ────────────────────────────────────────────────────── */
+
+  /**
+   * Validate a skill slug against CONFIG.PF2E.skills at runtime and fall back
+   * to a pf2e core equivalent if the slug is absent (e.g. "piloting" /
+   * "computers" on bare pf2e without sf2e-anachronism).
+   *
+   * On sf2e all slugs are present, so this is a no-op and costs only a
+   * property-existence check. On pf2e+anachronism the slugs are also present.
+   * Only on bare pf2e (no anachronism) do the SF2e-specific slugs fall back.
+   *
+   * A console warning is emitted once per missing slug so the GM knows which
+   * module to install for full Starfinder skill support.
+   */
+  _warnedFallbackSlugs = new Set();
+
+  _resolveSkillSlug(slug) {
+    const known = CONFIG.PF2E?.skills ?? {};
+    if (slug === "perception" || slug in known) return slug;
+    const fallback = FALLBACK_SKILLS[slug];
+    const resolved = (fallback && (fallback === "perception" || fallback in known))
+      ? fallback
+      : ("perception" in known ? "perception" : Object.keys(known)[0] ?? slug);
+    if (!this._warnedFallbackSlugs.has(slug)) {
+      this._warnedFallbackSlugs.add(slug);
+      console.warn(
+        `[${MODULE_ID}] Skill "${slug}" not found in CONFIG.PF2E.skills. ` +
+        `Install sf2e-anachronism on the pf2e system for full Starfinder skill support. ` +
+        `Falling back to "${resolved}".`
+      );
+    }
+    return resolved;
+  }
 
   /**
    * Localise a value that is either already a readable string or a

@@ -1,8 +1,8 @@
-# Causodes's Ship Combat (Starfinder 2e)
+# Causodes's Ship Combat (SF2e/PF2e)
 
 ![](https://github.com/user-attachments/assets/7115df81-b7f6-4f2d-9fc4-358f9de1a6ab)
 
-A FoundryVTT module for **Starfinder 2e** that adds a full ship combat system. Up to six players each claim a named bridge station and execute their role's mechanics from a dedicated tab on the shared starship sheet. The crew size is adjustable; roles collapse and merge as headcount drops. All players take their turns simultaneously on the player ship's turn in the combat tracker.
+A FoundryVTT module for **Starfinder 2e** and **Pathfinder 2e** that adds a full ship combat system. Up to six players each claim a named bridge station and execute their role's mechanics from a dedicated tab on the shared starship sheet. The crew size is adjustable; roles collapse and merge as headcount drops. All players take their turns simultaneously on the player ship's turn in the combat tracker.
 
 See the role-specific reference documents for full details on what each station does:
 
@@ -17,10 +17,12 @@ See the role-specific reference documents for full details on what each station 
 
 - socketlib
 - **Starfinder 2e** system
+- **Pathfinder 2e** system
 
 **Optional (for combat animations):**
 - Sequencer
 - JB2A Patreon (Jules and Ben's Animated Assets - Patreon version required for the full animation set)
+- Starfinder Anachronism (For Starfinder 2e skills when using Pathfinder 2e)
 
 ---
 

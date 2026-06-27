@@ -256,7 +256,8 @@ Hooks.once("init", () => {
     const COMPONENT_ICON = "icons/svg/chest.svg";
     class ShipComponentItem extends ItemPF2eBase {
       _ensureSf2eGrantFlags() {
-        const current = this._source.flags?.sf2e;
+        const systemId = game.system.id;
+        const current = this._source.flags?.[systemId];
         const hasShape = current
           && typeof current === "object"
           && Object.hasOwn(current, "grantedBy")
@@ -268,7 +269,7 @@ Hooks.once("init", () => {
           current && typeof current === "object" ? current : {},
           { inplace: false }
         );
-        this.updateSource({ "flags.sf2e": normalized });
+        this.updateSource({ [`flags.${systemId}`]: normalized });
       }
 
       static getDefaultArtwork(_itemData) {
@@ -451,7 +452,7 @@ Hooks.on("preCreateActor", (actor, data, _options, _userId) => {
   // here and replace any broken/default path with SHIP_ICON.
   const OUR_TYPES = [SHIP_TYPE, NPC_SHIP_TYPE, ORDNANCE_TYPE];
   if (OUR_TYPES.includes(actor.type)) {
-    const sf2eDefault = `systems/sf2e/icons/default-icons/${actor.type}.svg`;
+    const sf2eDefault = `systems/${game.system.id}/icons/default-icons/${actor.type}.svg`;
     if (!data.img || data.img === CONST.DEFAULT_TOKEN || data.img === sf2eDefault) {
       actor.updateSource({ img: SHIP_ICON, "prototypeToken.texture.src": SHIP_ICON });
     }
@@ -470,11 +471,13 @@ Hooks.on("preCreateActor", (actor, data, _options, _userId) => {
 // The SF2e system also assigns a type-derived default path
 // ("systems/sf2e/icons/default-icons/<type>.svg") before this hook fires, so
 // we must also intercept that path.
-const _COMPONENT_ICON        = "icons/svg/chest.svg";
-const _COMPONENT_SF2E_DEFAULT = `systems/sf2e/icons/default-icons/${COMPONENT_TYPE}.svg`;
+const _COMPONENT_ICON = "icons/svg/chest.svg";
 Hooks.on("preCreateItem", (item, data, _options, _userId) => {
-  if (item.type === COMPONENT_TYPE && (!data.img || data.img === CONST.DEFAULT_TOKEN || data.img === _COMPONENT_SF2E_DEFAULT)) {
-    item.updateSource({ img: _COMPONENT_ICON });
+  if (item.type === COMPONENT_TYPE) {
+    const systemDefault = `systems/${game.system.id}/icons/default-icons/${COMPONENT_TYPE}.svg`;
+    if (!data.img || data.img === CONST.DEFAULT_TOKEN || data.img === systemDefault) {
+      item.updateSource({ img: _COMPONENT_ICON });
+    }
   }
 });
 
@@ -484,6 +487,35 @@ Hooks.on("preCreateItem", (item, data, _options, _userId) => {
 // The overview tab template is not in core's overridable-partial registry; it
 // is instead injected via partTemplates["overview"] override in ShipSheet.getData().
 Hooks.once("setup", async () => {
+  // ── Sidebar logo ──────────────────────────────────────────────────────────
+  // Use the Starfinder logo on sf2e, Pathfinder logo on pf2e.
+  const logoPath = game.system.id === "sf2e"
+    ? "systems/sf2e/assets/starfinder_logo.webp"
+    : "systems/pf2e/assets/pathfinder_logo.webp";
+  const logoStyle = document.createElement("style");
+  logoStyle.id = "causodes-shipcombat-logo-override";
+  logoStyle.textContent =
+    `.sf2e-ship-logo { background: url("/${logoPath}") no-repeat center / contain; }`;
+  document.head.appendChild(logoStyle);
+
+  // The ship-sheet-sf2e.hbs templates reference system partials by their sf2e
+  // paths. On pf2e those files exist at the same relative paths under
+  // systems/pf2e/. If the sf2e-aliased partials aren't already registered
+  // (sf2e registers them itself during init), load them from the active system
+  // and register them under the sf2e path aliases our templates use.
+  const SYSTEM_PARTIAL_ALIASES = [
+    "systems/sf2e/templates/actors/partials/modifiers-tooltip.hbs",
+    "systems/sf2e/templates/actors/character/icons/d20.hbs",
+  ];
+  for (const alias of SYSTEM_PARTIAL_ALIASES) {
+    if (!Handlebars.partials[alias]) {
+      const activePath = alias.replace("systems/sf2e/", `systems/${game.system.id}/`);
+      // eslint-disable-next-line no-await-in-loop
+      const fn = await getTemplate(activePath);
+      Handlebars.registerPartial(alias, fn);
+    }
+  }
+
   await loadTemplates([
     // Overview tab override
     "modules/causodes-shipcombat-sf2e/templates/actor/tabs/ship-overview-sf2e.hbs",
