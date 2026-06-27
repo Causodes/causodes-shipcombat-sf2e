@@ -1,3 +1,6 @@
+## v1.2.0
+- Compatibility with the **pf2e** system with optional **sf2e-anachronism** support. All system-namespaced references (grant flags, reroll context, default-icon paths, the Tagify vendor bundle) now resolve via `game.system.id`, so the module runs unchanged on sf2e and additionally on pf2e or pf2e+anachronism.
+
 ## v1.1.0
 - Fix Forge compatibility: access core APIs via globalThis.ShipCombat._api instead of ES imports
 
