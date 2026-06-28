@@ -11,6 +11,8 @@ See the role-specific reference documents for full details on what each station 
 - [README_5.md](README_5.md) — 5-player crew
 - [README_6.md](README_6.md) — 6-player crew
 
+For help with first time setup, please see [TUTORIAL.md](TUTORIAL.md)!
+
 ---
 
 ## Dependencies
@@ -231,12 +233,13 @@ Strike craft flight tokens are manually controlled. Each flight has hull, fuel, 
 | Trait | Effect |
 |-------|--------|
 | Shield Bypass | Hits ignore shields entirely |
+| Multiple Attacks| Able to fire an infinite amount of times per turn, as resources permit |
 | Shield Burn | Each hit absorbed by shields drains additional flux |
 | Rend | Each hit permanently reduces sector hardness regardless of hull damage dealt |
 | Hardness Penetration | Reduces effective sector hardness per hit |
 | Devastating | Reduces the crit margin by this value (base crit requires exceeding AC by 10; Devastating 2 means crit at AC+8) |
 | Unreliable | A **critical failure** (the shot's final tier is `crit_miss` — fails by 10 or more after nat-20/nat-1 degree adjustments) causes that shot to jam and **halts the entire salvo**. A nat-1 that is promoted to a miss (e.g. nat-1 on a hit) does **not** trigger a jam; only a genuine critical failure does |
-| Overcharge | When fired overcharged: 2 heat per shot, triple weapon trait values |
+| Overcharge | Heat weapons only. When fired overcharged: 2 heat per shot, triple weapon trait values |
 | Hit Rating | Flat bonus or penalty to base hit chance for all shots |
 
 ---

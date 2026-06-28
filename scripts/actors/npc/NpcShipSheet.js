@@ -105,9 +105,9 @@ export class NpcShipSheet extends NpcShipSheetV1Mixin(foundry.appv1.sheets.Actor
     const baseLevel    = ctx.sys?.details?.level?.value ?? 1;
     ctx.displayLevel   = baseLevel + (ctx.isElite ? 1 : ctx.isWeak ? -1 : 0);
 
-    // Formatted initiative modifier — avoids "+-2" when gunnery is negative.
-    const gunnery       = ctx.sys?.attributes?.gunnery ?? 0;
-    ctx.initiativeMod   = `${gunnery >= 0 ? "+" : ""}${gunnery}`;
+    // Formatted initiative modifier — PIL is used as the flat initiative value.
+    const piloting      = ctx.sys?.attributes?.piloting ?? 0;
+    ctx.initiativeMod   = `${piloting >= 0 ? "+" : ""}${piloting}`;
 
     // Form-level class used by CSS to color stat values when adjusted.
     ctx.adjustmentClass = ctx.isElite ? "adjustment-elite" : ctx.isWeak ? "adjustment-weak" : "";
@@ -153,6 +153,45 @@ export class NpcShipSheet extends NpcShipSheetV1Mixin(foundry.appv1.sheets.Actor
   activateListeners($html) {
     super.activateListeners($html);
     const root = $html[0];
+
+    // SF2e/PF2e: NPC ship initiative = d20 + PIL modifier.
+    // Intercept the core mixin's npcRollInitiative action in the capture phase
+    // so stopImmediatePropagation() prevents the jQuery delegation (bubble phase)
+    // on $html from also firing.
+    const rollInitBtn = root.querySelector("[data-action='npcRollInitiative']");
+    if (rollInitBtn) {
+      rollInitBtn.addEventListener("click", async (event) => {
+        event.stopImmediatePropagation();
+        if (!game.combat) return;
+        const token    = this.actor.getActiveTokens()?.[0];
+        const combatant = token
+          ? game.combat.combatants.find(c => c.tokenId === token.id)
+          : game.combat.combatants.find(c => c.actor?.id === this.actor.id);
+        if (!combatant) return;
+        const { SystemAdapter } = globalThis.ShipCombat._api;
+        const sys      = SystemAdapter.current.getShipData(this.actor);
+        const piloting = sys.attributes?.piloting ?? 0;
+        const { total } = await SystemAdapter.current.rollShipInitiativeFromAttribute(
+          piloting,
+          game.i18n.localize("SHIPCOMBAT.NpcShip.RollInitiative"),
+          { speaker: ChatMessage.getSpeaker({ actor: this.actor }) },
+        );
+        await combatant.update({ initiative: SystemAdapter.current.toCombatantInitiative(total, this.actor) });
+      }, true /* capture */);
+    }
+
+    // Injected Flux Max input — uses data-system-field instead of name= so it
+    // doesn't duplicate system.voidshieldFlux in the form data (which would
+    // cause FormDataExtended to produce an array, resolving to NaN).
+    const fluxInput = root.querySelector("[data-system-field='voidshieldFlux']");
+    if (fluxInput) {
+      fluxInput.addEventListener("change", async (event) => {
+        const value = Number(event.currentTarget.value);
+        if (Number.isFinite(value)) {
+          await this.actor.update({ "system.voidshieldFlux": value });
+        }
+      });
+    }
 
     // Initialize Tagify autocomplete on the traits row.
     // loadTagify() loads the memoised Tagify class from the active system's vendor bundle.
