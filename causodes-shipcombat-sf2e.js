@@ -398,11 +398,13 @@ Hooks.once("init", () => {
   const _origEncounterRollInitiative = EncounterPF2e.prototype.rollInitiative;
   EncounterPF2e.prototype.rollInitiative = async function (ids, options) {
     const combatantIds = Array.isArray(ids) ? ids : [ids];
-    const shipIds  = [];
-    const otherIds = [];
+    const shipIds     = [];
+    const npcShipIds  = [];
+    const otherIds    = [];
     for (const id of combatantIds) {
       const actor = this.combatants.get(id)?.actor;
-      if (actor?.type === SHIP_TYPE) shipIds.push(id);
+      if (actor?.type === SHIP_TYPE)     shipIds.push(id);
+      else if (actor?.type === NPC_SHIP_TYPE) npcShipIds.push(id);
       else otherIds.push(id);
     }
 
@@ -435,6 +437,21 @@ Hooks.once("init", () => {
       await this.setInitiative(id, _sf2eAdapter.toCombatantInitiative(total, ship));
     }
 
+    // NPC ships: roll d20 + PIL modifier (same mechanic as player ships,
+    // but driven by the ship's own piloting attribute instead of a crew actor).
+    for (const id of npcShipIds) {
+      const combatant = this.combatants.get(id);
+      const ship = combatant?.actor;
+      if (!ship) continue;
+      const piloting = ship.system?.attributes?.piloting ?? 0;
+      const { total } = await _sf2eAdapter.rollShipInitiativeFromAttribute(
+        piloting,
+        game.i18n.localize("SHIPCOMBAT.NpcShip.RollInitiative"),
+        { speaker: ChatMessage.getSpeaker({ actor: ship }) },
+      );
+      await this.setInitiative(id, _sf2eAdapter.toCombatantInitiative(total, ship));
+    }
+
     if (otherIds.length > 0) {
       return _origEncounterRollInitiative.call(this, otherIds, options);
     }
@@ -461,6 +478,14 @@ Hooks.on("preCreateActor", (actor, data, _options, _userId) => {
     actor.updateSource({
       "prototypeToken.width":  0.5,
       "prototypeToken.height": 0.5,
+    });
+  }
+  // SF2e/PF2e uses d20 modifiers — initialize NPC crew attributes to 0 (not core's d100 default of 40).
+  if (actor.type === NPC_SHIP_TYPE) {
+    actor.updateSource({
+      "system.attributes.piloting": 0,
+      "system.attributes.tech":     0,
+      "system.attributes.gunnery":  0,
     });
   }
 });
@@ -549,6 +574,35 @@ Hooks.once("setup", async () => {
     "modules/causodes-shipcombat-sf2e/templates/items/component-sidebar.hbs",
     "modules/causodes-shipcombat-sf2e/templates/items/component-item-details.hbs",
   ]);
+
+  // ── NPC ship-body column header patch + flux-max injection ──────────────
+  // Core's npc-ship-body.hbs hardcodes "TEC" and "GUN" as column abbreviations.
+  // For SF2e/PF2e we rebrand these as ENG (Engineering) and RNG (Ranged).
+  // We also surface the max-flux input directly under the Zone Max list so GMs
+  // don't have to find it in the hidden hint panel.
+  // Fetch the raw template text, patch it, recompile, and re-register the
+  // partial under the same full-path key core uses.
+  try {
+    const NPC_BODY_KEY = "modules/causodes-shipcombat-core/templates/actor/tabs/npc/npc-ship-body.hbs";
+    const resp = await fetch(`/${NPC_BODY_KEY}`);
+    if (resp.ok) {
+      const patched = (await resp.text())
+        // Column abbreviation renames
+        .replace(/>TEC<\/td>/, ">ENG</td>")
+        .replace(/>GUN<\/td>/, ">RNG</td>")
+        // Inject Flux Max row at the bottom of the Zone Max sector list,
+        // right before the list's closing </div> (after {{/each}}).
+        // Inject Flux Max row below the sector list.
+        // The injected input uses data-system-field (not name=) to avoid
+        // duplicating system.voidshieldFlux in form data alongside the
+        // existing hint-panel input, which would produce an array → NaN.
+        .replace(
+          'shipcombat-npc-shield-max-input">\n              </div>\n              {{/each}}\n            </div>',
+          'shipcombat-npc-shield-max-input">\n              </div>\n              {{/each}}\n              <hr class="shipcombat-hint-divider">\n              <div class="shipcombat-ssl-head">{{localize "SHIPCOMBAT.NpcShip.VoidshieldFlux"}}</div>\n              <div class="shipcombat-ssl-row">\n                <span class="shipcombat-ssl-label">{{localize "SHIPCOMBAT.NpcShip.FluxMax"}}</span>\n                <input type="number" data-system-field="voidshieldFlux" value="{{sys.voidshieldFlux}}" min="0" class="shipcombat-ssl-max shipcombat-npc-shield-max-input">\n              </div>\n            </div>',
+        );
+      Handlebars.registerPartial(NPC_BODY_KEY, Handlebars.compile(patched));
+    }
+  } catch { /* non-fatal — falls back to core's TEC/GUN labels */ }
 });
 
 // ── SF2e: Seed ship prevTurnMove at combat start so first-round drift works ─

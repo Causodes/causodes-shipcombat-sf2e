@@ -151,6 +151,10 @@
       "DevastatingDesc": "Doubles (11, 22, 33, etc.) that hit deal additional damage equal to this value, still reduced by the target's hardness.",
       "Unreliable": "Unreliable",
       "UnreliableDesc": "On a critical failure — the shot misses by 10 or more after nat-20/nat-1 degree adjustments — the shot jams and the entire salvo is lost. A natural 1 that is promoted to a miss (e.g. nat-1 on a hit) does not trigger a jam."
+    },
+    "NpcShip": {
+      "Tech":    "Engineering",
+      "Gunnery": "Ranged"
     }
   }
 }
