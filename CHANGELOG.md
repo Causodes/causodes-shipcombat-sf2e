@@ -1,3 +1,6 @@
+## v1.2.2
+- Fix NPC ships to correctly pull from `PIL`, `ENG`, and `RNG` for various checks
+
 ## v1.2.1
 - Add `TUTORIAL.md`, which goes over first time setup as well as NPC ship setup.
 - Add missing `Max Shield Flux` field to NPC ships.

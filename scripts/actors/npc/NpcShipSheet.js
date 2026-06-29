@@ -180,6 +180,117 @@ export class NpcShipSheet extends NpcShipSheetV1Mixin(foundry.appv1.sheets.Actor
       }, true /* capture */);
     }
 
+    // SF2e NPC combat rolls — include the attribute modifier in the d20 roll.
+    // For SF2e NPCs, system.attributes.piloting / tech / gunnery are signed d20
+    // modifiers (e.g. +8), not WH40K-style target-number characteristics.
+    // We intercept each action in the capture phase (stopImmediatePropagation)
+    // so the jQuery-delegated core handler never fires.
+
+    // ── Piloting / Movement (PIL) ──────────────────────────────────────────
+    for (const btn of root.querySelectorAll("[data-action='npcRollPiloting']")) {
+      btn.addEventListener("click", async (event) => {
+        event.stopImmediatePropagation();
+        const { SystemAdapter } = globalThis.ShipCombat._api;
+        const sys     = SystemAdapter.current.getShipData(this.actor);
+        const adapter = SystemAdapter.current;
+        const pil     = sys.attributes?.piloting ?? 0;
+        const pilStr  = `${pil >= 0 ? "+" : ""}${pil}`;
+        const roll    = await new Roll("1d20 + @mod", { mod: pil }).evaluate();
+        const sl      = adapter.computeSuccessLevel(roll, pil);
+        const baseFlavor = `${game.i18n.localize("SHIPCOMBAT.Helm.RollPiloting")} (PIL ${pilStr})`;
+        const msg = await roll.toMessage({
+          flavor:  adapter.buildSkillRollFlavor(baseFlavor, roll, sl),
+          speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+        });
+        await this.actor.update({
+          [SystemAdapter.current.systemPath("resources.pilot.pilotingSL")]:       Math.max(0, sl),
+          [SystemAdapter.current.systemPath("resources.pilot.pilotingMessageId")]: msg.id,
+        });
+      }, true /* capture */);
+    }
+
+    // ── Ordnance / Gunnery (RNG) ───────────────────────────────────────────
+    for (const btn of root.querySelectorAll("[data-action='npcRollOrdnance']")) {
+      btn.addEventListener("click", async (event) => {
+        event.stopImmediatePropagation();
+        const { SystemAdapter } = globalThis.ShipCombat._api;
+        const sys = SystemAdapter.current.getShipData(this.actor);
+        if (sys.resources?.gunner?.ordnanceRolled) {
+          return ui.notifications.warn(game.i18n.localize("SHIPCOMBAT.Warning.AlreadyRolledOrdnance"));
+        }
+        const adapter = SystemAdapter.current;
+        const rng     = sys.attributes?.gunnery ?? 0;
+        const rngStr  = `${rng >= 0 ? "+" : ""}${rng}`;
+        const roll    = await new Roll("1d20 + @mod", { mod: rng }).evaluate();
+        const sl      = Math.max(0, adapter.computeSuccessLevel(roll, rng));
+        const baseFlavor = `${game.i18n.localize("SHIPCOMBAT.NpcShip.Gunnery")} (RNG ${rngStr})`;
+        await roll.toMessage({
+          flavor:  adapter.buildSkillRollFlavor(baseFlavor, roll, sl),
+          speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+        });
+        await this.actor.update({
+          [SystemAdapter.current.systemPath("resources.gunner.ordnanceSL")]:       sl,
+          [SystemAdapter.current.systemPath("resources.gunner.ordnanceRolled")]:   true,
+          [SystemAdapter.current.systemPath("resources.gunner.allocAccuracy")]:    0,
+          [SystemAdapter.current.systemPath("resources.gunner.allocPenetration")]: 0,
+          [SystemAdapter.current.systemPath("resources.gunner.allocFirepower")]:   0,
+          [SystemAdapter.current.systemPath("resources.gunner.slLocked")]:         false,
+        });
+      }, true /* capture */);
+    }
+
+    // ── Suppress Fire (ENG) ────────────────────────────────────────────────
+    for (const btn of root.querySelectorAll("[data-action='npcSuppressFire']")) {
+      btn.addEventListener("click", async (event) => {
+        event.stopImmediatePropagation();
+        const { SystemAdapter } = globalThis.ShipCombat._api;
+        const sys = SystemAdapter.current.getShipData(this.actor);
+        if (sys.engActionUsed) return ui.notifications.warn(game.i18n.localize("SHIPCOMBAT.NpcShip.EngActionUsed"));
+        if ((sys.internalFire ?? 0) <= 0) return;
+        const adapter  = SystemAdapter.current;
+        const eng      = sys.attributes?.tech ?? 0;
+        const engStr   = `${eng >= 0 ? "+" : ""}${eng}`;
+        const roll     = await new Roll("1d20 + @mod", { mod: eng }).evaluate();
+        const sl       = adapter.computeSuccessLevel(roll, eng);
+        const reduction = Math.max(0, 5 + sl);
+        const curFire  = sys.internalFire ?? 0;
+        const newFire  = Math.max(0, curFire - reduction);
+        const calcSnippet = `<div class="sc-eng-result">Fire suppressed by: 5 + ${sl} = ${reduction} &nbsp;(${curFire} → ${newFire})</div>`;
+        const baseFlavor = `${game.i18n.localize("SHIPCOMBAT.NpcShip.SuppressFire")} (${game.i18n.localize("SHIPCOMBAT.NpcShip.Tech")} ENG ${engStr})\n${calcSnippet}`;
+        await roll.toMessage({ flavor: adapter.buildSkillRollFlavor(baseFlavor, roll, sl), speaker: ChatMessage.getSpeaker({ actor: this.actor }) });
+        await this.actor.update({
+          [SystemAdapter.current.systemPath("internalFire")]:  newFire,
+          [SystemAdapter.current.systemPath("engActionUsed")]: true,
+        });
+      }, true /* capture */);
+    }
+
+    // ── Reduce Heat (ENG) ──────────────────────────────────────────────────
+    for (const btn of root.querySelectorAll("[data-action='npcReduceHeat']")) {
+      btn.addEventListener("click", async (event) => {
+        event.stopImmediatePropagation();
+        const { SystemAdapter } = globalThis.ShipCombat._api;
+        const sys = SystemAdapter.current.getShipData(this.actor);
+        if (sys.engActionUsed) return ui.notifications.warn(game.i18n.localize("SHIPCOMBAT.NpcShip.EngActionUsed"));
+        if ((sys.heat ?? 0) <= 0) return;
+        const adapter  = SystemAdapter.current;
+        const eng      = sys.attributes?.tech ?? 0;
+        const engStr   = `${eng >= 0 ? "+" : ""}${eng}`;
+        const roll     = await new Roll("1d20 + @mod", { mod: eng }).evaluate();
+        const sl       = adapter.computeSuccessLevel(roll, eng);
+        const reduction = Math.max(0, 5 + sl);
+        const curHeat  = sys.heat ?? 0;
+        const newHeat  = Math.max(0, curHeat - reduction);
+        const calcSnippet = `<div class="sc-eng-result">Heat reduced by: 5 + ${sl} = ${reduction} &nbsp;(${curHeat} → ${newHeat})</div>`;
+        const baseFlavor = `${game.i18n.localize("SHIPCOMBAT.NpcShip.ReduceHeat")} (${game.i18n.localize("SHIPCOMBAT.NpcShip.Tech")} ENG ${engStr})\n${calcSnippet}`;
+        await roll.toMessage({ flavor: adapter.buildSkillRollFlavor(baseFlavor, roll, sl), speaker: ChatMessage.getSpeaker({ actor: this.actor }) });
+        await this.actor.update({
+          [SystemAdapter.current.systemPath("heat")]:          newHeat,
+          [SystemAdapter.current.systemPath("engActionUsed")]: true,
+        });
+      }, true /* capture */);
+    }
+
     // Injected Flux Max input — uses data-system-field instead of name= so it
     // doesn't duplicate system.voidshieldFlux in the form data (which would
     // cause FormDataExtended to produce an array, resolving to NaN).

@@ -308,7 +308,8 @@ export class Sf2eAdapter extends SystemAdapter {
    * need the base flavor prepended (e.g. fallback plain-Roll messages).
    */
   buildSkillRollFlavor(baseFlavor, roll, sl) {
-    return `${baseFlavor}\n${this.buildPointsTableHtml(sl)}`;
+    const natBonus = this._getNatBonus(roll);
+    return `${baseFlavor}\n${this.buildPointsTableHtml(sl, "", natBonus)}`;
   }
 
   /**
