@@ -57,4 +57,7 @@ class _Base extends foundry.abstract.TypeDataModel {
   }
 }
 
-export class NpcShipModel extends NpcShipSchemaMixin(_Base) {}
+export class NpcShipModel extends NpcShipSchemaMixin(_Base) {
+  prepareBaseData()    { this.computeBase(); }
+  prepareDerivedData() { this.computeDerived(); }
+}

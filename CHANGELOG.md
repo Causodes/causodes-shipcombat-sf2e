@@ -1,3 +1,6 @@
+## v1.2.3
+- Fix NPC ships always moving only their min move distance instead of min move + base speed. `NpcShipModel` now bridges `prepareBaseData`/`prepareDerivedData` so `computeDerived` runs and sets `movement.speed` from `movement.baseSpeed`
+
 ## v1.2.2
 - Fix NPC ships to correctly pull from `PIL`, `ENG`, and `RNG` for various checks
 
