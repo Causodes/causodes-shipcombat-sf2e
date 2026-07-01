@@ -110,6 +110,28 @@ export class Sf2eAdapter extends SystemAdapter {
     throw new Error(`Sf2eAdapter: unknown roleSkill "${roleSkill}"`);
   }
 
+  /** @override */
+  getOverclockDC(heat, heatMax) {
+    const ShipCombatState = globalThis.ShipCombat._api?.ShipCombatState;
+    const ship = ShipCombatState?.ship;
+    const reactor = ship?.items?.find(
+      i => i.type === `${MODULE_ID}.component` && i.system.slot === "reactor" && i.system.equipped !== false
+    );
+    const baseDC = reactor?.system?.overclockBaseDC ?? 10;
+    if (heatMax <= 0) return baseDC;
+    return Math.ceil(baseDC + (heat / heatMax) * 10);
+  }
+
+  /**
+   * SF2e overclock success: raw d20 total must meet or beat the DC.
+   * computeSuccessLevel() uses a fixed threshold ladder that ignores the DC,
+   * so we compare the roll total directly instead of relying on SL.
+   * @override
+   */
+  isOverclockSuccess(result, options) {
+    return (result.roll?.total ?? 0) >= (options.dc ?? 10);
+  }
+
   /**
    * Return a human-readable label for an SF2e skill slug.
    * Reads CONFIG.PF2E.skills, which is populated before any module init hook.
@@ -628,7 +650,8 @@ export class Sf2eAdapter extends SystemAdapter {
    *   null when the roll dialog is cancelled.
    */
   async rollSkillTest(crewActor, roleSkill, options = {}) {
-    const { key } = this.resolveSkill(roleSkill);
+    const { key }           = this.resolveSkill(roleSkill);
+    const skipPointsTable   = options.skipPointsTable ?? false;
 
     // ── Path 1: Proficiency-based keys — no Statistic object available ──────
     if (key.startsWith("martial:") || key.startsWith("defense:") || key.startsWith("spell:")) {
@@ -637,7 +660,7 @@ export class Sf2eAdapter extends SystemAdapter {
       const roll  = await this._checkRoll(crewActor, mod, { label, skipDialog: true });
       if (!roll) return null;
       const SL        = this.computeSuccessLevel(roll);
-      const messageId = await this._postAddPointsTable(roll, roleSkill);
+      const messageId = skipPointsTable ? null : await this._postAddPointsTable(roll, roleSkill);
       return { SL, succeeded: SL >= 1, roll, messageId };
     }
 
@@ -654,7 +677,7 @@ export class Sf2eAdapter extends SystemAdapter {
       });
       if (!roll) return null;  // user cancelled the modifier dialog
       const SL        = this.computeSuccessLevel(roll);
-      const messageId = await this._postAddPointsTable(roll, roleSkill);
+      const messageId = skipPointsTable ? null : await this._postAddPointsTable(roll, roleSkill);
       return { SL, succeeded: SL >= 1, roll, messageId };
     }
 
@@ -664,7 +687,7 @@ export class Sf2eAdapter extends SystemAdapter {
     const roll  = await this._checkRoll(crewActor, mod, { label, skipDialog: true });
     if (!roll) return null;
     const SL        = this.computeSuccessLevel(roll);
-    const messageId = await this._postAddPointsTable(roll, roleSkill);
+    const messageId = skipPointsTable ? null : await this._postAddPointsTable(roll, roleSkill);
     return { SL, succeeded: SL >= 1, roll, messageId };
   }
 

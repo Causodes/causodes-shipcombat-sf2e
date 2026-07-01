@@ -1,3 +1,8 @@
+## v1.2.4
+- Explicitly classify buttons as type `button` in handlebars templates to prevent unintended form submission behavior
+- Fix Overclock behavior (was using core d100 roll under logic, which does not make sense for SF2e)
+- Add Overclock Base DC field on Reactor Core ship component to allow custom Overclock DC
+
 ## v1.2.3
 - Fix NPC ships always moving only their min move distance instead of min move + base speed. `NpcShipModel` now bridges `prepareBaseData`/`prepareDerivedData` so `computeDerived` runs and sets `movement.speed` from `movement.baseSpeed`
 

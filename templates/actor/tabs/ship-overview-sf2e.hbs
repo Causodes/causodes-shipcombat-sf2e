@@ -203,7 +203,7 @@
                     {{/each}}
                 </ul>
                 <div class="crew-end-turn">
-                    <button class="blue crew-end-turn-btn" data-action="endShipTurn"
+                    <button type="button" class="blue crew-end-turn-btn" data-action="endShipTurn"
                             {{#unless (and allRolesReady isActiveCombatant)}}disabled{{/unless}}
                             data-tooltip="{{#if (and allRolesReady isActiveCombatant)}}{{localize 'SHIPCOMBAT.Tooltip.EndShipTurn'}}{{else if isActiveCombatant}}{{localize 'SHIPCOMBAT.Tooltip.EndShipTurnLocked'}}{{else}}{{localize 'SHIPCOMBAT.Tooltip.EndShipTurnNotActive'}}{{/if}}">
                         {{localize "SHIPCOMBAT.Action.EndShipTurn"}}

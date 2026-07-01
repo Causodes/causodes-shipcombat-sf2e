@@ -113,10 +113,14 @@
       "HitRatingModifierDesc": "Applies a flat bonus or penalty to the hit roll for all shots from this battery.",
       "ArmorClass": "Armor Class",
       "ArmourClassContribution": "AC Contribution",
+      "ShieldStrengthPerCore": "Shield Flux per Core",
+      "OverclockBaseDC": "Overclock Base DC",
+      "OverclockBaseDCHint": "Base DC for overclock checks at minimum heat. Scales up by 10 at maximum reactor heat.",
 
       "ArmourValues": "Hardness Plating"
     },
     "Tooltip": {
+      "OverclockDC": "Overclock the reactor: DC {dc} {skill} check, +1 Heat",
       "Classification": "The ship's class or type designation",
       "Model": "The manufacturer's model designation for this vessel",
       "Crew": "Minimum number of crew members required to operate this ship",

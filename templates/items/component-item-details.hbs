@@ -239,6 +239,11 @@
         <label>{{localize "SHIPCOMBAT.Component.AuxPowerPerCore"}}</label>
         <input type="number" name="system.reserveMultiplier" value="{{system.reserveMultiplier}}" min="0" />
     </div>
+
+    <div class="form-group">
+        <label data-tooltip="{{localize 'SHIPCOMBAT.Component.OverclockBaseDCHint'}}">{{localize "SHIPCOMBAT.Component.OverclockBaseDC"}}</label>
+        <input type="number" name="system.overclockBaseDC" value="{{system.overclockBaseDC}}" min="0" />
+    </div>
 </fieldset>
 {{/if}}
 

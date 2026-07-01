@@ -25,6 +25,8 @@ class _Base extends foundry.abstract.TypeDataModel {
       }),
       /** How much this component contributes to the ship's Armour Class (armour and engine slots only). */
       armourClassContribution: new fields.NumberField({ initial: 0, min: 0, integer: true }),
+      /** Base DC for overclock checks at minimum heat (scales +10 at maximum heat). */
+      overclockBaseDC: new fields.NumberField({ initial: 10, min: 0, integer: true, nullable: true }),
 
     };
   }
