@@ -82,7 +82,7 @@ export class TargetingPopupV1 extends foundry.appv1.api.Application {
     const tokenH   = token.document.height * gridSize;
     const cx       = token.x + tokenW / 2;
     const cy       = token.y + tokenH / 2;
-    const heading  = (token.document.rotation - 90) * (Math.PI / 180);
+    const heading  = (token.document.rotation + 90) * (Math.PI / 180);
 
     const sensorComp = ship.items.find(
       i => i.type === `${MODULE_ID}.component` && i.system.slot === "sensor"
@@ -98,6 +98,15 @@ export class TargetingPopupV1 extends foundry.appv1.api.Application {
       bandSize:      bandExpanded ? rawBandSize * 2 : rawBandSize,
       autoScanRange: rangeAmpActive ? baseAutoScanRange * 2 : baseAutoScanRange,
     };
+
+    // Hostile sensor effects targeting THIS (firing) ship. Utility actions are
+    // registered on the player ship's combat state with the affected token's id,
+    // so when an NPC ship fires we look ourselves up there. The player ship's
+    // own effects only ever target enemy tokens, so this is a no-op for it.
+    // Disruption penalises all rolls by the disruptor's sensor hit modifier
+    // (min one range band); Overcharge limits weapons to auto-scan range.
+    const inboundOvercharged = ShipCombatState.hasSensorEffectOn?.(ship, "sensorOvercharge") ?? false;
+    const disruptionPenalty  = ShipCombatState.getDisruptionPenalty?.(ship) ?? 0;
 
     const weaponRange     = Number(this.weapon.system.range) || 0;
     const fireModeDetails = this._getFireModeDetails(gunnerRes, sys);
@@ -127,6 +136,8 @@ export class TargetingPopupV1 extends foundry.appv1.api.Application {
       // SF2e range gate: valid up to weaponRange + 20 × bandSize (hard cap of −20 penalty)
       const sf2eMaxRange = sensor.bandSize > 0 ? weaponRange + 20 * sensor.bandSize : weaponRange;
       if (weaponRange > 0 && distSquares > sf2eMaxRange) continue;
+      // Sensor Overcharge: this ship's weapons can only fire within its auto-scan range
+      if (inboundOvercharged && distSquares > sensor.autoScanRange) continue;
       const zone = classifyZone(distSquares, weaponRange, sensor) ?? { zone: 3, modifier: 0, label: "SHIPCOMBAT.Targeting.Zone3" };
 
       const lockTier = ship.type === `${MODULE_ID}.npcShip`
@@ -182,6 +193,9 @@ export class TargetingPopupV1 extends foundry.appv1.api.Application {
       const optimalRangeBonus  = isWithinOptimal ? totalAccuracy : 0;
       if (isWithinOptimal) totalAccuracy *= 2;
 
+      // Sensor Disruption: penalty equal to the disruptor's sensor hit modifier
+      if (disruptionPenalty) totalAccuracy -= disruptionPenalty;
+
       // Target AC: base AC + driver evasion allocation (each Driver Point = +1 AC)
       const baseTargetAC      = candidate.document.actor?.system?.armorClass ?? null;
       const effectiveTargetAC = baseTargetAC !== null ? baseTargetAC + allocEvasion : null;
@@ -202,6 +216,7 @@ export class TargetingPopupV1 extends foundry.appv1.api.Application {
       if (rangingFireBonus !== 0)              breakdownParts.push(`Ranging Fire Hit Bonus: ${adapter.formatModifier(rangingFireBonus)}`);
       if (battleClarityBonus !== 0)            breakdownParts.push(`Battle Clarity Hit Bonus: ${adapter.formatModifier(battleClarityBonus)}`);
       if (captainHitBonus !== 0)               breakdownParts.push(`Insp. Targeting Hit Bonus: ${adapter.formatModifier(captainHitBonus)}`);
+      if (disruptionPenalty)                   breakdownParts.push(`Sensor Disruption: ${adapter.formatModifier(-disruptionPenalty)}`);
 
       // "Optimal Range ×2" is shown inline in the popup row, not in the tooltip
       const accuracyTooltip = breakdownParts.join("\n");
@@ -362,8 +377,10 @@ export class TargetingPopupV1 extends foundry.appv1.api.Application {
     if (this.weaponType === "ammo") {
       const tier = MACRO_FIRE_TIERS.find(t => t.id === this.fireMode);
       if (!tier) return { label: "SHIPCOMBAT.Gunner.Fire", salvoSize: 0, cost: 0, hitMod: 0 };
-      // SF2e uses reduced modifiers: ranging fire penalty uses getHitBonusStep() (vs Core's -10)
-      const hitMod = tier.id === "rangingFire" ? -SystemAdapter.current.getHitBonusStep() : tier.hitMod;
+      // SF2e rescales the Core d100-flavoured fire-mode modifiers (−10/0/+10/+20)
+      // to d20 hit-bonus steps: ±1 step per 10 points (Ranging Fire −2,
+      // Full Broadside +2, Devastating Broadside +4).
+      const hitMod = Math.round((tier.hitMod ?? 0) / 10) * SystemAdapter.current.getHitBonusStep();
       return {
         label:         tier.label,
         salvoSize:     Math.ceil(baseSalvo * tier.salvoMult),
@@ -609,7 +626,7 @@ export class RamTargetPopupV1 extends foundry.appv1.api.Application {
       const thrustFraction = Math.min(1, this.powerRemaining / (this.powerMax || 100));
 
       // Damage preview (mirrors pilotRam formulas exactly)
-      const tgtHeadingRad = (candidate.document.rotation ?? 0) * (Math.PI / 180);
+      const tgtHeadingRad = ((candidate.document.rotation ?? 0) + 90) * (Math.PI / 180);
       let impactAngle = attackAngle - tgtHeadingRad + Math.PI;
       impactAngle = ((impactAngle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
       if (impactAngle > Math.PI) impactAngle -= 2 * Math.PI;
@@ -941,7 +958,7 @@ export class StrikeCraftAttackPopupV1 extends foundry.appv1.api.Application {
     const cx  = token.x + (token.document.width  * gs) / 2;
     const cy  = token.y + (token.document.height * gs) / 2;
 
-    const heading = (token.document.rotation ?? 0) * (Math.PI / 180) - Math.PI / 2;
+    const heading = ((token.document.rotation ?? 0) + 90) * (Math.PI / 180);
     const halfArc = ((sys.payloadAngle ?? 120) / 2) * (Math.PI / 180);
 
     const sensor = {
@@ -997,8 +1014,7 @@ export class StrikeCraftAttackPopupV1 extends foundry.appv1.api.Application {
       if (lockTier < 1) continue;
 
       const adapter      = SystemAdapter.current;
-      const step         = adapter.getModifierStepSize();
-      const lockBonus    = lockTier >= 4 ? step : 0;
+      const lockBonus    = lockTier >= 4 ? adapter.getHitBonusStep() : 0;
       const finalZoneMod = (zone.zone === 3 && lockTier >= 4) ? 0 : zone.modifier;
       let totalAccuracy  = sensor.rating + finalZoneMod + lockBonus;
 
@@ -1123,7 +1139,9 @@ export class StrikeCraftAttackPopupV1 extends foundry.appv1.api.Application {
     if (!target || target.alreadyAttacked) return;
 
     const sys        = this.craftActor.system;
-    const flightSize = Math.max(1, (sys.hull?.max ?? 1) - (sys.hull?.value ?? 0));
+    // SF2e stores ordnance hull as HP remaining: intact airframes = hull.value
+    // (Core's damage-taken formula would invert the flight size here).
+    const flightSize = Math.max(1, sys.hull?.value ?? 1);
     const damage     = sys.payloadDamage ?? 0;
     const salvoSize  = (sys.payloadCount ?? 1) * flightSize;
 

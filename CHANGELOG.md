@@ -1,3 +1,13 @@
+## v1.3.0
+- Rescale fire-mode hit modifiers to d20 steps: Ranging Fire −2, Full Broadside +2, Devastating Broadside +4 (broadsides previously leaked the core d100 values of +10/+20)
+- Enforce **Sensor Disruption**: the disrupted ship takes a penalty equal to the disruptor's sensor Hit Modifier (minimum −1) on weapon fire and NPC ship checks
+- Enforce **Sensor Overcharge**: an overcharged ship can only target within its own auto-scan range
+- **Signal Inversion** now mechanically strips all shields from the target's closest quadrant (via core)
+- Fix strike craft flight size being inverted (full-strength flights attacked with a salvo of 1; crippled flights with a full salvo)
+- Strike craft Lock 4 accuracy bonus is now +2, matching ship weapons (was +1)
+- Fix the `Devastating` trait description (was stale d100 "doubles" wording); Devastating lowers the crit margin and adds bonus damage on critting shots
+- Update documentation
+
 ## v1.2.4
 - Explicitly classify buttons as type `button` in handlebars templates to prevent unintended form submission behavior
 - Fix Overclock behavior (was using core d100 roll under logic, which does not make sense for SF2e)

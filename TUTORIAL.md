@@ -1,6 +1,6 @@
 # Introduction
 
-This module introduces a standalone role-based ship/voidship combat system. The key idea behind the module is that players have asymmetric information and can only see the information available to their role.
+This module introduces a standalone role-based starship combat system. The key idea behind the module is that players have asymmetric information and can only see the information available to their role.
 
 The module registers **three actor types**:
 * Player role-based ship actors
@@ -20,6 +20,9 @@ Start by heading over to **Module Settings** and adjust some global settings as 
     * **Simplified** makes all ships handle like naval ships; they move along their bearing and turn in arcs. This is not how ships would actually move in space but it is great for gaming purposes and more intuitive.
     * **Realistic** makes all ships handle like how they actually would in space. Ships carry momentum from round to round and can drift independent of their current bearing. If a ship wants to stop, they'll have to rotate opposite their current momentum vector and accelerate in that new direction. This is more complicated and may prove to be more confusing for players, but it is also the way Newtonian physics actually work.
 
+Next, go to **Core** settings and make sure you turn `Automatic Token Rotation` ON:
+![](https://github.com/user-attachments/assets/3569f69c-db95-4b6c-9d35-e8f6d2e1315b)
+
 Next, for battlemap setup, I would recommend a gridless setup. Due to the nature of the ships' movement, ships will not always end up exactly on a grid square. Do make sure you correctly configure the grid size though, so ships will have enough room to work with.
 
 # Player Ship
@@ -35,7 +38,7 @@ Let's start with the sidebar and what each of the sections do:
 * **Hit Points**
     * Current HP/Max HP: The current/maximum hitpoints of the player ship. The max HP value is **NOT** inherited from starship components and is manually set. 
         * The value can be overriden by the GM by double clicking it and editing it.
-    * Fire: Fire deals damage directly to a ship's HP pool, bypassing Armor and Shields. 
+    * Fire: Fire deals damage directly to a ship's HP pool, bypassing Hardness and Shields. 
         * Fire will originate from various sources and can be dealt with using certain crew abilities. 
         * The value can be overriden by the GM by double clicking it and editing it.
 * **Armor Class**
@@ -94,7 +97,7 @@ This is my recommended order for setting up a ship:
             * Consequently, we want to make this value very large so players will have ample time to detect and react accordingly to hostile ships.
         * **AP Cost Multiplier**: The player in charge of sensors has various abilities/actions they can take. Each of them has an associated `Auxiliary Power` cost. This field multiplies the default costs for each ability/action by its scalar value.
             * The idea for this is you can configure a sensor with very good stats to cost more for abilities or vice-versa.
-    5. **Reactor Core**: Next, make a new starship component and change the `Slot` to `Reactor Core` on the lefthand sidebar and hop over to the **Details** tab. You'll see something like the following screenshot; these are what I think are a good starting point ![](https://github.com/user-attachments/assets/3bf0c1a4-6752-4710-8f68-13725fb26f11):
+    5. **Reactor Core**: Next, make a new starship component and change the `Slot` to `Reactor Core` on the lefthand sidebar and hop over to the **Details** tab. You'll see something like the following screenshot; these are what I think are a good starting point ![](https://github.com/user-attachments/assets/3a1189aa-e435-487e-93ec-6296a2f2becc):
         * **Core Output**: This determines the baseline number of cores that are awarded at the start of each turn. Cores are the primary currency used by the player in the Engineer role. They are used to unlock additional abilities for other roles, generate `Auxiliary Power` used by all other roles, and allocate `Shield Flux` to power the ship's Shields.
             * We want to make the Cores a little scarce so the Engineer has to consider various tradeoffs each turn. They can get more in a given turn by gambling with an action called *Overclocking*, so we can go a bit on the lower side. I recommend the number of cores to be about the number of other roles available in the ship (so for a `6 crew` ship, about `5 cores`).
         * **Shield Strength per Core**: This determines how much *Shield Flux* is awarded at the start of the following turn per core spent on Shields.
@@ -108,6 +111,9 @@ This is my recommended order for setting up a ship:
         * **Auxiliary Power per Core**: This determines how much *Auxiliary Power* is awarded at the start of the following turn per core spent on Auxiliary Power.
             * I recommend a value to be around the **Auxiliary Power Capacity** divided by the **Core Output**. 
             * The reason the Auxiliary Power is delayed by a turn is to reward planning ahead by the Engineer. If Auxiliary Power is urgently needed, the player in charge of shields can divert Shield Flux to Auxiliary Power.
+        * **Overclock Base DC**: The base DC for the Engineer's *Overclock* checks at minimum heat. The DC scales up by 10 as the reactor approaches maximum Heat.
+            * Only successful *Overclock* tests grant cores, so use this as a lever to tune how consistently the reactor rewards cores.
+            * I recommend staying around `10`, potentially moving this as low as `5` to as high as `20`, depending on how inconsistent you want this reactor to be. Remember, the max DC will be the base plus an additional `10`.
     6. **Ordnance Bay**: Next, make a new starship component and change the `Slot` to `Ordnance Bay` on the lefthand sidebar and hop over to the **Details** tab. Note that if you have `Strike Craft: No` under the **Configuration Tab**, you don't need to fill out the Strike Craft sections. You'll see something like the following screenshot; these are what I think are a good starting point ![](https://github.com/user-attachments/assets/7b37e404-285c-4eaf-9fb3-add77edf78fc):  
         * **Manpower**: Manpower (or **Load Capacity**, if you set the *Manpower Flavor* to `Small Craft`) is the primary resource used by the player in charge of Ordnance. Various actions taken by the player will reserve `x manpower` for `n turns`.
             * I recommend a default value of around `30-40`.
@@ -156,7 +162,7 @@ This is my recommended order for setting up a ship:
             * SHD BYPASS: Shield Bypass
         * **Token Configuration**: Don't forget to configure the Prototype Token for the Torpedo.
         * **Warheads Mechanic**: The number of warheads for the torpedo will be dependent on the **Ordnance Bay** component at time of launch. Each successful attack against a torpedo actor will deduct `1` warhead, regardless of damage dealt. Damage inflicted by the torpedo is multiplied by the number of surviving warheads at detonation time.
-    3. **Strike Craft**: To set up a torpedo, create a new **Starship Ordnance** actor, go to the **Configuration** tab, and under **Ordnance Type** select **Strike Craft**. You'll see something like the following screenshot; this is an example configured weapon ![](https://github.com/user-attachments/assets/f8727081-d3b6-478a-b6dd-68a88bcdc7e3):
+    3. **Strike Craft**: To set up a strike craft, create a new **Starship Ordnance** actor, go to the **Configuration** tab, and under **Ordnance Type** select **Strike Craft**. You'll see something like the following screenshot; this is an example configured weapon ![](https://github.com/user-attachments/assets/f8727081-d3b6-478a-b6dd-68a88bcdc7e3):
         * **FUEL**: The maximum number of rounds a strike craft will be active for. If it does not return to the ship by the time it runs out of fuel, it will be considered lost and destroyed.
         * **AMMO**: The maximum number of attack runs a strike craft can make during a sortie.
         * **SPD**: The speed of the strike craft; see the **Engine** section above for more details.
@@ -174,9 +180,9 @@ This is my recommended order for setting up a ship:
             * SHD BURN: Shield Burn
             * SHD BYPASS: Shield Bypass
         * **CRAFT TYPE**: Fighters can target anything; Bombers cannot target other strike craft or torpedoes (only ships).
-        * **Token Configuration**: Don't forget to configure the Prototype Token for the Torpedo.
+        * **Token Configuration**: Don't forget to configure the Prototype Token for the Strike Craft.
         * **FLIGHTS Mechanic**: The number of strike craft in a flight will be dependent on the **Ordnance Bay** component at time of launch. Each successful attack against a strike craft flight actor will deduct `1` FLIGHTS, regardless of damage dealt. Damage inflicted by the strike craft is multiplied by the number of surviving strike craft at attack time.
-        * **Attack Mechanic**: Strike craft can only attack a given target once per turn. They cannot attack the same target twice in a single turn.
+        * **Attack Mechanic**: Strike craft can only attack a given target once per turn.
 6. **Register Components**: Now that you've set up all the components, updated the Max HP, Immunities, Weaknesses, and Resistances accordingly, you'll need to register/activate them. Head on over to the **Overview** tab, swap to the **Components** subtab, and make sure each item is set in the appropriate category/activated, as seen in the screenshot: ![](https://github.com/user-attachments/assets/e51f5d3a-a894-4b13-9be3-9187d2f5c6c4)
 7. **Assign Player Roles**: Last step, assign roles! Swap back to the **Crew** subtab on the **Overview** tab and either click and drag player actors into each role, or allow them to assign the roles themselves! Players will have a button they can click to claim/release a given role. If you so wish, you can rename the role or adjust the Main Skill associated with each role as well.
 
@@ -198,7 +204,7 @@ To create an NPC ship, head on over to the Actors tab and create a new **NPC Sta
 Let's go over the parts:
 
 ### Ship Stats
-* **PIL**: Piloting modifier. A flat modifier to *Piloting Checks* used to allocate additional *Speed*, *Maneuverability*, or *Evasion* points on the **Movement** tab. It also determines the *Inititative* modifier.
+* **PIL**: Piloting modifier. A flat modifier to *Piloting Checks* used to allocate additional *Speed*, *Maneuverability*, or *Evasion* points on the **Movement** tab. It also determines the *Initiative* modifier.
 * **ENG**: Engineering modifier. A flat modifier to *Engineering Checks* used to *Reduce Heat* or *Suppress Fire*. 
 * **RNG**: Ranged modifier. A flat modifier to *Ranged Checks* used to allocate additional *Accuracy*, *Penetration*, or *Firepower* points on the **Weapons** tab.
 * **SPD**: The speed of the NPC ship; see the **Engine** section under **Player Ship** for more details.

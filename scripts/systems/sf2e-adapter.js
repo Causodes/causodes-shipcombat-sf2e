@@ -196,6 +196,15 @@ export class Sf2eAdapter extends SystemAdapter {
   /** SF2e fixed hit bonuses (lock, BDA, ranging fire) use +2 steps. */
   getHitBonusStep() { return 2; }
 
+  /**
+   * Sensor Disruption penalty: the disruptor's sensor Hit Modifier (a flat
+   * d20 bonus in SF2e), with a minimum of one range band (−1).
+   * @override
+   */
+  getSensorDisruptionPenalty(sensorRating) {
+    return Math.max(this.getModifierStepSize(), sensorRating ?? 0);
+  }
+
   /** SF2e: weapons can reach up to 20 bands beyond their effective range (max penalty −20). */
   getMaxDecayBands(_sensorRating) { return 20; }
 
@@ -1039,6 +1048,9 @@ export class Sf2eAdapter extends SystemAdapter {
    * @param {Actor}  targetActor
    * @returns {{ finalDamage: number, immune: boolean, note: string|null }}
    */
+  /** @override SF2e dice-only damage model has no additive flat modifier. */
+  get addsFlatBonusToDice() { return false; }
+
   modifyDamageForType(hullDamage, damageType, targetActor) {
     const traits = targetActor?.system?.traits;
     if (!traits || !damageType) return { finalDamage: hullDamage, immune: false, note: null };

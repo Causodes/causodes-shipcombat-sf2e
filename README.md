@@ -107,7 +107,7 @@ The health of an ordnance actor template should be 0/1; this will be multiplied 
 
 ## Points Allocation
 
-Several station roles (Captain, Pilot, Gunner, Ordnance Master) earn **action points** each round by rolling their primary skill check. The number of points awarded is determined by the roll total against the following DC table:
+Several station roles (Captain, Engineer, Pilot, Gunner, Ordnance Officer) earn **action points** each round by rolling their primary skill check. The number of points awarded is determined by the roll total against the following DC table:
 
 | Roll Total | Points Awarded |
 |-----------|----------------|
@@ -196,7 +196,7 @@ Each shot outcome follows the **four-degree SF2e resolution** — the same rules
 
 **Natural 1** demotes the outcome by one degree: critical success → success, success → failure, failure → critical failure.
 
-The **Devastating** weapon trait lowers the crit margin: Devastating 2 means a shot crits when it exceeds AC by 8 or more.
+The **Devastating** weapon trait lowers the crit margin: Devastating 2 means a shot crits when it exceeds AC by 8 or more. Critting shots also deal bonus damage equal to the Devastating value.
 
 The **Devastation Protocol** captain stance changes the rule: every shot that deals net hull damage after shields and hardness counts as a crit, regardless of the roll margin.
 
@@ -208,7 +208,7 @@ Location is determined by a **d6** (or Gunner's choice with **Directed Fire** ac
 | Engines | –1 Speed | –2 Speed | –4 Speed |
 | Manoeuvring Thrusters | –1 Maneuverability | –2 Maneuverability | –4 Maneuverability |
 | Core Systems | Core distribution disabled | Core distribution disabled + 5 heat/round | Core distribution disabled + 5 heat/round + AP generation disabled |
-| Weapons & Sensors | One weapon section disabled | One weapon section disabled + sensor offline (lock upgrades blocked, radar hidden) | All weapons –20 to hit + one weapon section disabled + sensor offline |
+| Weapons & Sensors | One weapon section disabled | One weapon section disabled + sensor offline (lock upgrades blocked, radar hidden) | All weapons –2 to hit + one weapon section disabled + sensor offline |
 
 Condition step-down (damage control) costs 10% of maximum Auxiliary Power per action. The same location can be stepped down multiple times in the same turn as long as AP and repair actions remain.
 
@@ -237,7 +237,7 @@ Strike craft flight tokens are manually controlled. Each flight has hull, fuel, 
 | Shield Burn | Each hit absorbed by shields drains additional flux |
 | Rend | Each hit permanently reduces sector hardness regardless of hull damage dealt |
 | Hardness Penetration | Reduces effective sector hardness per hit |
-| Devastating | Reduces the crit margin by this value (base crit requires exceeding AC by 10; Devastating 2 means crit at AC+8) |
+| Devastating | Reduces the crit margin by this value (base crit requires exceeding AC by 10; Devastating 2 means crit at AC+8). Each critting shot also deals bonus damage equal to this value |
 | Unreliable | A **critical failure** (the shot's final tier is `crit_miss` — fails by 10 or more after nat-20/nat-1 degree adjustments) causes that shot to jam and **halts the entire salvo**. A nat-1 that is promoted to a miss (e.g. nat-1 on a hit) does **not** trigger a jam; only a genuine critical failure does |
 | Overcharge | Heat weapons only. When fired overcharged: 2 heat per shot, triple weapon trait values |
 | Hit Rating | Flat bonus or penalty to base hit chance for all shots |

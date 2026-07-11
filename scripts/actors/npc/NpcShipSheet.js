@@ -190,10 +190,11 @@ export class NpcShipSheet extends NpcShipSheetV1Mixin(foundry.appv1.sheets.Actor
     for (const btn of root.querySelectorAll("[data-action='npcRollPiloting']")) {
       btn.addEventListener("click", async (event) => {
         event.stopImmediatePropagation();
-        const { SystemAdapter } = globalThis.ShipCombat._api;
+        const { SystemAdapter, ShipCombatState } = globalThis.ShipCombat._api;
         const sys     = SystemAdapter.current.getShipData(this.actor);
         const adapter = SystemAdapter.current;
-        const pil     = sys.attributes?.piloting ?? 0;
+        // Sensor Disruption: penalty = disruptor's sensor hit modifier (min −1)
+        const pil     = (sys.attributes?.piloting ?? 0) - ShipCombatState.getDisruptionPenalty(this.actor);
         const pilStr  = `${pil >= 0 ? "+" : ""}${pil}`;
         const roll    = await new Roll("1d20 + @mod", { mod: pil }).evaluate();
         const sl      = adapter.computeSuccessLevel(roll, pil);
@@ -219,7 +220,8 @@ export class NpcShipSheet extends NpcShipSheetV1Mixin(foundry.appv1.sheets.Actor
           return ui.notifications.warn(game.i18n.localize("SHIPCOMBAT.Warning.AlreadyRolledOrdnance"));
         }
         const adapter = SystemAdapter.current;
-        const rng     = sys.attributes?.gunnery ?? 0;
+        // Sensor Disruption: penalty = disruptor's sensor hit modifier (min −1)
+        const rng     = (sys.attributes?.gunnery ?? 0) - globalThis.ShipCombat._api.ShipCombatState.getDisruptionPenalty(this.actor);
         const rngStr  = `${rng >= 0 ? "+" : ""}${rng}`;
         const roll    = await new Roll("1d20 + @mod", { mod: rng }).evaluate();
         const sl      = Math.max(0, adapter.computeSuccessLevel(roll, rng));
@@ -248,7 +250,8 @@ export class NpcShipSheet extends NpcShipSheetV1Mixin(foundry.appv1.sheets.Actor
         if (sys.engActionUsed) return ui.notifications.warn(game.i18n.localize("SHIPCOMBAT.NpcShip.EngActionUsed"));
         if ((sys.internalFire ?? 0) <= 0) return;
         const adapter  = SystemAdapter.current;
-        const eng      = sys.attributes?.tech ?? 0;
+        // Sensor Disruption: penalty = disruptor's sensor hit modifier (min −1)
+        const eng      = (sys.attributes?.tech ?? 0) - globalThis.ShipCombat._api.ShipCombatState.getDisruptionPenalty(this.actor);
         const engStr   = `${eng >= 0 ? "+" : ""}${eng}`;
         const roll     = await new Roll("1d20 + @mod", { mod: eng }).evaluate();
         const sl       = adapter.computeSuccessLevel(roll, eng);
@@ -274,7 +277,8 @@ export class NpcShipSheet extends NpcShipSheetV1Mixin(foundry.appv1.sheets.Actor
         if (sys.engActionUsed) return ui.notifications.warn(game.i18n.localize("SHIPCOMBAT.NpcShip.EngActionUsed"));
         if ((sys.heat ?? 0) <= 0) return;
         const adapter  = SystemAdapter.current;
-        const eng      = sys.attributes?.tech ?? 0;
+        // Sensor Disruption: penalty = disruptor's sensor hit modifier (min −1)
+        const eng      = (sys.attributes?.tech ?? 0) - globalThis.ShipCombat._api.ShipCombatState.getDisruptionPenalty(this.actor);
         const engStr   = `${eng >= 0 ? "+" : ""}${eng}`;
         const roll     = await new Roll("1d20 + @mod", { mod: eng }).evaluate();
         const sl       = adapter.computeSuccessLevel(roll, eng);

@@ -129,7 +129,8 @@
     },
     "Sensors": {
       "DeepScanDesc": "Upgrade to Lock 3. Reveals hardness, shield values, hull, AC, and weapon fire arcs per sector. Shows actual ship name.",
-      "TargetingSolutionDesc": "Upgrade to Lock 4. Reveals conditions and defenses (immunities, weaknesses, resistances). Gunner gets +2 to accuracy against this target."
+      "TargetingSolutionDesc": "Upgrade to Lock 4. Reveals conditions and defenses (immunities, weaknesses, resistances). Gunner gets +2 to accuracy against this target.",
+      "SensorDisruptionDesc": "Requires Lock 1. Designate one locked enemy. It suffers a penalty to all rolls (including weapon accuracy) equal to your sensors' Hit Modifier, minimum -1, for 1 round."
     },
     "BDA": {
       "ResultLabel": "Points Granted:",
@@ -152,7 +153,7 @@
       "RendDesc": "Each hit that gets through shields permanently reduces sector hardness by this value - even if hardness absorbs all resulting hull damage. The hardness reduction still occurs regardless of whether hull damage is dealt.",
       "ArmourPenetration": "Hardness Penetration",
       "ArmourPenetrationDesc": "Reduces the target sector's effective hardness by this value when calculating damage per hit.",
-      "DevastatingDesc": "Doubles (11, 22, 33, etc.) that hit deal additional damage equal to this value, still reduced by the target's hardness.",
+      "DevastatingDesc": "Lowers the critical-hit margin by this value (base: crit on exceeding AC by 10, so Devastating 2 crits at AC+8). Each critting shot also deals bonus damage equal to this value, still reduced by the target's hardness.",
       "Unreliable": "Unreliable",
       "UnreliableDesc": "On a critical failure — the shot misses by 10 or more after nat-20/nat-1 degree adjustments — the shot jams and the entire salvo is lost. A natural 1 that is promoted to a miss (e.g. nat-1 on a hit) does not trigger a jam."
     },

@@ -71,7 +71,7 @@ The Engineer manages the reactor, distributing **Power Cores** to the other role
 
 Stage cores individually against each role (including the core bank for Auxiliary Power conversion the following round), then dispatch them all at once. Receiving roles spend their core to unlock their Power Core action. Surplus cores convert to AP at end of round.
 
-*Overclock*: roll Computers, gain +1 heat; on success gain one bonus Power Core for this round.
+*Overclock*: roll Computers against a DC that scales with reactor heat (the reactor component's base Overclock DC, +1 per 10% of heat capacity filled). Heat increases by 1 regardless of the outcome; on success gain one bonus Power Core for this round. Unavailable while heat is at capacity.
 
 ### System Heat
 
@@ -141,18 +141,18 @@ The Sensors Officer operates the **Sensor Radar**: an interactive canvas overlay
 | Tier | Action | AP Cost | Information Revealed |
 |------|--------|---------|----------------------|
 | 0 | Passive trace | - | Bearing only; not visible to crew |
-| 1 | Active Ping | 3 | Ship class; enables Gunner targeting |
-| 2 | Breach Analysis | 6 | Shield percentages per sector |
-| 3 | Deep Scan | 10 | Hardness, shields, hull, AC, fire arcs per sector; reveals actual ship name |
-| 4 | Targeting Solution | 15 | +2 accuracy for Gunner; reveals active conditions and defenses (immunities, weaknesses, resistances) |
+| 1 | Active Ping | 2 | Ship class; enables Gunner targeting |
+| 2 | Breach Analysis | 4 | Shield percentages per sector |
+| 3 | Deep Scan | 7 | Hardness, shields, hull, AC, fire arcs per sector; reveals actual ship name |
+| 4 | Targeting Solution | 10 | +2 accuracy for Gunner; reveals active conditions and defenses (immunities, weaknesses, resistances) |
 
-Locks decay by one tier each round unless refreshed.
+Locks decay over time unless refreshed: Tier 4 drops after 1 round, Tier 3 after 2 rounds, Tier 2 after 3 rounds, and Tier 1 after 5 rounds.
 
-> **Autoscan bonus:** Targets within the auto-scan range are automatically locked at Tier 2 and grant a **doubled base hit chance** on weapon attacks (e.g. 50% → 75%).
+> **Autoscan bonus:** Targets within the auto-scan (optimal) range are automatically locked at Tier 2, and the Gunner's total hit modifier is doubled against them.
 
 ### Battle Damage Assessment (Post-Fire)
 
-After the Gunner fires, the Sensors Officer may perform one BDA correction:
+Firing consumes the target's lock. After the Gunner fires, the Sensors Officer rolls a Battle Damage Assessment (Perception) — the roll determines how much of the lock is retained and grants one fire correction:
 
 | Correction | Effect |
 |-----------|--------|
@@ -163,25 +163,25 @@ After the Gunner fires, the Sensors Officer may perform one BDA correction:
 
 ### Targeted Utility Actions (require Lock 1)
 
-| Action | Effect |
-|--------|--------|
-| Sensor Disruption | Target suffers –10 to all rolls for 1 round |
-| Sensor Overcharge | Target weapon accuracy –20 for 2 rounds |
-| Designate Torpedo | Freeze a hostile torpedo's helming for 1 round, or double a friendly torpedo's speed this turn |
+| Action | AP Cost | Effect |
+|--------|---------|--------|
+| Sensor Disruption | 12 | Target suffers a penalty equal to your sensors' Hit Modifier (minimum –1) to all rolls, including weapon accuracy, for 1 round |
+| Sensor Overcharge | 16 | Target is Sensor Disrupted for 2 rounds: its weapons can only fire within their auto-scan range |
+| Designate Torpedo | 20 | Freeze a hostile torpedo's helming for 1 round, or double a friendly torpedo's speed this turn |
 
 ### Global Actions (click own ship on radar; no lock required)
 
-| Action | Effect |
-|--------|--------|
-| Lock Harmonics | Freeze all lock decay timers for 1 round |
-| Range Amplifier | Double auto-scan range for 2 rounds |
+| Action | AP Cost | Effect |
+|--------|---------|--------|
+| Lock Harmonics | 6 | Freeze all lock decay timers for 1 round |
+| Range Amplifier | 24 | Double auto-scan range for 2 rounds |
 
 ### Power Core Actions
 
-| Action | Effect |
-|--------|--------|
-| Signal Inversion | Strip all shields from the nearest quadrant of a designated enemy (requires Lock 1) |
-| Combat Telemetry | Upgrade all currently locked targets to Tier 4 (click own ship on radar) |
+| Action | AP Cost | Effect |
+|--------|---------|--------|
+| Signal Inversion | 25 | Strip all shields from the nearest quadrant of a designated enemy (requires Lock 1) |
+| Combat Telemetry | 30 | Upgrade all currently locked targets to Tier 4 (click own ship on radar) |
 
 ---
 
@@ -212,10 +212,10 @@ Roll Acrobatics once per round. Allocate Points to:
 
 | Tier | Name | Damage Multiplier |
 |------|------|-------------------|
-| 1 | Glancing | 0.5× |
-| 2 | Standard | 1× |
-| 3 | Focused | 1.5× |
-| 4 | Full Discharge | 2× |
+| 1 | Glancing | 1× |
+| 2 | Standard | 2× |
+| 3 | Focused | 3× |
+| 4 | Full Discharge | 4× |
 ### Ranging Fire
 
 Fire half a salvo at −2 to hit. If any shot connects, it brackets the target, granting +2 to hit against that ship with **all** weapon batteries for the rest of the round.
@@ -256,9 +256,11 @@ Crew are committed to a task and complete it after N rounds (modified by Expedie
 | Recall Craft | Recovers a strike craft within 3 VU |
 | Load Payload | Prepares a specialist payload for delivery to another station |
 | Load Ammo | Restores 20% of maximum ready rounds |
-| Generate Power | Produces +5 Auxiliary Power |
+| Generate Power | Produces Auxiliary Power equal to the reactor's AP-per-core stat |
 | Damage Control | Reduces internal fire by 1 |
 | Hull Repair Party | Restores +2 HP |
+
+With Strike Craft disabled in the Configuration tab, the strike craft actions are replaced by torpedo-focused actions (Torpedo Salvo, Bay Optimization, Emergency Launch).
 
 ### Ordnance Controls
 
@@ -270,11 +272,11 @@ Staged effects delivered to another role's station, arriving the following round
 
 | Target | Option A | Option B |
 |--------|----------|----------|
-| Gunner | AP Shells (+2 AP on macro cannons) | Shield-Flensing Shot (+1 shield burn per shot) |
+| Gunner | AP Shells (+2 hardness penetration on cannon attacks) | Shield-Flensing Shot (+1 shield burn per shot) |
 | Pilot | Helm Burn Injector (+50% base speed) | Maneuvering Thrusters (+50% base maneuverability) |
 | Sensors Officer | Telemetry Buoy (−20% AP costs, rounded up) | Lock Stabilizer (freeze all lock decay timers) |
-| Engineer | Emergency Coolant (reduce heat by 3) | Aux Capacitors (+1 core output this round) |
-| Captain | Cogitator Data-Slate (draw 2 extra orders, +2 hand size) | Fire Suppression Canisters (step one active condition down) |
+| Engineer | Emergency Coolant (vent 20% of heat capacity, minimum 1) | Aux Capacitors (+1 core output this round) |
+| Captain | Tactical Data-Slate (draw 2 extra orders, +2 hand size) | Fire Suppression Canisters (one random active condition steps down automatically) |
 
 ### Power Core Actions
 
@@ -284,3 +286,5 @@ Staged effects delivered to another role's station, arriving the following round
 | Shock Loading Rotation | Instantly complete one active crew commitment; effect applied immediately |
 | Magazine Crossfeed | Spend 6 ammo for +1 armed torpedo, or 4 ammo for +1 available payload |
 | Deck Conscription | +25% of max manpower as temporary crew this round, OR restore 10% of permanently lost crew |
+
+With Strike Craft disabled, Combat Recovery Doctrine is replaced by **Rapid Rearm**: immediately arm one torpedo and reset the auto-arm cycle, plus gain +1 available payload.
