@@ -1,3 +1,6 @@
+## v1.3.1
+- Replace deprecated Foundry API calls (`renderChatMessage` hook → `renderChatMessageHTML`; `getTemplate`/`loadTemplates` → `foundry.applications.handlebars.*`)
+
 ## v1.3.0
 - Rescale fire-mode hit modifiers to d20 steps: Ranging Fire −2, Full Broadside +2, Devastating Broadside +4 (broadsides previously leaked the core d100 values of +10/+20)
 - Enforce **Sensor Disruption**: the disrupted ship takes a penalty equal to the disruptor's sensor Hit Modifier (minimum −1) on weapon fire and NPC ship checks

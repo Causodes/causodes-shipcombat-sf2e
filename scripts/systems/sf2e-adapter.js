@@ -274,7 +274,7 @@ export class Sf2eAdapter extends SystemAdapter {
    * Generates a self-contained `<div class="sc-points-table">` that includes
    * the roll-threshold table, an optional nat-20/1 indicator, and the
    * "→ Points Granted" footer.  The outer div class is used by the
-   * `renderChatMessage` hook to identify messages that need dynamic SL
+   * `renderChatMessageHTML` hook to identify messages that need dynamic SL
    * updates after a reroll.
    *
    * Always shows row 0 (≤14), then the row before the active, the active
@@ -400,7 +400,7 @@ export class Sf2eAdapter extends SystemAdapter {
   }
 
   /**
-   * Register the `renderChatMessage` hook that dynamically rebuilds the
+   * Register the `renderChatMessageHTML` hook that dynamically rebuilds the
    * SC Points table in any chat message that contains one.  This ensures
    * the highlighted row and "Points Granted" text always reflect the
    * current roll total — including after a PF2e reroll, which deletes the
@@ -426,8 +426,8 @@ export class Sf2eAdapter extends SystemAdapter {
    * Call once during module init (see causodes-shipcombat-sf2e.js).
    */
   registerRenderHook() {
-    Hooks.on("renderChatMessage", (message, html) => {
-      const rootEl  = html instanceof HTMLElement ? html : html[0];
+    Hooks.on("renderChatMessageHTML", (message, html) => {
+      const rootEl  = html;
       if (!rootEl) return;
       const tableDiv = rootEl.querySelector(".sc-points-table");
       if (!tableDiv) return;
@@ -651,7 +651,7 @@ export class Sf2eAdapter extends SystemAdapter {
    *   3. Fallback  — skill exists but .check.roll is absent; use _checkRoll().
    *
    * After every path, _postAddPointsTable() appends the DC table to the
-   * newly created message.  The renderChatMessage hook (registered once
+   * newly created message. The renderChatMessageHTML hook (registered once
    * during init via registerRenderHook()) then keeps the table up-to-date
    * after any subsequent PF2e reroll.
    *

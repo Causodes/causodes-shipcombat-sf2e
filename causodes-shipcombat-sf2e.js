@@ -388,7 +388,7 @@ Hooks.once("init", () => {
   // PF2e's own implementation as normal.
   const _sf2eAdapter = new Sf2eAdapter();
 
-  // Register the renderChatMessage hook that dynamically rebuilds the SC
+  // Register the renderChatMessageHTML hook that dynamically rebuilds the SC
   // Points table in any chat message that contains one — ensuring the
   // active row and "Points Granted" text are always correct, even after
   // a PF2e reroll creates a new message carrying the old flavor HTML.
@@ -536,12 +536,12 @@ Hooks.once("setup", async () => {
     if (!Handlebars.partials[alias]) {
       const activePath = alias.replace("systems/sf2e/", `systems/${game.system.id}/`);
       // eslint-disable-next-line no-await-in-loop
-      const fn = await getTemplate(activePath);
+      const fn = await foundry.applications.handlebars.getTemplate(activePath);
       Handlebars.registerPartial(alias, fn);
     }
   }
 
-  await loadTemplates([
+  await foundry.applications.handlebars.loadTemplates([
     // Overview tab override
     "modules/causodes-shipcombat-sf2e/templates/actor/tabs/ship-overview-sf2e.hbs",
     // Role tab subtab overrides — 6-player
