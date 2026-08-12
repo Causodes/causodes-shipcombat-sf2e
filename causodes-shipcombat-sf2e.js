@@ -49,6 +49,13 @@ import { NpcShipModel }       from "./scripts/actors/npc/NpcShipModel.js";
 import { NpcShipSheet }       from "./scripts/actors/npc/NpcShipSheet.js";
 import { ShipOrdnanceModel }  from "./scripts/actors/ordnance/ShipOrdnanceModel.js";
 import { OrdnanceSheet }      from "./scripts/actors/ordnance/OrdnanceSheet.js";
+import { registerDeactivationGuard } from "./scripts/deactivation-guard.js";
+
+// SF2E rejects unknown module-provided Actor and Item subtypes during world
+// startup. Prevent Manage Modules from disabling either half of Ship Combat
+// while documents of those types remain in the world.
+registerDeactivationGuard();
+
 ShipCombat.configure({
   moduleId: "causodes-shipcombat-sf2e",
   adapter:  new Sf2eAdapter(),

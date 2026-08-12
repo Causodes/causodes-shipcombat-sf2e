@@ -1,3 +1,8 @@
+## v1.3.2
+- Prevent disabling the SF2E adapter or Ship Combat Core while the world still
+  contains Ship Combat actor/item subtypes, avoiding an SF2E startup failure
+  that also bypasses Foundry's safe-configuration recovery.
+
 ## v1.3.1
 - Replace deprecated Foundry API calls (`renderChatMessage` hook → `renderChatMessageHTML`; `getTemplate`/`loadTemplates` → `foundry.applications.handlebars.*`)
 

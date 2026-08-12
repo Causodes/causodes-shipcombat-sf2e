@@ -13,6 +13,14 @@ See the role-specific reference documents for full details on what each station 
 
 For help with first time setup, please see [TUTORIAL.md](TUTORIAL.md)!
 
+> [!CAUTION]
+> Do not disable this module or **Causodes's Ship Combat (Core)** while the
+> world contains starships, NPC ships, ordnance actors, or ship component
+> items. SF2E does not support loading module-provided Actor/Item subtypes when
+> their provider is inactive. The module blocks this in Manage Modules; delete
+> those documents before deactivating it. Forced safe configuration bypasses
+> this protection.
+
 ---
 
 ## Dependencies
