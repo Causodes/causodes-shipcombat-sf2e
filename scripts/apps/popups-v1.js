@@ -113,6 +113,7 @@ export class TargetingPopupV1 extends foundry.appv1.api.Application {
 
     const adapter       = SystemAdapter.current;
     const step          = adapter.getModifierStepSize();
+    const accuracyStep  = adapter.getAccuracyAllocationStep();
     const hbs           = adapter.getHitBonusStep();  // fixed hit-bonus step (lock, ranging, BDA, battle clarity, …)
     const captainStance = sys.resources?.captain?.stance ?? "none";
     const stanceHitMod  = captainStance === "aggressive" ? step
@@ -177,7 +178,7 @@ export class TargetingPopupV1 extends foundry.appv1.api.Application {
 
       // SF2e attack formula: Sensor Hit Modifier + Gunner Points + Weapon Hit Modifier - distance
       let totalAccuracy = sensor.rating
-        + (allocAccuracy * step)
+      + (allocAccuracy * accuracyStep)
         + weaponHitMod
         + distancePenalty
         + (fireModeDetails.hitMod ?? 0)
@@ -210,7 +211,7 @@ export class TargetingPopupV1 extends foundry.appv1.api.Application {
       if ((fireModeDetails.hitMod ?? 0) !== 0) breakdownParts.push(`Fire Mode Hit Mod: ${adapter.formatModifier(fireModeDetails.hitMod ?? 0)}`);
       if (stanceHitMod !== 0)                  breakdownParts.push(`Stance Hit Mod: ${adapter.formatModifier(stanceHitMod)}`);
       if (lockAccuracyBonus !== 0)             breakdownParts.push(`Lock Tier Hit Bonus: ${adapter.formatModifier(lockAccuracyBonus)}`);
-      if (allocAccuracy !== 0)                 breakdownParts.push(`Accuracy Hit Mod: ${adapter.formatModifier(allocAccuracy * step)}`);
+    if (allocAccuracy !== 0)                 breakdownParts.push(`Accuracy Hit Mod: ${adapter.formatModifier(allocAccuracy * accuracyStep)}`);
       if (weaponHitMod !== 0)                  breakdownParts.push(`Weapon Hit Mod: ${adapter.formatModifier(weaponHitMod)}`);
       if (adjustBearingBonus !== 0)            breakdownParts.push(`Adj. Bearing Hit Bonus: ${adapter.formatModifier(adjustBearingBonus)}`);
       if (rangingFireBonus !== 0)              breakdownParts.push(`Ranging Fire Hit Bonus: ${adapter.formatModifier(rangingFireBonus)}`);
@@ -377,10 +378,7 @@ export class TargetingPopupV1 extends foundry.appv1.api.Application {
     if (this.weaponType === "ammo") {
       const tier = MACRO_FIRE_TIERS.find(t => t.id === this.fireMode);
       if (!tier) return { label: "SHIPCOMBAT.Gunner.Fire", salvoSize: 0, cost: 0, hitMod: 0 };
-      // SF2e rescales the Core d100-flavoured fire-mode modifiers (−10/0/+10/+20)
-      // to d20 hit-bonus steps: ±1 step per 10 points (Ranging Fire −2,
-      // Full Broadside +2, Devastating Broadside +4).
-      const hitMod = Math.round((tier.hitMod ?? 0) / 10) * SystemAdapter.current.getHitBonusStep();
+      const hitMod = SystemAdapter.current.getFireModeHitModifier(tier.hitMod);
       return {
         label:         tier.label,
         salvoSize:     Math.ceil(baseSalvo * tier.salvoMult),

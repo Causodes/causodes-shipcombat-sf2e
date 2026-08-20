@@ -196,6 +196,9 @@ export class Sf2eAdapter extends SystemAdapter {
   /** SF2e fixed hit bonuses (lock, BDA, ranging fire) use +2 steps. */
   getHitBonusStep() { return 2; }
 
+  /** Each allocated Gunnery Point grants a whole +1 accuracy modifier. */
+  getAccuracyAllocationStep() { return 1; }
+
   /**
    * Sensor Disruption penalty: the disruptor's sensor Hit Modifier (a flat
    * d20 bonus in SF2e), with a minimum of one range band (−1).
@@ -214,7 +217,7 @@ export class Sf2eAdapter extends SystemAdapter {
   /** Show the attack bonus as "+N to hit vs AC X" in the salvo summary. */
   formatChatHitMod(effectiveAccuracy, targetAC = null) {
     if (effectiveAccuracy === null) return null;
-    const base = `+${effectiveAccuracy} to hit`;
+    const base = `${this.formatModifier(effectiveAccuracy)} to hit`;
     return targetAC !== null ? `${base} vs AC ${targetAC}` : base;
   }
 
