@@ -394,6 +394,7 @@ Hooks.once("init", () => {
   // the combatant's initiative directly. Non-ship combatants are delegated to
   // PF2e's own implementation as normal.
   const _sf2eAdapter = new Sf2eAdapter();
+  const { recordPlayerShipInitiative } = globalThis.ShipCombat._api;
 
   // Register the renderChatMessageHTML hook that dynamically rebuilds the SC
   // Points table in any chat message that contains one — ensuring the
@@ -441,7 +442,12 @@ Hooks.once("init", () => {
         flavor:  game.i18n.localize("SHIPCOMBAT.Captain.RollInitiativeBtn"),
         speaker: ChatMessage.getSpeaker({ actor: crewActor }),
       });
-      await this.setInitiative(id, _sf2eAdapter.toCombatantInitiative(total, ship));
+      await recordPlayerShipInitiative({
+        shipActor: ship,
+        rawTotal: total,
+        combat: this,
+        combatantId: id,
+      });
     }
 
     // NPC ships: roll d20 + PIL modifier (same mechanic as player ships,
