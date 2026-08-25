@@ -2,6 +2,7 @@
 - Derive all accuracy descriptions from adapter values and use the shared fire-mode conversion path
 - Display strike-craft accuracy as a signed d20 modifier and consistently grant the +2 Lock 4 bonus
 - Fix Captain initiative allocations replacing the ship's initiative instead of increasing its rolled total
+- Display the shared persistent contact designations and Sensors/Battle Clarity markers in SF2e targeting interfaces
 
 ## v1.3.2
 - Prevent disabling the SF2E adapter or Ship Combat Core while the world still

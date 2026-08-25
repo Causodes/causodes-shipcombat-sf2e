@@ -18,6 +18,7 @@ const {
   emitToGM, ShipCombatState, SystemAdapter, THEME, pixi,
   isOrdnance, classifyZone, getHitQuadrant, testArc,
   _drawArrow, _makeArrowContainer, _destroyContainer, HelmPreview,
+  getContactDisplayName,
 } = globalThis.ShipCombat._api;
 const MODULE_ID = "causodes-shipcombat-sf2e";
 
@@ -31,6 +32,17 @@ const TIER_COLOUR = {
   3: "#dd44ff",
   4: "#44ccff",
 };
+
+function _effectiveContactTier(token) {
+  const own = ShipCombatState.ship?.getActiveTokens?.()?.[0];
+  const gs = canvas?.grid?.size;
+  if (!own || !gs) return ShipCombatState.getLockTier(token.id);
+  const tx = token.x + (token.document.width * gs) / 2;
+  const ty = token.y + (token.document.height * gs) / 2;
+  const sx = own.x + (own.document.width * gs) / 2;
+  const sy = own.y + (own.document.height * gs) / 2;
+  return ShipCombatState.getEffectiveLockTier(token.id, Math.hypot(tx - sx, ty - sy) / gs);
+}
 
 // ── TargetingPopupV1 ─────────────────────────────────────────────────────────
 
@@ -124,6 +136,7 @@ export class TargetingPopupV1 extends foundry.appv1.api.Application {
     );
 
     const targets = [];
+    const sortedContactIds = candidates.map(target => target.id).filter(Boolean).sort();
     for (const candidate of candidates) {
       const cW = candidate.document.width  * gridSize;
       const cH = candidate.document.height * gridSize;
@@ -229,9 +242,11 @@ export class TargetingPopupV1 extends foundry.appv1.api.Application {
 
       targets.push({
         tokenId: candidate.id,
-        name:    lockTier >= 2
-          ? (candidate.document.name ?? "Unknown")
-          : (candidate.document.name ?? game.i18n.localize("SHIPCOMBAT.Targeting.UnknownContact")),
+        name:    getContactDisplayName(sys, candidate.id, {
+          currentTier: lockTier,
+          realName: candidate.document.name ?? "Unknown",
+          fallbackOrdinal: sortedContactIds.indexOf(candidate.id) + 1,
+        }),
         img: (() => {
           if (lockTier === 1 && isOrdnance(candidate.document.actor)) {
             const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><circle cx="20" cy="20" r="7" fill="#ff4444"/></svg>`;
@@ -289,6 +304,8 @@ export class TargetingPopupV1 extends foundry.appv1.api.Application {
         rangingFireBonus,
         battleClarityBonus,
         battleClarityPierce,
+        isRecommended: sys.resources?.sensors?.recommendedTargetId === candidate.id,
+        isPriority: priorityTargetId === candidate.id,
         activeCorrection,
         accuracyTooltip,
         targetX: tx,
@@ -296,7 +313,9 @@ export class TargetingPopupV1 extends foundry.appv1.api.Application {
       });
     }
 
-    targets.sort((a, b) => a.distance - b.distance);
+    targets.sort((a, b) => Number(b.isRecommended) - Number(a.isRecommended)
+      || Number(b.isPriority) - Number(a.isPriority)
+      || a.distance - b.distance);
     this.targets  = targets;
     this._shipPos = { x: cx, y: cy };
 
@@ -588,6 +607,7 @@ export class RamTargetPopupV1 extends foundry.appv1.api.Application {
     const rammingDmgBase   = rammingBowArmour + 0.25 * rammingHullMax;
 
     const targets = [];
+    const sortedContactIds = candidates.map(target => target.id).filter(Boolean).sort();
     for (const candidate of candidates) {
       const cW = candidate.document.width  * gridSize;
       const cH = candidate.document.height * gridSize;
@@ -639,9 +659,11 @@ export class RamTargetPopupV1 extends foundry.appv1.api.Application {
 
       targets.push({
         tokenId:          candidate.id,
-        name:             lockTier >= 2
-          ? (candidate.document.name ?? "Unknown")
-          : game.i18n.localize("SHIPCOMBAT.Targeting.UnknownContact"),
+        name:             getContactDisplayName(rammingSys, candidate.id, {
+          currentTier: lockTier,
+          realName: candidate.document.name ?? "Unknown",
+          fallbackOrdinal: sortedContactIds.indexOf(candidate.id) + 1,
+        }),
         img:              candidate.document.texture?.src ?? "icons/svg/mystery-man.svg",
         distance:         Math.round(distSquares * 10) / 10,
         bearingDeg:       reach.bearingDeg,
@@ -850,8 +872,6 @@ export class BattleClarityPopupV1 extends foundry.appv1.api.Application {
     const context = await super.getData(options);
 
     const data    = ShipCombatState.getData();
-    const locks   = data?.resources?.sensors?.locks ?? [];
-    const lockMap = new Map(locks.map(l => [l.targetTokenId, l.tier ?? 0]));
 
     const candidates = canvas.tokens?.placeables?.filter(t => {
       if (!t.actor || !t.visible) return false;
@@ -860,19 +880,28 @@ export class BattleClarityPopupV1 extends foundry.appv1.api.Application {
           || disp === CONST.TOKEN_DISPOSITIONS.NEUTRAL;
     }) ?? [];
 
+    const sortedContactIds = candidates.map(target => target.id).filter(Boolean).sort();
+    const recommendedTargetId = data.resources?.sensors?.recommendedTargetId ?? null;
+    const priorityTargetId = data.resources?.captain?.priorityTargetId ?? null;
     const targets = candidates.map(t => {
-      const lockTier = lockMap.get(t.id) ?? 0;
+      const lockTier = _effectiveContactTier(t);
       if (lockTier < 1) return null;
       return {
         tokenId:    t.id,
-        name:       t.document.name ?? "Unknown",
+        name:       getContactDisplayName(data, t.id, {
+          currentTier: lockTier,
+          realName: t.document.name ?? "Unknown",
+          fallbackOrdinal: sortedContactIds.indexOf(t.id) + 1,
+        }),
         img:        t.document.texture?.src ?? "icons/svg/mystery-man.svg",
         lockTier,
         bearing:    Math.round(t.document.rotation),
         lockLabel:  `L${lockTier}`,
         lockColour: TIER_COLOUR[lockTier] ?? TIER_COLOUR[0],
+        isRecommended: recommendedTargetId === t.id,
+        isPriority: priorityTargetId === t.id,
       };
-    }).filter(Boolean).sort((a, b) => b.lockTier - a.lockTier);
+    }).filter(Boolean).sort((a, b) => Number(b.isRecommended) - Number(a.isRecommended) || b.lockTier - a.lockTier);
 
     return { ...context, targets, noTargets: targets.length === 0 };
   }
@@ -986,6 +1015,8 @@ export class StrikeCraftAttackPopupV1 extends foundry.appv1.api.Application {
     });
 
     const targets = [];
+    const contactData = ShipCombatState.getData();
+    const sortedContactIds = candidates.map(target => target.id).filter(Boolean).sort();
     for (const candidate of candidates) {
       const cW = candidate.document.width  * gs;
       const cH = candidate.document.height * gs;
@@ -1036,7 +1067,11 @@ export class StrikeCraftAttackPopupV1 extends foundry.appv1.api.Application {
 
       targets.push({
         tokenId:         candidate.id,
-        name:            candidate.document.name ?? "Unknown",
+        name:            getContactDisplayName(contactData, candidate.id, {
+          currentTier: lockTier,
+          realName: candidate.document.name ?? "Unknown",
+          fallbackOrdinal: sortedContactIds.indexOf(candidate.id) + 1,
+        }),
         img:             candidate.document.texture?.src ?? "icons/svg/mystery-man.svg",
         distance:        Math.round(distSquares * 10) / 10,
         zone:            zone.zone,
