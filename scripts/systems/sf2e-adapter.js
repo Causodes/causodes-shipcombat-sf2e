@@ -43,6 +43,7 @@ export class Sf2eAdapter extends SystemAdapter {
   get systemName()     { return "Starfinder 2e"; }
   get moduleId()       { return MODULE_ID; }
   get englishVariant() { return "american"; }
+  get allocationUnitTerms() { return { singular: "point", plural: "points" }; }
 
   /* ── Phase 1 — Base class wiring ───────────────────────────────────────── */
 
@@ -240,8 +241,8 @@ export class Sf2eAdapter extends SystemAdapter {
     return this.formatModifier(totalAccuracy);
   }
 
-  /** "(N Points)" — SF2e BDA uses Points rather than SL. */
-  formatBdaBadge(sl) { return `(${sl} Points)`; }
+  /** Parenthesized BDA result using the shared allocation terminology. */
+  formatBdaBadge(sl) { return `(${sl} ${this.formatAllocationUnit(sl)})`; }
 
   /**
    * SL ladder for ship actions.  Target number is intentionally unused;
@@ -321,18 +322,18 @@ export class Sf2eAdapter extends SystemAdapter {
 
     let natNote = "";
     if (natBonus === 1) {
-      natNote = `<div class="sc-nat-bonus sc-nat-20">Natural 20: +1 point</div>`;
+      natNote = `<div class="sc-nat-bonus sc-nat-20">Natural 20: +1 ${this.formatAllocationUnit(1)}</div>`;
     } else if (natBonus === -1) {
-      natNote = `<div class="sc-nat-bonus sc-nat-1">Natural 1: \u22121 point</div>`;
+      natNote = `<div class="sc-nat-bonus sc-nat-1">Natural 1: \u22121 ${this.formatAllocationUnit(1)}</div>`;
     }
 
     const roleAttr = roleSkill ? ` data-sc-role-skill="${roleSkill}"` : "";
     return `<div class="sc-points-table"${roleAttr}>
       <table class="sc-sl-table">
-        <thead><tr><th>Roll</th><th>Points</th></tr></thead>
+        <thead><tr><th>Roll</th><th>${this.formatAllocationUnit(2, { capitalize: true })}</th></tr></thead>
         <tbody>${tableRows}</tbody>
       </table>${natNote}
-      <div class="sc-points-granted">→ Points Granted: <strong>${finalSL}</strong></div>
+      <div class="sc-points-granted">→ ${this.formatAllocationUnit(finalSL, { capitalize: true })} Granted: <strong>${finalSL}</strong></div>
     </div>`;
   }
 

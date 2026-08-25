@@ -3,7 +3,7 @@
  */
 
 /* ── Captain drag-over + confirm button ─────────────────────────────────── */
-.shipcombat-dr-card.shipcombat-dr-drag-over {
+body .shipcombat-dr-card.shipcombat-dr-drag-over {
   border-color: var(--sc-accent, #5577dd);
   background:   var(--sc-accent-subtle, rgba(85,119,221,0.10));
 }
@@ -15,32 +15,48 @@
 }
 .shipcombat-dr-confirm-btn:hover { background: var(--sc-accent-dim, rgba(85,119,221,0.22)); }
 
-/* ── Captain action cards — remove scan lines, use frame-elegant border ── */
-/* The repeating-linear-gradient scan lines look great on dark/impmal but   */
-/* clash with SF2e's parchment theme. Replace with a light color wash and   */
-/* the same fancy SVG border used on the SL allocation rows.                */
-.shipcombat-ship .shipcombat-captain-card {
-  background: rgba(var(--shipcombat-card-rgb), 0.05);
-  border-style:        double;
-  border-image-repeat: repeat;
-  border-image-slice:  11;
-  border-image-source: url("../../../systems/sf2e/assets/sheet/frame-elegant.svg");
-  border-image-width:  14px;
-  box-shadow:          none;
-  padding:             0.75rem 0.9rem;
+/* ── Universal Captain-card theme ───────────────────────────────────────── */
+/* Override Core's inherited theme contract once. Sheets, chat, Emergency
+   Salvage, Dead Reckoning, and pile previews all consume these variables. */
+body {
+  --shipcombat-pile-surface-color: #f4efe4;
+  --shipcombat-pile-surface-image: none;
+  --shipcombat-pile-border: 1px solid rgba(23, 31, 105, 0.25);
+  --shipcombat-pile-color: var(--color-text-primary, #1a1a1a);
+  --shipcombat-pile-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
 }
-.shipcombat-ship .shipcombat-captain-card:hover {
-  background: rgba(var(--shipcombat-card-rgb), 0.10);
-  box-shadow: none;
+
+body .shipcombat-captain-card {
+  --shipcombat-card-surface: rgba(var(--shipcombat-card-rgb), 0.05);
+  --shipcombat-card-hover-surface: rgba(var(--shipcombat-card-rgb), 0.10);
+  --shipcombat-card-shadow: none;
+  --shipcombat-card-hover-shadow: none;
+  --shipcombat-card-padding: 0.75rem 0.9rem;
+  --shipcombat-card-border-style: double;
+  --shipcombat-card-border-image-repeat: repeat;
+  --shipcombat-card-border-image-slice: 11;
+  --shipcombat-card-border-image-source: url("../../../systems/sf2e/assets/sheet/frame-elegant.svg");
+  --shipcombat-card-border-image-width: 14px;
+}
+
+body .shipcombat-pile-popup-title {
+  color: var(--color-text-secondary, #555);
+  border-bottom-color: rgba(23, 31, 105, 0.16);
+}
+body .shipcombat-pile-entry-cat {
+  background: rgba(23, 31, 105, 0.06);
+}
+body .shipcombat-pile-popup-empty {
+  color: var(--color-text-secondary, #666);
 }
 
 /* Per-card discard icon: match SF2e parchment (not dark background) */
-.shipcombat-ship .shipcombat-captain-card-action--mulligan {
+body .shipcombat-captain-card-action--mulligan {
   color:        rgba(0, 0, 0, 0.40);
   border-color: rgba(0, 0, 0, 0.12);
   background:   rgba(0, 0, 0, 0.03);
 }
-.shipcombat-ship .shipcombat-captain-card-action--mulligan:hover {
+body .shipcombat-captain-card-action--mulligan:hover {
   background:   rgba(0, 0, 0, 0.08);
   border-color: rgba(0, 0, 0, 0.25);
   color:        rgba(0, 0, 0, 0.65);
@@ -343,4 +359,3 @@ form.shipcombat-npc-sheet .shipcombat-crit-tier-badge.shipcombat-crit-tier--high
   color:      #8b0c0c;
   background: rgba(139, 12, 12, 0.10);
 }
-

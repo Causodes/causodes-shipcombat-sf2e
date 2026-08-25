@@ -66,33 +66,50 @@
       "ShipLevel": "Ship"
     },
     "Action": {
-      "AddTrait": "Add Trait"
+      "AddTrait": "Add Trait",
+      "GunnerOverchargedDesc": "Full heavy fire. Spend {{SHIPCOMBAT.Term.AllocationUnits}} to inflict Critical Effects on enemy subsystems."
     },
     "Gunner": {
-      "AccuracyTooltip": "{{SHIPCOMBAT.ModifierCopy.AccuracyAllocationBonus}} to hit per point allocated",
+      "AccuracyTooltip": "{{SHIPCOMBAT.ModifierCopy.AccuracyAllocationBonus}} to hit per {{SHIPCOMBAT.Term.AllocationUnit}} allocated",
       "DevastatingBroadside": "Max Firepower",
       "StatusTitle": "Weapons Status",
       "OrdnanceAllocation": "Weapons Allocation",
-      "OrdnanceSL": "Gunnery Points",
-      "OrdnanceSLTooltip": "Roll Gunnery to generate Points for Accuracy, Penetration, and Firepower allocation.",
+      "OrdnanceSL": "Gunnery {{SHIPCOMBAT.Term.AllocationUnitsTitle}}",
+      "OrdnanceSLTooltip": "Roll Gunnery to generate {{SHIPCOMBAT.Term.AllocationUnits}} for Accuracy, Penetration, and Firepower allocation.",
       "Accuracy": "Accuracy",
-      "FirepowerTooltip": "+1 damage per point allocated",
+      "FirepowerTooltip": "+1 damage per {{SHIPCOMBAT.Term.AllocationUnit}} allocated",
       "RangingFireDesc": "Fires half a salvo at {{SHIPCOMBAT.ModifierCopy.HitPenalty}} to hit. If any shot connects, it brackets the target – granting {{SHIPCOMBAT.ModifierCopy.HitBonus}} to hit against that ship with ALL weapon batteries for the rest of the round.",
-      "PenetrationTooltip": "+1 Hardness Penetration per point allocated"
+      "PenetrationTooltip": "+1 Hardness Penetration per {{SHIPCOMBAT.Term.AllocationUnit}} allocated"
     },
     "Helm": {
-      "EvasionTooltip": "Each point allocated increases your ship's AC by 1 this round.",
-      "PilotingSL": "Piloting Points",
-      "PilotingSLTooltip": "Roll Piloting to generate Points for Speed, Maneuverability, and Evasion allocation.",
-      "Evasion": "Evasion"
+      "EvasionTooltip": "Each {{SHIPCOMBAT.Term.AllocationUnit}} allocated increases your ship's AC by 1 this round.",
+      "PilotingSL": "Piloting {{SHIPCOMBAT.Term.AllocationUnitsTitle}}",
+      "PilotingSLTooltip": "Roll Piloting to generate {{SHIPCOMBAT.Term.AllocationUnits}} for Speed, Maneuverability, and Evasion allocation.",
+      "EngineeringSL": "Engineering {{SHIPCOMBAT.Term.AllocationUnitsTitle}}",
+      "EngineeringSLTooltip": "Roll Engineering to generate {{SHIPCOMBAT.Term.AllocationUnits}} for Speed, Maneuverability, and Evasion allocation.",
+      "Evasion": "Evasion",
+      "ResetHelm": "Reset helm state (clear stale fuel/{{SHIPCOMBAT.Term.AllocationUnits}})"
     },
     "Engineer": {
-      "EngineeringSL": "Engineering Points",
-      "EngineeringSLTooltip": "Roll Engineering to generate Points for Speed, Maneuverability, and Evasion allocation."
+      "EngineeringSL": "Engineering {{SHIPCOMBAT.Term.AllocationUnitsTitle}}",
+      "EngineeringSLTooltip": "Roll Engineering to generate {{SHIPCOMBAT.Term.AllocationUnits}} for Speed, Maneuverability, and Evasion allocation.",
+      "ManageHeatDesc": "Spend auxiliary power and roll Engineering to perform cooling procedures. Reduce heat by power spent + {{SHIPCOMBAT.Term.AllocationUnits}} (minimum 1).",
+      "SuppressFireDesc": "Spend auxiliary power and roll Engineering to suppress fire. Reduce fire by power spent + {{SHIPCOMBAT.Term.AllocationUnits}} (minimum 1).",
+      "HullRepairDesc": "Spend auxiliary power and roll Engineering to restore hull integrity. Costs +1 heat. Hull restored = power spent + {{SHIPCOMBAT.Term.AllocationUnits}}. Cannot repair during internal fire.",
+      "PlasmaForRepairHint": "Spend up to {max} auxiliary power. Each unit restores 1 hull plus the allocated {{SHIPCOMBAT.Term.AllocationUnits}}."
+    },
+    "Ordnance": {
+      "RequisitionDesc": "Roll Athletics to generate Ordnance {{SHIPCOMBAT.Term.AllocationUnits}} for Efficiency and Expedience allocation.",
+      "RequisitionSL": "Athletics {{SHIPCOMBAT.Term.AllocationUnitsTitle}}",
+      "EfficiencyTooltip": "Reduce crew cost by 1 per {{SHIPCOMBAT.Term.AllocationUnit}} allocated (minimum 2 crew per action).",
+      "ExpedienceTooltip": "Reduce action duration by 1 turn per {{SHIPCOMBAT.Term.AllocationUnit}} allocated (minimum 1 turn)."
     },
     "Captain": {
-      "LeadershipSL": "Command Points",
-      "LeadershipSLTooltip": "Roll Leadership to generate Points for Inspire, Resolve, and Initiative allocation.",
+      "LeadershipSL": "Command {{SHIPCOMBAT.Term.AllocationUnitsTitle}}",
+      "LeadershipSLTooltip": "Roll Leadership to generate {{SHIPCOMBAT.Term.AllocationUnits}} for Inspire, Resolve, and Initiative allocation.",
+      "InspireTooltip": "+1 to next round's starting hand limit per {{SHIPCOMBAT.Term.AllocationUnit}} allocated, above the base limit of 3. The bonus does not stack across rounds.",
+      "ResolveTooltip": "+1 mulligan this round per {{SHIPCOMBAT.Term.AllocationUnit}} allocated.",
+      "InitiativeTooltip": "Allocate {{SHIPCOMBAT.Term.AllocationUnits}} to boost the next round's combat initiative by 1 per {{SHIPCOMBAT.Term.AllocationUnit}}.",
       "Card": {
         "repairArmour": "Hardness Repair",
         "Desc": {
@@ -128,15 +145,17 @@
       "Price": "The purchase price of this ship"
     },
     "Sensors": {
+      "FocusedScanDesc": "Free action (once per turn). Roll Sensors; gain Sensor base rate + positive {{SHIPCOMBAT.Term.AllocationUnits}} as Power.",
       "DeepScanDesc": "Upgrade to Lock 3. Reveals hardness, shield values, hull, AC, and weapon fire arcs per sector. Shows actual ship name.",
       "TargetingSolutionDesc": "Upgrade to Lock 4. Reveals conditions and defenses (immunities, weaknesses, resistances). Gunner gets {{SHIPCOMBAT.ModifierCopy.HitBonus}} to accuracy against this target.",
       "SensorDisruptionDesc": "Requires Lock 1. Designate one locked enemy. It suffers a penalty to all rolls (including weapon accuracy) equal to your sensors' Hit Modifier, minimum -1, for 1 round."
     },
     "BDA": {
-      "ResultLabel": "Points Granted:",
+      "RollTooltip": "Roll Sensors to assess battle damage. The number of {{SHIPCOMBAT.Term.AllocationUnits}} determines how much lock is retained.",
+      "ResultLabel": "{{SHIPCOMBAT.Term.AllocationUnitsTitle}} Granted:",
       "AdjustBearingDesc": "{{SHIPCOMBAT.ModifierCopy.HitBonus}} to hit on the next attack with this weapon at this target.",
-      "TargetWeakPointDesc": "+Points bonus to hardness penetration on the next attack.",
-      "FireForEffectDesc": "Each Point reduces the critical hit threshold by 1 (base crit requires exceeding AC by 10; stacks with the Devastating weapon trait)."
+      "TargetWeakPointDesc": "Add the allocated {{SHIPCOMBAT.Term.AllocationUnits}} to hardness penetration on the next attack.",
+      "FireForEffectDesc": "Each {{SHIPCOMBAT.Term.AllocationUnit}} reduces the critical hit threshold by 1 (base crit requires exceeding AC by 10; stacks with the Devastating weapon trait)."
     },
     "Slot": {
       "Armour": "Hardness"

@@ -26,24 +26,28 @@ Roll Diplomacy once per round. Allocate the Points to:
 
 | Track | Effect per Point |
 |-------|------------------|
-| Inspire | +1 card drawn this round, +1 maximum hand size |
-| Resolve | +1 damage control action this round |
+| Inspire | +1 to next round's starting hand limit |
+| Resolve | +1 mulligan this round |
 | Initiative | +1 to this round's initiative roll result |
 
 ### Standing Orders Deck
 
-23-card deck shuffled at the start of combat. Draw 3 cards per round (modified by Inspire Points). Hand cap is 6 (modified by Inspire Points for that round). Cards fall into four categories:
+The 23-card deck is shuffled at combat start. The base starting hand limit is 3. At the start of each round, unplayed orders are retained up to the new limit and enough orders are drawn to refill the hand. Inspire raises the *next* round's limit by 1 per Point; without renewed Inspire, excess orders are discarded when the following round returns to the base limit. Playing an order removes that slot for the rest of the current round.
+
+The Captain has 1 mulligan each round, plus 1 per Point allocated to Resolve. A mulligan discards one selected order and immediately draws a replacement into the same slot; the same slot can be mulliganed repeatedly while uses remain. The first mulligan locks Captain command allocation for the round. The header projects this lifecycle as `(current cards/current limit) → (next cards/next limit)`.
+
+If a non-empty draw pile contains too few orders to refill the hand, it is exhausted and that round begins below the limit. If a round would draw zero because the draw pile starts empty, the entire discard pile is shuffled into the draw pile before drawing normally.
+
+Cards fall into four categories:
 
 - **Boost**: grant Power Cores or bonuses to a specific role; played by dragging or clicking Play on the card
 - **Shipwide**: broad tactical effects that apply to the whole vessel
 - **Reaction**: played in response to incoming threats (outside your normal turn)
 - **Gambit**: set a combat stance; takes effect at the start of the *next* round
 
-One free redraw per round (swap one card for a fresh draw). Spending two repair actions unlocks a full mulligan.
-
 ### Damage Control
 
-Each repair action steps one ship condition down one tier, costing 10% of maximum Auxiliary Power. Base allotment is 2 per round plus Resolve Points.
+Each repair action steps one ship condition down one tier, costing 10% of maximum Auxiliary Power. The allotment is always 2 per round; Resolve now affects mulligans instead of damage control.
 
 ### Shield Management
 
@@ -56,9 +60,9 @@ Allocate available flux across the four sectors (Bow, Stern, Port, Starboard) ea
 | Battle Clarity | All weapons targeting a nominated enemy gain +2 accuracy and pierce 2 shields this round |
 | Emergency Protocols | Discard entire hand; clear all Low-tier ship conditions |
 | Iron Command | Discard entire hand; step every Medium and High condition down one tier |
-| Emergency Salvage | Retrieve any one order from the discard pile into hand |
+| Emergency Salvage | Preview and recover a discarded order above the hand limit with the Salvaged tag; recycle every other discard into the draw pile |
 | Command Override | Immediately promote a queued pending stance into the active stance |
-| Dead Reckoning | View and reorder the top 12 cards in the draw pile; blocks the mulligan this round |
+| Dead Reckoning | Reorder the top 12 draw-pile orders |
 
 ---
 

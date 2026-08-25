@@ -15,6 +15,7 @@
                                      StrikeCraftAttackPopup, RecoverCraftPopup
      .shipcombat-ram-target-popup → RamTargetPopup
      .shipcombat-dead-reckoning-popup → DeadReckoningPopup
+     .shipcombat-emergency-salvage-popup → EmergencySalvagePopup
      .shipcombat-bda-popup        → BDAPopup                               */
 
 /* 1 ── Outer window: clear core's dark background; let window-content show
@@ -22,7 +23,8 @@
 .shipcombat-targeting-popup,
 .shipcombat-ram-target-popup,
 .shipcombat-bda-popup,
-.shipcombat-dead-reckoning-popup {
+.shipcombat-dead-reckoning-popup,
+.shipcombat-emergency-salvage-popup {
   background: none !important;
   box-shadow: none;
 }
@@ -32,7 +34,8 @@
 .shipcombat-targeting-popup .window-header,
 .shipcombat-ram-target-popup .window-header,
 .shipcombat-bda-popup .window-header,
-.shipcombat-dead-reckoning-popup .window-header {
+.shipcombat-dead-reckoning-popup .window-header,
+.shipcombat-emergency-salvage-popup .window-header {
   border: none;
   border-radius: 0;
   margin-bottom: 2px;
@@ -57,7 +60,8 @@
 .shipcombat-targeting-popup .window-content,
 .shipcombat-ram-target-popup .window-content,
 .shipcombat-bda-popup .window-content,
-.shipcombat-dead-reckoning-popup .window-content {
+.shipcombat-dead-reckoning-popup .window-content,
+.shipcombat-emergency-salvage-popup .window-content {
   border-style: solid;
   border-image-outset: 0;
   border-width: 9px;
@@ -72,18 +76,25 @@
 .shipcombat-targeting-popup button,
 .shipcombat-ram-target-popup button,
 .shipcombat-bda-popup button,
-.shipcombat-dead-reckoning-popup button {
+.shipcombat-dead-reckoning-popup button,
+.shipcombat-emergency-salvage-popup button {
   background-color: var(--color-pf-secondary, #171f69);
   border-radius: 2px;
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.3), inset 0 0 0 2px rgba(255, 255, 255, 0.2);
   color: var(--text-light, #f0e8d8);
   cursor: pointer;
-  font-family: var(--sans-serif);
+  font-family: var(--sans-serif, Roboto, sans-serif);
+}
+.shipcombat-dead-reckoning-popup .shipcombat-dr-footer button {
+  border: none;
+  font-family: var(--sans-serif, Roboto, sans-serif);
+  font-style: normal;
 }
 .shipcombat-targeting-popup button:hover,
 .shipcombat-ram-target-popup button:hover,
 .shipcombat-bda-popup button:hover,
-.shipcombat-dead-reckoning-popup button:hover {
+.shipcombat-dead-reckoning-popup button:hover,
+.shipcombat-emergency-salvage-popup button:hover {
   text-shadow: 0 0 2px var(--color-pf-tertiary, #e9d7a1);
 }
 .shipcombat-bda-popup .shipcombat-bda-correction-btn:hover .shipcombat-bda-correction-hint {
@@ -181,11 +192,13 @@
 }
 .shipcombat-dead-reckoning-popup .shipcombat-dr-card {
   border-color: rgba(0, 0, 0, 0.1);
-  background:   transparent;
+  background:   var(--shipcombat-card-surface);
+  box-shadow:   var(--shipcombat-card-shadow);
   color:        var(--color-text-primary, #1a1a1a);
 }
 .shipcombat-dead-reckoning-popup .shipcombat-dr-card:hover {
-  background: rgba(0, 0, 0, 0.04);
+  background: var(--shipcombat-card-hover-surface);
+  box-shadow: var(--shipcombat-card-hover-shadow);
 }
 .shipcombat-dead-reckoning-popup .shipcombat-dr-card.shipcombat-dr-drag-over {
   border-color: #1d8046;
@@ -225,5 +238,3 @@
   color: var(--color-pf-tertiary, #e9d7a1);
   opacity: 0.8;
 }
-
-
