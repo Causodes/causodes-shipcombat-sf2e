@@ -57,7 +57,7 @@ Allocate available flux across the four sectors (Bow, Stern, Port, Starboard) ea
 
 | Action | Effect |
 |--------|--------|
-| Battle Clarity | All weapons targeting a nominated enemy gain +2 accuracy and pierce 2 shields this round |
+| Priority Target | All weapons targeting a nominated enemy gain +2 accuracy and pierce 2 shields this round |
 | Emergency Protocols | Discard entire hand; clear all Low-tier ship conditions |
 | Iron Command | Discard entire hand; step every Medium and High condition down one tier |
 | Emergency Salvage | Preview and recover a discarded order above the hand limit with the Salvaged tag; recycle every other discard into the draw pile |

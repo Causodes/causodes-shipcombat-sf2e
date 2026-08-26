@@ -2,13 +2,15 @@
 - Derive all accuracy descriptions from adapter values and use the shared fire-mode conversion path
 - Display strike-craft accuracy as a signed d20 modifier and consistently grant the +2 Lock 4 bonus
 - Fix Captain initiative allocations replacing the ship's initiative instead of increasing its rolled total
-- Display the shared persistent contact designations and Sensors/Battle Clarity markers in SF2e targeting interfaces
+- Display the shared persistent contact designations and Sensors/Priority Target markers in SF2e targeting interfaces
 - Replace remaining inherited and dynamically generated “SL” descriptions with “points” terminology
 - Remove the redundant Active Standing Orders panel from all SF2e Captain layouts
 - Apply SF2e's parchment Captain-card theme universally across the hand, chat, Emergency Salvage, and Dead Reckoning instead of limiting it to ship-sheet cards
 - Preserve category tinting on Dead Reckoning cards against SF2e list styles and make its footer controls use the borderless SF2e dialog-button typography
 - Apply the SF2e parchment Captain-card graphic consistently to the hand, chat, pile previews, Emergency Salvage, and Dead Reckoning, eliminating remaining Core scan-line surfaces
 - Define SF2e's singular `point` and plural `points` allocation terminology once in the system adapter and consume it across localized and generated UI copy
+- Use readable purple/red target-marker colours on parchment and mirror Core's self/allied-contact exclusion across SF2e targeting dialogs
+- Rename Battle Clarity to Priority Target and use Core's pale-teal intercardinal crew mark plus red priority lock ring on the SF2e radar
 
 ## v1.3.2
 - Prevent disabling the SF2E adapter or Ship Combat Core while the world still

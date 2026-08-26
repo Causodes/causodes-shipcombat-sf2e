@@ -1102,6 +1102,16 @@ export class Sf2eAdapter extends SystemAdapter {
       trailStop2:     "rgba(68, 170, 255, 0.08)",
       trailStop3:     "rgba(68, 170, 255, 0.18)",
       outerRim:       "rgba(68, 170, 255, 0.35)",
+      markedTarget:    "#a7f3e6",
+      battleClarity:   "#ff8fa3",
+    };
+  }
+
+  /** Dark semantic colours remain legible on SF2e's parchment popups. */
+  targetMarkerPalette() {
+    return {
+      recommended: "#5e2a84",
+      priority:    "#a61b2b",
     };
   }
 }

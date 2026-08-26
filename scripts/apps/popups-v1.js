@@ -18,7 +18,7 @@ const {
   emitToGM, ShipCombatState, SystemAdapter, THEME, pixi,
   isOrdnance, classifyZone, getHitQuadrant, testArc,
   _drawArrow, _makeArrowContainer, _destroyContainer, HelmPreview,
-  getContactDisplayName,
+  getContactDisplayName, getAttackStanceModifier, isTargetableContactToken,
 } = globalThis.ShipCombat._api;
 const MODULE_ID = "causodes-shipcombat-sf2e";
 
@@ -126,13 +126,9 @@ export class TargetingPopupV1 extends foundry.appv1.api.Application {
     const adapter       = SystemAdapter.current;
     const step          = adapter.getModifierStepSize();
     const accuracyStep  = adapter.getAccuracyAllocationStep();
-    const hbs           = adapter.getHitBonusStep();  // fixed hit-bonus step (lock, ranging, BDA, battle clarity, …)
-    const captainStance = sys.resources?.captain?.stance ?? "none";
-    const stanceHitMod  = captainStance === "aggressive" ? step
-                        : captainStance === "defensive"  ? -step : 0;
-
+    const hbs           = adapter.getHitBonusStep();  // fixed hit-bonus step (lock, ranging, BDA, Priority Target, …)
     const candidates = canvas.tokens.placeables.filter(
-      t => t.document.actor?.id !== ship.id && t.visible
+      token => isTargetableContactToken(token, ship),
     );
 
     const targets = [];
@@ -164,7 +160,8 @@ export class TargetingPopupV1 extends foundry.appv1.api.Application {
 
       const lockAccuracyBonus = lockTier >= 4 ? hbs : 0;
 
-      const targetSys       = candidate.document.actor?.system ?? {};
+      const targetSys       = adapter.getShipData(candidate.document.actor) ?? {};
+      const stanceHitMod    = getAttackStanceModifier(sys, targetSys, step);
       const allocAccuracy   = sys.resources?.gunner?.allocAccuracy ?? 0;
       const weaponHitMod    = this.weapon?.system?.traits?.hitRatingModifier ?? 0;
 
@@ -228,7 +225,7 @@ export class TargetingPopupV1 extends foundry.appv1.api.Application {
       if (weaponHitMod !== 0)                  breakdownParts.push(`Weapon Hit Mod: ${adapter.formatModifier(weaponHitMod)}`);
       if (adjustBearingBonus !== 0)            breakdownParts.push(`Adj. Bearing Hit Bonus: ${adapter.formatModifier(adjustBearingBonus)}`);
       if (rangingFireBonus !== 0)              breakdownParts.push(`Ranging Fire Hit Bonus: ${adapter.formatModifier(rangingFireBonus)}`);
-      if (battleClarityBonus !== 0)            breakdownParts.push(`Battle Clarity Hit Bonus: ${adapter.formatModifier(battleClarityBonus)}`);
+      if (battleClarityBonus !== 0)            breakdownParts.push(`Priority Target Hit Bonus: ${adapter.formatModifier(battleClarityBonus)}`);
       if (captainHitBonus !== 0)               breakdownParts.push(`Insp. Targeting Hit Bonus: ${adapter.formatModifier(captainHitBonus)}`);
       if (disruptionPenalty)                   breakdownParts.push(`Sensor Disruption: ${adapter.formatModifier(-disruptionPenalty)}`);
 
@@ -332,6 +329,7 @@ export class TargetingPopupV1 extends foundry.appv1.api.Application {
       hasOvercharge: !!(this.weapon?.system?.traits?.overcharge) && this.weaponType === "heat",
       isOvercharged: this.isOvercharged,
       overchargedTraits: this._buildOverchargedTraits(),
+      markerPalette: adapter.targetMarkerPalette(),
     };
   }
 
@@ -594,10 +592,8 @@ export class RamTargetPopupV1 extends foundry.appv1.api.Application {
 
     const shipBasis = this.shipBasis ?? HelmPreview._tokenBasis(token);
 
-    const candidates = canvas.tokens.placeables.filter(t =>
-      t !== token &&
-      t.document.actor?.id !== ship.id &&
-      !t.document.hidden,
+    const candidates = canvas.tokens.placeables.filter(target =>
+      target !== token && isTargetableContactToken(target, ship),
     );
 
     const RAM_COEFF        = 2;
@@ -873,12 +869,9 @@ export class BattleClarityPopupV1 extends foundry.appv1.api.Application {
 
     const data    = ShipCombatState.getData();
 
-    const candidates = canvas.tokens?.placeables?.filter(t => {
-      if (!t.actor || !t.visible) return false;
-      const disp = t.document.disposition;
-      return disp === CONST.TOKEN_DISPOSITIONS.HOSTILE
-          || disp === CONST.TOKEN_DISPOSITIONS.NEUTRAL;
-    }) ?? [];
+    const candidates = canvas.tokens?.placeables?.filter(
+      token => isTargetableContactToken(token, ShipCombatState.ship),
+    ) ?? [];
 
     const sortedContactIds = candidates.map(target => target.id).filter(Boolean).sort();
     const recommendedTargetId = data.resources?.sensors?.recommendedTargetId ?? null;
@@ -903,7 +896,12 @@ export class BattleClarityPopupV1 extends foundry.appv1.api.Application {
       };
     }).filter(Boolean).sort((a, b) => Number(b.isRecommended) - Number(a.isRecommended) || b.lockTier - a.lockTier);
 
-    return { ...context, targets, noTargets: targets.length === 0 };
+    return {
+      ...context,
+      targets,
+      noTargets: targets.length === 0,
+      markerPalette: SystemAdapter.current.targetMarkerPalette(),
+    };
   }
 
   activateListeners($html) {
@@ -1004,6 +1002,10 @@ export class StrikeCraftAttackPopupV1 extends foundry.appv1.api.Application {
     }
 
     const parentShipTokenId = sys.parentShipTokenId ?? null;
+    const parentShipData = SystemAdapter.current.getShipData(
+      canvas.tokens.get(parentShipTokenId)?.document?.actor,
+    ) ?? {};
+    const parentShipActor = canvas.tokens.get(parentShipTokenId)?.document?.actor ?? null;
 
     const candidates = canvas.tokens.placeables.filter(t => {
       if (!shipTypes.includes(t.document.actor?.type) && !(isFighter && isOrdnance(t.document.actor))) return false;
@@ -1011,7 +1013,7 @@ export class StrikeCraftAttackPopupV1 extends foundry.appv1.api.Application {
       if (parentShipTokenId && t.id === parentShipTokenId) return false;
       const tParent = t.document.actor?.system?.parentShipTokenId;
       if (tParent && tParent === parentShipTokenId) return false;
-      return true;
+      return isTargetableContactToken(t, parentShipActor);
     });
 
     const targets = [];
@@ -1045,7 +1047,9 @@ export class StrikeCraftAttackPopupV1 extends foundry.appv1.api.Application {
       const adapter      = SystemAdapter.current;
       const lockBonus    = lockTier >= 4 ? adapter.getHitBonusStep() : 0;
       const finalZoneMod = (zone.zone === 3 && lockTier >= 4) ? 0 : zone.modifier;
-      let totalAccuracy  = sensor.rating + finalZoneMod + lockBonus;
+      const targetData   = adapter.getShipData(candidate.document.actor) ?? {};
+      const stanceHitMod = getAttackStanceModifier(parentShipData, targetData, adapter.getModifierStepSize());
+      let totalAccuracy  = sensor.rating + finalZoneMod + lockBonus + stanceHitMod;
 
       let zone1Bonus = 0;
       if (zone.zone === 1) {
@@ -1062,6 +1066,7 @@ export class StrikeCraftAttackPopupV1 extends foundry.appv1.api.Application {
       const breakdown = [`Base: ${adapter.formatTargetNumber(sensor.rating)}`];
       if (finalZoneMod !== 0) breakdown.push(`Distance: ${adapter.formatModifier(finalZoneMod)}`);
       if (lockBonus    !== 0) breakdown.push(`Lock Tier: ${adapter.formatModifier(lockBonus)}`);
+      if (stanceHitMod !== 0) breakdown.push(`Stance: ${adapter.formatModifier(stanceHitMod)}`);
       if (zone1Bonus   !== 0) breakdown.push(`Close Scan: ${adapter.formatModifier(zone1Bonus)}`);
       const accuracyTooltip = breakdown.join("\n");
 
