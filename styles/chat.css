@@ -66,6 +66,7 @@
 .shipcombat-fire-crit-header           { color: #7a1515; }
 .shipcombat-fire-crit-header i         { color: #c09000; }
 .shipcombat-fire-crit-detail           { color: #5a2e2e; }
+.shipcombat-fire-crit-effect           { color: #674747; }
 .shipcombat-fire-crit-note             { color: #6b4040; }
 .shipcombat-crit-tier--low    { background: #fffbe6; color: #7a5c00; border-color: #c8a000; }
 .shipcombat-crit-tier--medium { background: #fff0e6; color: #8b3000; border-color: #c05000; }
