@@ -505,8 +505,7 @@ export class TargetingPopupV1 extends foundry.appv1.api.Application {
     const ship        = this.weapon?.parent;
     const gunnerRes   = ship?.system?.resources?.gunner ?? {};
     const fmd         = this._getFireModeDetails(gunnerRes, ship?.system);
-
-    emitToGM("fireWeapon", {
+    const committed = await emitToGM("fireWeapon", {
       actorId:        this.weapon.parent?.id,
       weaponId:       this.weapon.id,
       fireMode:       this.fireMode,
@@ -519,6 +518,7 @@ export class TargetingPopupV1 extends foundry.appv1.api.Application {
       isOvercharged:  this.isOvercharged,
       fireCorrection: target.activeCorrection ?? null,
     });
+    if (committed === false) return;
 
     this.close();
   }
@@ -825,7 +825,7 @@ export class RamTargetPopupV1 extends foundry.appv1.api.Application {
       if (sheet?._helmState) sheet._helmState.carryPct = 100;
     }
 
-    emitToGM("pilotRam", {
+    const committed = await emitToGM("pilotRam", {
       userId:         game.user.id,
       targetTokenId:  tokenId,
       fuelUsed:       this.powerMax,
@@ -840,6 +840,7 @@ export class RamTargetPopupV1 extends foundry.appv1.api.Application {
       rammingActorId: this.ship?.id ?? null,
       maxBearingDeg:  this.maxBearingDeg,
     });
+    if (committed === false) return;
 
     this.close();
   }

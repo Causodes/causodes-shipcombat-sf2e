@@ -12,6 +12,7 @@
 - Use readable purple/red target-marker colours on parchment and mirror Core's self/allied-contact exclusion across SF2e targeting dialogs
 - Rename Battle Clarity to Priority Target and use Core's pale-teal intercardinal crew mark plus red priority lock ring on the SF2e radar
 - Add Critical Hit effect tooltips on chat cards
+- Standardize SF2e calls to use the same GM transport policy as core on overriden functionality
 
 ## v1.3.2
 - Prevent disabling the SF2E adapter or Ship Combat Core while the world still
