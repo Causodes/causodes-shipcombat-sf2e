@@ -1,29 +1,30 @@
-## v1.4.0 (UNRELEASED)
-- Derive all accuracy descriptions from adapter values and use the shared fire-mode conversion path
+## v1.4.0
+### Bug Fixes
 - Display strike-craft accuracy as a signed d20 modifier and consistently grant the +2 Lock 4 bonus
 - Fix Captain initiative allocations replacing the ship's rolled total by applying only a reversible per-turn bonus, and disable initiative allocation until PF2e tracker initiative has been rolled
 - Disable Gunner allocation controls before Ordnance is rolled in four-person crews while keeping the roll control available, and restore the Captain status bar's Auxiliary Power label
-- Display the shared persistent contact designations and Sensors/Priority Target markers in SF2e targeting interfaces
 - Replace remaining inherited and dynamically generated “SL” descriptions with “points” terminology
+- Use readable purple/red target-marker colours on parchment and mirror Core's self/allied-contact exclusion across SF2e targeting dialogs
+- Keep NPC helm values aligned with Core's derived critical-condition penalties
+- Standardize SF2e calls to use the same GM transport policy as core on overriden functionality
+- Fade and disable every committed Captain, Gunner, Pilot, and Ordnance allocation row consistently, including combined reduced-crew allocation, and disable Pilot/Gunner decrement controls at zero allocation
+### Improvements
+- Derive all accuracy descriptions from adapter values and use the shared fire-mode conversion path
 - Remove the redundant Active Standing Orders panel from all SF2e Captain layouts
 - Apply SF2e's parchment Captain-card theme universally across the hand, chat, Emergency Salvage, and Dead Reckoning instead of limiting it to ship-sheet cards
 - Preserve category tinting on Dead Reckoning cards against SF2e list styles and make its footer controls use the borderless SF2e dialog-button typography
 - Apply the SF2e parchment Captain-card graphic consistently to the hand, chat, pile previews, Emergency Salvage, and Dead Reckoning, eliminating remaining Core scan-line surfaces
 - Define SF2e's singular `point` and plural `points` allocation terminology once in the system adapter and consume it across localized and generated UI copy
-- Use readable purple/red target-marker colours on parchment and mirror Core's self/allied-contact exclusion across SF2e targeting dialogs
 - Rename Battle Clarity to Priority Target and use Core's pale-teal intercardinal crew mark plus red priority lock ring on the SF2e radar
-- Add Critical Hit effect tooltips on chat cards
-- Keep NPC helm values aligned with Core's derived critical-condition penalties
 - Show Core's named critical-disable overlay with SF2e's parchment lockout styling on NPC weapon sections
-- Standardize SF2e calls to use the same GM transport policy as core on overriden functionality
 - Adjust Standing Orders notifications to be more visible against parchment colored backgrounds
 - Use parchment-safe contrast for Standing Orders banners, stance states, power values, and ready-core indicators across role tabs
-- Fade and disable every committed Captain, Gunner, Pilot, and Ordnance allocation row consistently, including combined reduced-crew allocation, and disable Pilot/Gunner decrement controls at zero allocation
+### New Features
+- Display the shared persistent contact designations and Sensors/Priority Target markers in SF2e targeting interfaces
+- Add Critical Hit effect tooltips on chat cards
 
 ## v1.3.2
-- Prevent disabling the SF2E adapter or Ship Combat Core while the world still
-  contains Ship Combat actor/item subtypes, avoiding an SF2E startup failure
-  that also bypasses Foundry's safe-configuration recovery.
+- Prevent disabling the SF2E adapter or Ship Combat Core while the world still contains Ship Combat actor/item subtypes, avoiding an SF2E startup failure that also bypasses Foundry's safe-configuration recovery.
 
 ## v1.3.1
 - Replace deprecated Foundry API calls (`renderChatMessage` hook → `renderChatMessageHTML`; `getTemplate`/`loadTemplates` → `foundry.applications.handlebars.*`)
