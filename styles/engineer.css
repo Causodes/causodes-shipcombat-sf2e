@@ -93,6 +93,10 @@
 .shipcombat-ship .shipcombat-core-pip--aux-staged,
 .shipcombat-ship .shipcombat-core-pip--aux-committed    { border-color: rgba(0,80,140,0.50); }
 
+.shipcombat-ship .shipcombat-core-ready-count {
+  color: #7a6000;
+}
+
 /* ── Emergency Vent button: white text on parchment ────────────────────── */
 .shipcombat-ship .shipcombat-action-danger {
   color: #fff;

@@ -16,6 +16,44 @@
   background: rgba(0, 0, 0, 0.05);
   border-bottom-color: rgba(0, 0, 0, 0.10);
 }
+
+/* Critical weapon lockout — parchment variant of Core's section overlay. */
+.shipcombat-ship .shipcombat-weapon-battery-section.shipcombat-sensor-blind,
+form.shipcombat-npc-sheet .shipcombat-weapon-battery-section.shipcombat-sensor-blind {
+  border-color: rgba(139, 12, 12, 0.45);
+  box-shadow: inset 0 0 12px rgba(139, 12, 12, 0.10);
+}
+.shipcombat-ship .shipcombat-weapon-battery-section .shipcombat-section-overlay--critical,
+form.shipcombat-npc-sheet .shipcombat-weapon-battery-section .shipcombat-section-overlay--critical {
+  background: rgba(240, 232, 218, 0.72);
+  border-color: rgba(139, 12, 12, 0.25);
+  box-shadow: none;
+  backdrop-filter: blur(2px) brightness(0.97);
+  -webkit-backdrop-filter: blur(2px) brightness(0.97);
+}
+.shipcombat-ship .shipcombat-critical-disable-graphic,
+form.shipcombat-npc-sheet .shipcombat-critical-disable-graphic {
+  color: var(--color-pf-primary, #5e0000);
+  background: rgba(247, 241, 230, 0.92);
+  border-color: rgba(139, 12, 12, 0.35);
+  box-shadow: 0 1px 4px rgba(70, 40, 20, 0.16);
+  font-family: var(--serif);
+  text-shadow: none;
+}
+.shipcombat-ship .shipcombat-critical-disable-icon,
+form.shipcombat-npc-sheet .shipcombat-critical-disable-icon {
+  color: #8b0c0c;
+  text-shadow: none;
+  opacity: 0.72;
+}
+.shipcombat-ship .shipcombat-critical-disable-section,
+form.shipcombat-npc-sheet .shipcombat-critical-disable-section {
+  color: var(--color-text-dark-primary, #1a1a1a);
+}
+.shipcombat-ship .shipcombat-critical-disable-graphic .shipcombat-overlay-crit-desc,
+form.shipcombat-npc-sheet .shipcombat-critical-disable-graphic .shipcombat-overlay-crit-desc {
+  color: var(--color-text-dark-secondary, #4a4038);
+}
 /* Trait tags */
 .shipcombat-ship .shipcombat-trait-tag {
   background: rgba(0, 0, 0, 0.06);

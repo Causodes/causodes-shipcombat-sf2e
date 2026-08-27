@@ -95,6 +95,34 @@ body .shipcombat-captain-card-action--mulligan:hover {
 }
 
 /* ── Standing Orders footer: layout + opacity fix ──────────────────────── */
+.shipcombat-ship .shipcombat-captain-boost-bar {
+  background: rgba(23, 31, 105, 0.08);
+  border-bottom-color: rgba(23, 31, 105, 0.28);
+  color: var(--color-text-dark-primary, #1f1f1f);
+}
+
+.shipcombat-ship .shipcombat-captain-boost-bar-label {
+  color: var(--color-pf-secondary, #171f69);
+  opacity: 1;
+}
+
+.shipcombat-ship .shipcombat-captain-boost-chip {
+  background: rgba(23, 31, 105, 0.10);
+  border-color: rgba(23, 31, 105, 0.38);
+  color: var(--color-pf-secondary, #171f69);
+}
+
+.shipcombat-ship .shipcombat-stance--aggressive .shipcombat-stance-value { color: #7a1515; }
+.shipcombat-ship .shipcombat-stance--defensive .shipcombat-stance-value { color: #1b5e1b; }
+.shipcombat-ship .shipcombat-stance--redAlert .shipcombat-stance-value { color: #8b4000; }
+.shipcombat-ship .shipcombat-stance--devastation .shipcombat-stance-value { color: #5a1e7a; }
+.shipcombat-ship .shipcombat-stance--evasive .shipcombat-stance-value { color: #1a3a6e; }
+
+.shipcombat-ship .shipcombat-stance-pending-hint {
+  color: #7a6000;
+  opacity: 1;
+}
+
 .shipcombat-ship .shipcombat-deck-footer {
   justify-content: flex-start;
   flex-wrap:        wrap;         /* allow piles/actions to wrap to a 2nd row */

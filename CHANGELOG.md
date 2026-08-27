@@ -12,7 +12,11 @@
 - Use readable purple/red target-marker colours on parchment and mirror Core's self/allied-contact exclusion across SF2e targeting dialogs
 - Rename Battle Clarity to Priority Target and use Core's pale-teal intercardinal crew mark plus red priority lock ring on the SF2e radar
 - Add Critical Hit effect tooltips on chat cards
+- Keep NPC helm values aligned with Core's derived critical-condition penalties
+- Show Core's named critical-disable overlay with SF2e's parchment lockout styling on NPC weapon sections
 - Standardize SF2e calls to use the same GM transport policy as core on overriden functionality
+- Adjust Standing Orders notifications to be more visible against parchment colored backgrounds
+- Use parchment-safe contrast for Standing Orders banners, stance states, power values, and ready-core indicators across role tabs
 
 ## v1.3.2
 - Prevent disabling the SF2E adapter or Ship Combat Core while the world still

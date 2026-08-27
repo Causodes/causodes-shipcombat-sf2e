@@ -130,13 +130,14 @@ export class NpcShipSheet extends NpcShipSheetV1Mixin(foundry.appv1.sheets.Actor
       const engine = components.find(c => c.system?.slot === "engine");
       const npcShipToken = this.actor.getActiveTokens()?.[0];
 
-      // Engine component overrides base stats when installed (mirrors computeDerived).
-      const rawSpeed = engine?.system?.speed          ?? mv.baseSpeed          ?? mv.speed          ?? 0;
-      const rawMano  = engine?.system?.maneuverability ?? mv.baseManeuverability ?? mv.maneuverability ?? 0;
+      // Prefer Core's derived values so engine, manoeuvring, and Core Systems
+      // critical penalties remain reflected in the helm presentation.
+      const effectiveSpeed = mv.speed ?? engine?.system?.speed ?? mv.baseSpeed ?? 0;
+      const effectiveMano  = mv.maneuverability ?? engine?.system?.maneuverability ?? mv.baseManeuverability ?? 0;
 
       const patchedSys = {
         ...ctx.sys,
-        movement: { ...mv, speed: rawSpeed, maneuverability: rawMano },
+        movement: { ...mv, speed: effectiveSpeed, maneuverability: effectiveMano },
       };
       ctx.helm = buildHelmContext(patchedSys, {
         engineComponent: engine,
