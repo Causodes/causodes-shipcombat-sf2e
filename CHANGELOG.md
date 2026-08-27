@@ -1,7 +1,8 @@
 ## v1.4.0 (UNRELEASED)
 - Derive all accuracy descriptions from adapter values and use the shared fire-mode conversion path
 - Display strike-craft accuracy as a signed d20 modifier and consistently grant the +2 Lock 4 bonus
-- Fix Captain initiative allocations replacing the ship's initiative instead of increasing its rolled total
+- Fix Captain initiative allocations replacing the ship's rolled total by applying only a reversible per-turn bonus, and disable initiative allocation until PF2e tracker initiative has been rolled
+- Disable Gunner allocation controls before Ordnance is rolled in four-person crews while keeping the roll control available, and restore the Captain status bar's Auxiliary Power label
 - Display the shared persistent contact designations and Sensors/Priority Target markers in SF2e targeting interfaces
 - Replace remaining inherited and dynamically generated “SL” descriptions with “points” terminology
 - Remove the redundant Active Standing Orders panel from all SF2e Captain layouts
@@ -17,6 +18,7 @@
 - Standardize SF2e calls to use the same GM transport policy as core on overriden functionality
 - Adjust Standing Orders notifications to be more visible against parchment colored backgrounds
 - Use parchment-safe contrast for Standing Orders banners, stance states, power values, and ready-core indicators across role tabs
+- Fade and disable every committed Captain, Gunner, Pilot, and Ordnance allocation row consistently, including combined reduced-crew allocation, and disable Pilot/Gunner decrement controls at zero allocation
 
 ## v1.3.2
 - Prevent disabling the SF2E adapter or Ship Combat Core while the world still

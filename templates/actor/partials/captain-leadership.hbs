@@ -2,7 +2,7 @@
 <div class="sheet-list">
     <div class="list-content">
         <ul class="sc-skill-list">
-            <li class="sc-skill-row sc-helm-alloc-row">
+            <li class="sc-skill-row sc-helm-alloc-row{{#if captainCtx.allocationLocked}} sc-skill-row--disabled{{/if}}">
                 {{#if captainCtx.leadershipRolled}}
                     <div class="sc-helm-sl-cell">
                         <span class="shipcombat-helm-stat-label">{{captainCtx.slLabel}}</span>
@@ -63,6 +63,7 @@
                     <div class="shipcombat-alloc-row">
                         <button type="button" class="shipcombat-alloc-btn" data-action="allocLeadershipSL" data-stat="initiative" data-delta="-1"
                                 {{#unless captainCtx.leadershipRolled}}disabled{{/unless}}
+                            {{#unless captainCtx.hasRolledInitiative}}disabled{{/unless}}
                                 {{#if captainCtx.hasPlayedCards}}disabled{{/if}}
                                 {{#unless captainCtx.allocInitiative}}disabled{{/unless}}>
                             &minus;
@@ -70,6 +71,7 @@
                         <span class="shipcombat-helm-stat-value">{{captainCtx.allocInitiative}}</span>
                         <button type="button" class="shipcombat-alloc-btn" data-action="allocLeadershipSL" data-stat="initiative" data-delta="1"
                                 {{#unless captainCtx.leadershipRolled}}disabled{{/unless}}
+                            {{#unless captainCtx.hasRolledInitiative}}disabled{{/unless}}
                                 {{#if captainCtx.hasPlayedCards}}disabled{{/if}}
                                 {{#if (gte (add (add captainCtx.allocInspire captainCtx.allocResolve) captainCtx.allocInitiative) captainCtx.leadershipSL)}}disabled{{/if}}>
                             +

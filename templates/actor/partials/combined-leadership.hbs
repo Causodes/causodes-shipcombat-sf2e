@@ -2,7 +2,7 @@
 <div class="sheet-list">
     <div class="list-content">
         <ul class="sc-skill-list">
-            <li class="sc-skill-row sc-helm-alloc-row">
+            <li class="sc-skill-row sc-helm-alloc-row{{#if captainCtx.allocationLocked}} sc-skill-row--disabled{{else}}{{#if ordnanceCtx.allocationLocked}} sc-skill-row--disabled{{/if}}{{/if}}">
                 {{#if captainCtx.leadershipRolled}}
                     <div class="sc-helm-sl-cell">
                         <span class="shipcombat-helm-stat-label">{{captainCtx.slLabel}}</span>
