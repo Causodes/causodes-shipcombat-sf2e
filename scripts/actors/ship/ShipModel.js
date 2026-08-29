@@ -6,6 +6,8 @@
  * the base SystemAdapter.getShipData() / systemPath() defaults work as-is.
  */
 
+import { sf2eMigrationField } from "../../systems/sf2e-migration-schema.js";
+
 const { ShipSchemaMixin } = globalThis.ShipCombat._api;
 
 // TypeDataModel.defineSchema() is abstract and throws; provide a concrete base
@@ -14,6 +16,7 @@ class _Base extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     const fields = foundry.data.fields;
     return {
+      _migration: sf2eMigrationField(fields),
       // SF2e-compatible trait fields used by the header selectors
       traits: new fields.SchemaField({
         rarity: new fields.StringField({ initial: "common", nullable: false }),

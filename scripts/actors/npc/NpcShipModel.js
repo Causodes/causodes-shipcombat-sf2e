@@ -7,12 +7,15 @@
  * stubs required at this time).
  */
 
+import { sf2eMigrationField } from "../../systems/sf2e-migration-schema.js";
+
 const { NpcShipSchemaMixin } = globalThis.ShipCombat._api;
 
 class _Base extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     const fields = foundry.data.fields;
     return {
+      _migration: sf2eMigrationField(fields),
       // SF2e-compatible trait fields used by the header rarity/size selects,
       // the tagify-tags traits row (traits.value), and the IWR editor (di/dv/dr).
       traits: new fields.SchemaField({

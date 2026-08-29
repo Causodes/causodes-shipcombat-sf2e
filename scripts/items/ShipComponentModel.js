@@ -6,12 +6,21 @@
  * Uses TypeDataModel as the base class (same pattern as ShipModel).
  */
 
+import { sf2eMigrationField } from "../systems/sf2e-migration-schema.js";
+
 const { ShipComponentSchemaMixin } = globalThis.ShipCombat._api;
 
 class _Base extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     const fields = foundry.data.fields;
     return {
+      // SF2e migrations process these common fields on every item type.
+      description: new fields.SchemaField({
+        value: new fields.HTMLField({ initial: "" }),
+        gm:    new fields.HTMLField({ initial: "" }),
+      }),
+      rules: new fields.ArrayField(new fields.ObjectField()),
+      _migration: sf2eMigrationField(fields),
       /** Starfinder item level (0–20), displayed in the sheet header. */
       tier: new fields.NumberField({ initial: 0, min: 0, max: 20, integer: true }),
       /** Rarity tag shown in the sheet header (common / uncommon / rare / unique). */

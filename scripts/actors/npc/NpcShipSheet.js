@@ -1,18 +1,6 @@
 const { NpcShipSheetV1Mixin, buildHelmContext } = globalThis.ShipCombat._api;
 import { ShipIWREditor } from "../ship/ShipSheet.js";
 
-// Tagify lives in the active system's vendor bundle and is exported as `b`
-// (tagify_min) on BOTH sf2e and pf2e. Load it lazily from the active system so
-// the sheet works on sf2e and on pf2e + sf2e-anachronism.
-let _TagifyCtor = null;
-async function loadTagify() {
-  if (_TagifyCtor) return _TagifyCtor;
-  const mod = await import(`/systems/${game.system.id}/vendor.mjs`);
-  const factory = mod.b;                       // tagify_min memoised factory
-  _TagifyCtor = typeof factory === "function" ? factory() : factory;
-  return _TagifyCtor;
-}
-
 export class NpcShipSheet extends NpcShipSheetV1Mixin(foundry.appv1.sheets.ActorSheet) {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
@@ -40,8 +28,9 @@ export class NpcShipSheet extends NpcShipSheetV1Mixin(foundry.appv1.sheets.Actor
    * the token is always restored correctly by the merge that follows.
    */
   async _render(force, options) {
+    const token = this.token;
     this.options.token = null;
-    return super._render(force, options);
+    return super._render(force, { ...options, token: options?.token ?? token });
   }
 
   async getData(options) {
@@ -310,29 +299,27 @@ export class NpcShipSheet extends NpcShipSheetV1Mixin(foundry.appv1.sheets.Actor
     }
 
     // Initialize Tagify autocomplete on the traits row.
-    // loadTagify() loads the memoised Tagify class from the active system's vendor bundle.
     const traitsEl = root.querySelector("tagify-tags[name='system.traits.value']");
-    if (traitsEl?.input) {
-      (async () => {
-        const TagifyCtor = await loadTagify();
-        const creatureTraits = CONFIG.PF2E?.creatureTraits ?? {};
-        const whitelist = Object.entries(creatureTraits)
-          .map(([id, locPath]) => ({
-            id,
-            value: game.i18n.localize(typeof locPath === "string" ? locPath : locPath.label),
-          }))
-          .sort((a, b) => a.value.localeCompare(b.value, game.i18n.lang));
-        new TagifyCtor(traitsEl.input, {
-          enforceWhitelist: true,
-          keepInvalidTags: false,
-          skipInvalid: true,
-          maxTags: whitelist.length,
-          dropdown: { enabled: 0, maxItems: whitelist.length, searchKeys: ["id", "value"] },
-          editTags: { clicks: 2, keepInvalid: true },
-          delimiters: ",",
-          whitelist,
-        });
-      })();
+    const tagifyInput = traitsEl?.input;
+    const TagifyCtor = globalThis.Tagify;
+    if (tagifyInput instanceof HTMLElement && typeof TagifyCtor === "function" && !tagifyInput.__tagify) {
+      const creatureTraits = CONFIG.PF2E?.creatureTraits ?? {};
+      const whitelist = Object.entries(creatureTraits)
+        .map(([id, locPath]) => ({
+          id,
+          value: game.i18n.localize(typeof locPath === "string" ? locPath : locPath.label),
+        }))
+        .sort((a, b) => a.value.localeCompare(b.value, game.i18n.lang));
+      new TagifyCtor(tagifyInput, {
+        enforceWhitelist: true,
+        keepInvalidTags: false,
+        skipInvalid: true,
+        maxTags: whitelist.length,
+        dropdown: { enabled: 0, maxItems: whitelist.length, searchKeys: ["id", "value"] },
+        editTags: { clicks: 2, keepInvalid: true },
+        delimiters: ",",
+        whitelist,
+      });
     }
 
     // IWR edit buttons — open the shared ShipIWREditor popup.

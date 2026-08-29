@@ -1,3 +1,8 @@
+## v1.4.1
+- Provide SF2e's common item fields and persist its migration-version markers on Ship Combat actors and items so the SF2e migration wizard can complete successfully
+- Prune legacy NPC ship schema and configuration fields
+- Bump verified version to 14.367
+
 ## v1.4.0
 ### Bug Fixes
 - Display strike-craft accuracy as a signed d20 modifier and consistently grant the +2 Lock 4 bonus
