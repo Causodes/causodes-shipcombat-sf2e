@@ -1,17 +1,37 @@
 # Causodes's Ship Combat (SF2e/PF2e)
 
+[![Latest Release](https://img.shields.io/github/v/release/Causodes/causodes-shipcombat-sf2e?label=Release&color=2ea44f)](https://github.com/Causodes/causodes-shipcombat-sf2e/releases/latest)
+[![Foundry VTT](https://img.shields.io/badge/Foundry_VTT-14-d35400)](https://foundryvtt.com/packages/causodes-shipcombat-sf2e)
+[![Issues](https://img.shields.io/github/issues/Causodes/causodes-shipcombat-sf2e?label=Issues&color=d29922)](https://github.com/Causodes/causodes-shipcombat-sf2e/issues)
+[![Total Downloads](https://img.shields.io/github/downloads/Causodes/causodes-shipcombat-sf2e/total?label=Downloads&color=0969da)](https://github.com/Causodes/causodes-shipcombat-sf2e/releases)
+[![License](https://img.shields.io/github/license/Causodes/causodes-shipcombat-sf2e?label=License&color=57606a)](LICENSE)
+
+[![Engine: Ship Combat Core](https://img.shields.io/badge/Engine-Ship_Combat_Core-57606a?style=flat-square)](https://github.com/Causodes/causodes-shipcombat-core)
+[![Optional: Sequencer](https://img.shields.io/badge/Optional-Sequencer-8250df?style=flat-square)](https://foundryvtt.com/packages/sequencer)
+[![Optional: JB2A](https://img.shields.io/badge/Optional-JB2A-bf3989?style=flat-square)](https://www.patreon.com/JB2A)
+[![Optional: Starfinder Anachronism](https://img.shields.io/badge/Optional-Starfinder_Anachronism-1f883d?style=flat-square)](https://foundryvtt.com/packages/sf2e-anachronism)
+
 ![](https://github.com/user-attachments/assets/7115df81-b7f6-4f2d-9fc4-358f9de1a6ab)
 
 A FoundryVTT module for **Starfinder 2e** and **Pathfinder 2e** that adds a full ship combat system. Up to six players each claim a named bridge station and execute their role's mechanics from a dedicated tab on the shared starship sheet. The crew size is adjustable; roles collapse and merge as headcount drops. All players take their turns simultaneously on the player ship's turn in the combat tracker.
 
-See the role-specific reference documents for full details on what each station does:
+**Quick navigation**
 
-- [README_3.md](README_3.md) — 3-player crew
-- [README_4.md](README_4.md) — 4-player crew
-- [README_5.md](README_5.md) — 5-player crew
-- [README_6.md](README_6.md) — 6-player crew
+[![Docs: Ship Sheet](https://img.shields.io/badge/Docs-Ship_Sheet-8250df?style=flat-square)](#the-ship-sheet)
+[![Docs: Configuration](https://img.shields.io/badge/Docs-Configuration-1f883d?style=flat-square)](#configuration-tab)
+[![Docs: Movement](https://img.shields.io/badge/Docs-Movement-b35900?style=flat-square)](#movement)
+[![Docs: Defences](https://img.shields.io/badge/Docs-Defences-bf3989?style=flat-square)](#shields-hardness-and-ac)
+[![Docs: Critical Hits](https://img.shields.io/badge/Docs-Critical_Hits-c21f39?style=flat-square)](#critical-hits)
+[![Docs: Ordnance](https://img.shields.io/badge/Docs-Ordnance-0550ae?style=flat-square)](#ordnance)
+[![Docs: NPC Ships](https://img.shields.io/badge/Docs-NPC_Ships-57606a?style=flat-square)](#npc-ships)
 
-For help with first time setup, please see [TUTORIAL.md](TUTORIAL.md)!
+**Guides**
+
+[![Guide: Setup](https://img.shields.io/badge/Guide-Setup-8250df?style=flat-square)](TUTORIAL.md)
+[![Crew Guide: 3 Players](https://img.shields.io/badge/Crew_Guide-3_Players-0969da?style=flat-square)](README_3.md)
+[![Crew Guide: 4 Players](https://img.shields.io/badge/Crew_Guide-4_Players-1f883d?style=flat-square)](README_4.md)
+[![Crew Guide: 5 Players](https://img.shields.io/badge/Crew_Guide-5_Players-b35900?style=flat-square)](README_5.md)
+[![Crew Guide: 6 Players](https://img.shields.io/badge/Crew_Guide-6_Players-c21f39?style=flat-square)](README_6.md)
 
 > [!CAUTION]
 > Do not disable this module or **Causodes's Ship Combat (Core)** while the

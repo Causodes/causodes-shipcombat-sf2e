@@ -1,4 +1,22 @@
-# Introduction
+# Causodes's Ship Combat (SF2e/PF2e) Setup Guide
+
+**Quick navigation**
+
+[![Setup: Introduction](https://img.shields.io/badge/Setup-Introduction-8250df?style=flat-square)](#introduction)
+[![Setup: Initial Setup](https://img.shields.io/badge/Setup-Initial_Setup-0969da?style=flat-square)](#initial-setup)
+[![Setup: Player Ship](https://img.shields.io/badge/Setup-Player_Ship-1f883d?style=flat-square)](#player-ship)
+[![Setup: NPC Ship](https://img.shields.io/badge/Setup-NPC_Ship-b35900?style=flat-square)](#npc-ship)
+[![Setup: Testing](https://img.shields.io/badge/Setup-Testing-c21f39?style=flat-square)](#testing)
+
+**Guides**
+
+[![Docs: Main Guide](https://img.shields.io/badge/Docs-Main_Guide-57606a?style=flat-square)](README.md)
+[![Crew Guide: 3 Players](https://img.shields.io/badge/Crew_Guide-3_Players-0969da?style=flat-square)](README_3.md)
+[![Crew Guide: 4 Players](https://img.shields.io/badge/Crew_Guide-4_Players-1f883d?style=flat-square)](README_4.md)
+[![Crew Guide: 5 Players](https://img.shields.io/badge/Crew_Guide-5_Players-b35900?style=flat-square)](README_5.md)
+[![Crew Guide: 6 Players](https://img.shields.io/badge/Crew_Guide-6_Players-c21f39?style=flat-square)](README_6.md)
+
+## Introduction
 
 This module introduces a standalone role-based starship combat system. The key idea behind the module is that players have asymmetric information and can only see the information available to their role.
 
@@ -11,7 +29,7 @@ Ships are broken into four quadrants: Bow, Stern, Port, and Starboard, and attac
 
 Additionally, this module also registers a **Starship Component item type**, which is used to register various stats on Player ships and weapons on Player and GM/NPC ships. The motive for Ship Components is to grant players a modular ship customization experience where they can weigh the tradeoffs of various components as they swap parts out.
 
-# Initial Setup
+## Initial Setup
 Start by heading over to **Module Settings** and adjust some global settings as you see fit. You'll see something like this:
 ![](https://github.com/user-attachments/assets/c4bc6ed6-7560-4239-b388-2c510a0e729c)
 * **Contact Designation**: Purely flavor text. Adjust according to your setting.
@@ -25,7 +43,7 @@ Next, go to **Core** settings and make sure you turn `Automatic Token Rotation` 
 
 Next, for battlemap setup, I would recommend a gridless setup. Due to the nature of the ships' movement, ships will not always end up exactly on a grid square. Do make sure you correctly configure the grid size though, so ships will have enough room to work with.
 
-# Player Ship
+## Player Ship
 To set up a **player ship**, create a new `Player Starship` actor and grant all players **Observer** ownership permissions.
 
 You will see a sheet like the one below:
@@ -193,7 +211,7 @@ If you wish to learn about the functionalities of each role, check out the role-
 - [README_5.md](README_5.md) — 5-player crew
 - [README_6.md](README_6.md) — 6-player crew
 
-# NPC Ship
+## NPC Ship
 
 NPC Ships operate much in the same manner as Player Ships, albeit with a much simplified workflow to facilitate easy GMing. With the exception of Weapon Batteries and Ordnance (Strike Craft/Torpedoes), NPC Ships do NOT inherit stats from components; the values are manually set.
 
@@ -234,5 +252,5 @@ Much of the core stats of the ship are manually set here. These include **AC**, 
 ### Movement, Weapons, and Ordnance Tabs
 **Movement** and **Weapons** function much in the same way of the player ship, with the exception that weapons do not require a "Lock" to fire. The three resource tracks at the top of the **Weapons** tab can be manually edited, and serve as a guideline more than anything for GMs. **Ordnance** is greatly simplified, with just a UI to register `Ordnance Actors` and a button to launch them.
 
-# Testing
+## Testing
 When testing your ships, make sure that you register them to an active combat encounter! Much of the functionality is tied behind turn incrementation, so if you just test it in a whitebox outside of combat, some things will seem to be broken. Have fun; I wish you the best in your sessions!

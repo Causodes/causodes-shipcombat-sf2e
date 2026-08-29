@@ -1,5 +1,22 @@
 # Five-Player Crew Reference
 
+**Guides**
+
+[![Docs: Main Guide](https://img.shields.io/badge/Docs-Main_Guide-57606a?style=flat-square)](README.md)
+[![Docs: Setup](https://img.shields.io/badge/Docs-Setup-8250df?style=flat-square)](TUTORIAL.md)
+[![Crew Guide: 3 Players](https://img.shields.io/badge/Crew_Guide-3_Players-0969da?style=flat-square)](README_3.md)
+[![Crew Guide: 4 Players](https://img.shields.io/badge/Crew_Guide-4_Players-1f883d?style=flat-square)](README_4.md)
+[![Crew Guide: 5 Players](https://img.shields.io/badge/Crew_Guide-5_Players-b35900?style=flat-square)](README_5.md)
+[![Crew Guide: 6 Players](https://img.shields.io/badge/Crew_Guide-6_Players-c21f39?style=flat-square)](README_6.md)
+
+**Stations**
+
+[![Station: Captain](https://img.shields.io/badge/Station-Captain-8250df?style=flat-square)](#captain)
+[![Station: Engineer](https://img.shields.io/badge/Station-Engineer-1f883d?style=flat-square)](#engineer)
+[![Station: Pilot](https://img.shields.io/badge/Station-Pilot-b35900?style=flat-square)](#pilot)
+[![Station: Sensors](https://img.shields.io/badge/Station-Sensors-0550ae?style=flat-square)](#sensors-officer)
+[![Station: Gunner](https://img.shields.io/badge/Station-Gunner-c21f39?style=flat-square)](#gunner)
+
 | Role | Player Skill | Station |
 |------|-------------|---------|
 | Captain | Diplomacy | Command Bridge |
@@ -263,4 +280,4 @@ Fire half a salvo at −2 to hit. If any shot connects, it brackets the target, 
 
 ### Deployed Torpedoes Panel
 
-The Deployed Torpedoes panel lists all torpedoes deployed by the Captain. Each can be panned to on the canvas, and their turn completion can be toggled.
+The Deployed Torpedoes panel lists the Captain's deployed torpedoes, which are controlled by the Gunner in a five-player crew. Each can be panned to on the canvas, and their turn completion can be toggled.
