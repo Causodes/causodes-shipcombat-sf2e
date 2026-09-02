@@ -1,3 +1,10 @@
+## v1.4.2
+### Bug Fixes
+- Let Observer users operate SF2e bridge-station controls while keeping trait, IWR, equipment, and other ship configuration listeners restricted to Owners
+### Improvements
+- Use the native SF2e disabled-overlay treatment for prow weapon ram lockouts
+- Wait for the Core API before evaluating SF2e models and adapters, preventing startup races that leave module document subtypes unregistered
+
 ## v1.4.1
 - Provide SF2e's common item fields and persist its migration-version markers on Ship Combat actors and items so the SF2e migration wizard can complete successfully
 - Prune legacy NPC ship schema and configuration fields

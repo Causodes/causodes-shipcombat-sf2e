@@ -33,23 +33,52 @@
  * dropdown in the header reflects our sheet.
  */
 
-import { Sf2eAdapter }        from "./scripts/systems/sf2e-adapter.js";
-import { ShipModel }          from "./scripts/actors/ship/ShipModel.js";
-import {
-  TargetingPopupV1,
-  RamTargetPopupV1,
-  BattleClarityPopupV1,
-  StrikeCraftAttackPopupV1,
-  RecoverCraftPopupV1,
-} from "./scripts/apps/popups-v1.js";
-import { ShipSheet }          from "./scripts/actors/ship/ShipSheet.js";
-import { ShipComponentModel } from "./scripts/items/ShipComponentModel.js";
-import { ShipComponentSheetSF2e } from "./scripts/items/ShipComponentSheetSF2e.js";
-import { NpcShipModel }       from "./scripts/actors/npc/NpcShipModel.js";
-import { NpcShipSheet }       from "./scripts/actors/npc/NpcShipSheet.js";
-import { ShipOrdnanceModel }  from "./scripts/actors/ordnance/ShipOrdnanceModel.js";
-import { OrdnanceSheet }      from "./scripts/actors/ordnance/OrdnanceSheet.js";
-import { registerDeactivationGuard } from "./scripts/deactivation-guard.js";
+const ShipCombat = await new Promise((resolve, reject) => {
+  if (globalThis.ShipCombat?._api) {
+    resolve(globalThis.ShipCombat);
+    return;
+  }
+
+  const timeout = setTimeout(() => {
+    reject(new Error("causodes-shipcombat-sf2e | Core API did not become available during module startup."));
+  }, 10_000);
+  Hooks.once("shipCombatApiReady", api => {
+    clearTimeout(timeout);
+    resolve(api);
+  });
+});
+
+const [
+  { Sf2eAdapter },
+  { ShipModel },
+  {
+    TargetingPopupV1,
+    RamTargetPopupV1,
+    BattleClarityPopupV1,
+    StrikeCraftAttackPopupV1,
+    RecoverCraftPopupV1,
+  },
+  { ShipSheet },
+  { ShipComponentModel },
+  { ShipComponentSheetSF2e },
+  { NpcShipModel },
+  { NpcShipSheet },
+  { ShipOrdnanceModel },
+  { OrdnanceSheet },
+  { registerDeactivationGuard },
+] = await Promise.all([
+  import("./scripts/systems/sf2e-adapter.js"),
+  import("./scripts/actors/ship/ShipModel.js"),
+  import("./scripts/apps/popups-v1.js"),
+  import("./scripts/actors/ship/ShipSheet.js"),
+  import("./scripts/items/ShipComponentModel.js"),
+  import("./scripts/items/ShipComponentSheetSF2e.js"),
+  import("./scripts/actors/npc/NpcShipModel.js"),
+  import("./scripts/actors/npc/NpcShipSheet.js"),
+  import("./scripts/actors/ordnance/ShipOrdnanceModel.js"),
+  import("./scripts/actors/ordnance/OrdnanceSheet.js"),
+  import("./scripts/deactivation-guard.js"),
+]);
 
 // SF2E rejects unknown module-provided Actor and Item subtypes during world
 // startup. Prevent Manage Modules from disabling either half of Ship Combat

@@ -125,7 +125,8 @@
  * ════════════════════════════════════════════════════════════════════════ */
 
 /* Replace scan-line red fill with a warm frosted wash */
-.shipcombat-ship .shipcombat-section-overlay--taken {
+.shipcombat-ship .shipcombat-section-overlay--taken,
+form.shipcombat-npc-sheet .shipcombat-section-overlay--taken {
   background:   rgba(240, 232, 218, 0.55);
   border:       none;
   box-shadow:   none;
@@ -134,27 +135,31 @@
 }
 
 /* Lock icon + text — pf-primary dark-red, serif, no neon glow */
-.shipcombat-ship .shipcombat-section-overlay--taken .shipcombat-overlay-lock-indicator {
+.shipcombat-ship .shipcombat-section-overlay--taken .shipcombat-overlay-lock-indicator,
+form.shipcombat-npc-sheet .shipcombat-section-overlay--taken .shipcombat-overlay-lock-indicator {
   color:       var(--color-pf-primary, #5e0000);
   text-shadow: none;
   font:        italic 600 var(--font-size-14, 0.875rem)/1.3 var(--serif);
   opacity:     0.75;
 }
-.shipcombat-ship .shipcombat-section-overlay--taken .shipcombat-overlay-lock-indicator i {
+.shipcombat-ship .shipcombat-section-overlay--taken .shipcombat-overlay-lock-indicator i,
+form.shipcombat-npc-sheet .shipcombat-section-overlay--taken .shipcombat-overlay-lock-indicator i {
   color:       var(--color-pf-primary, #5e0000);
   text-shadow: none;
   opacity:     0.55;
 }
 
 /* Dim the content behind the overlay a little less harshly on parchment */
-.shipcombat-ship .shipcombat-role-section:has(.shipcombat-section-overlay) > :not(.shipcombat-section-overlay) {
+.shipcombat-ship .shipcombat-role-section:has(.shipcombat-section-overlay) > :not(.shipcombat-section-overlay),
+form.shipcombat-npc-sheet .shipcombat-role-section:has(.shipcombat-section-overlay) > :not(.shipcombat-section-overlay) {
   opacity: 0.25;
 }
 
 /* ── END DISABLED-OVERLAY RESTYLE ──────────────────────────────────────── */
 
 /* ── Frosted overlay: fade edges with radial gradient mask (all states) ─── */
-.shipcombat-ship .shipcombat-section-overlay {
+.shipcombat-ship .shipcombat-section-overlay,
+form.shipcombat-npc-sheet .shipcombat-section-overlay {
   mask-image: radial-gradient(
     ellipse 90% 85% at 50% 50%,
     black 40%,
@@ -168,7 +173,8 @@
 }
 
 /* ── Disabled overlay: softer corners ──────────────────────────────────── */
-.shipcombat-ship .shipcombat-section-overlay--taken {
+.shipcombat-ship .shipcombat-section-overlay--taken,
+form.shipcombat-npc-sheet .shipcombat-section-overlay--taken {
   border-radius: 12px;
 }
 

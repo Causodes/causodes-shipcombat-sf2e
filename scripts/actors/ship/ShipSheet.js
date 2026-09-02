@@ -484,7 +484,7 @@ export class ShipSheet extends Base {
       });
     });
 
-    if (!this.isEditable) return;
+    if (!this.actor.isOwner) return;
 
     // Unassign equipment slot — X button next to installed chip
     root.querySelectorAll("[data-unassign-equip]").forEach(btn => {
