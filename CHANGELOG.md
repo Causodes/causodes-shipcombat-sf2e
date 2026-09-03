@@ -1,3 +1,10 @@
+## v1.4.3
+### Bug Fixes
+- Include the firing ship identity required by Core when SF2e AppV1 targeting dialogs submit player or NPC weapon attacks
+- Pass strike-craft damage dice and damage type through the SF2e AppV1 attack flow
+- Preserve the surviving SF2e strike-craft flight size when calculating attack salvos, including zero remaining craft
+- Run SF2e ordnance base and derived data preparation so repeated sheet opens retain computed subtype data
+
 ## v1.4.2
 ### Bug Fixes
 - Let Observer users operate SF2e bridge-station controls while keeping trait, IWR, equipment, and other ship configuration listeners restricted to Owners

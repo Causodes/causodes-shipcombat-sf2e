@@ -506,6 +506,7 @@ export class TargetingPopupV1 extends foundry.appv1.api.Application {
     const gunnerRes   = ship?.system?.resources?.gunner ?? {};
     const fmd         = this._getFireModeDetails(gunnerRes, ship?.system);
     const committed = await emitToGM("fireWeapon", {
+      shipActorId:    this.weapon.parent?.id,
       actorId:        this.weapon.parent?.id,
       weaponId:       this.weapon.id,
       fireMode:       this.fireMode,
@@ -1177,10 +1178,10 @@ export class StrikeCraftAttackPopupV1 extends foundry.appv1.api.Application {
     const target = this.targets.find(t => t.tokenId === tokenId);
     if (!target || target.alreadyAttacked) return;
 
-    const sys        = this.craftActor.system;
+    const sys        = SystemAdapter.current.getShipData(this.craftActor);
     // SF2e stores ordnance hull as HP remaining: intact airframes = hull.value
     // (Core's damage-taken formula would invert the flight size here).
-    const flightSize = Math.max(1, sys.hull?.value ?? 1);
+    const flightSize = Math.max(0, sys.hull?.value ?? 0);
     const damage     = sys.payloadDamage ?? 0;
     const salvoSize  = (sys.payloadCount ?? 1) * flightSize;
 
@@ -1192,6 +1193,9 @@ export class StrikeCraftAttackPopupV1 extends foundry.appv1.api.Application {
       hitQuadrant:   target.hitQuadrant,
       accuracy:      target.totalAccuracy,
       damage,
+      payloadDiceCount: sys.payloadDiceCount ?? null,
+      payloadDiceSize:  sys.payloadDiceSize  ?? null,
+      payloadDamageType: sys.payloadDamageType ?? null,
       traits:        sys.traits,
       salvoSize,
     });

@@ -17,4 +17,7 @@ class _Base extends foundry.abstract.TypeDataModel {
   }
 }
 
-export class ShipOrdnanceModel extends OrdnanceSchemaMixin(_Base) {}
+export class ShipOrdnanceModel extends OrdnanceSchemaMixin(_Base) {
+  prepareBaseData()    { this.computeBase(); }
+  prepareDerivedData() { this.computeDerived(); }
+}
