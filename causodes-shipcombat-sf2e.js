@@ -656,13 +656,17 @@ Hooks.on("combatStart", async (combat) => {
   if (!game.user.isGM) return;
   const ShipCombatState = window.ImpMalShipCombat?.ShipCombatState;
   if (!ShipCombatState) return;
-  const ship = ShipCombatState.ship;
-  if (!ship) return;
-  const prevTurnMove = ship.system.resources?.pilot?.prevTurnMove ?? 0;
-  if (prevTurnMove === 0) {
+  const ships = new Map();
+  for (const combatant of combat.combatants) {
+    const ship = combatant.actor;
+    if (ship?.type === SHIP_TYPE) ships.set(ship.id, ship);
+  }
+  for (const ship of ships.values()) {
+    const prevTurnMove = ship.system.resources?.pilot?.prevTurnMove ?? 0;
+    if (prevTurnMove !== 0) continue;
     const speed = ship.system.movement?.speed ?? 0;
     if (speed > 0) {
-      await ShipCombatState.update({ "resources.pilot.prevTurnMove": speed });
+      await ShipCombatState.update({ "resources.pilot.prevTurnMove": speed }, ship);
     }
   }
 });

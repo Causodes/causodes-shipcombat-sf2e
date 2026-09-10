@@ -14,8 +14,9 @@
  * implementation here.
  */
 
-const { SystemAdapter, emitToGM } = globalThis.ShipCombat._api;
+const { SystemAdapter, createActionRequester } = globalThis.ShipCombat._api;
 const MODULE_ID = "causodes-shipcombat-sf2e";
+const requestGM = createActionRequester(ship => ship);
 
 // ── Skill map: abstract role key → SF2e skill slug ────────────────────────
 // Confirmed against CONFIG.PF2E.skills in sf2e.mjs. SF2e-specific skills
@@ -501,7 +502,11 @@ export class Sf2eAdapter extends SystemAdapter {
           if (refActorId !== speakerActorId) continue;
 
           const newSL = Math.max(0, this.computeSuccessLevel(roll));
-          emitToGM("updateResource", { roleId: resource.roleId, key: resource.key, value: newSL });
+          requestGM(shipActor, "updateResource", {
+            roleId: resource.roleId,
+            key: resource.key,
+            value: newSL,
+          });
           return;
         }
       }

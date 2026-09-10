@@ -17,7 +17,8 @@
  * inheritance from a system-specific sheet base.
  */
 
-const { ShipSheetV1Mixin, emitToGM, SystemAdapter } = globalThis.ShipCombat._api;
+const { ShipSheetV1Mixin, createActionRequester, SystemAdapter } = globalThis.ShipCombat._api;
+const requestGM = createActionRequester(context => context.actor);
 
 // ---------------------------------------------------------------------------
 // ShipTraitSelector  —  mirrors SF2e TagSelectorBasic for our custom actor type.
@@ -489,7 +490,10 @@ export class ShipSheet extends Base {
     // Unassign equipment slot — X button next to installed chip
     root.querySelectorAll("[data-unassign-equip]").forEach(btn => {
       btn.addEventListener("click", () => {
-        emitToGM("assignEquipment", { slotId: btn.dataset.unassignEquip, newItemId: "" });
+        requestGM(this, "assignEquipment", {
+          slotId: btn.dataset.unassignEquip,
+          newItemId: "",
+        });
       });
     });
 
@@ -566,4 +570,3 @@ export class ShipSheet extends Base {
   }
 
 }
-

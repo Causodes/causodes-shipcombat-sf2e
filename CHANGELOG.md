@@ -1,3 +1,16 @@
+## v1.5.0
+### Bug Fixes
+- Route SF2e popup, reroll, and equipment requests through Core's actor-bound request factory and require Core 2.5.0+
+- Remove stale Sensor contacts and locks after their scene Token or world Actor is deleted
+- Allow NPC ships to select which torpedo or strike-craft template they launch
+- Include the initiating ship in SF2e Priority Target, rerolled allocation-point, and equipment-unassignment requests
+- Scope SF2e weapon, ram, and strike-craft targeting to their owning ship's locks and contact data
+- Seed first-round movement independently for every SF2e player ship in combat
+- Restore SF2e ram thrust selection, live damage previews, and partial-power commitments against Core's current popup template
+- Restore the formatted attack value in SF2e strike-craft target rows
+- Delegate strike-craft ammunition and per-target turn tracking to Core's serialized GM-side attack action
+- Include and verify parent-ship scope when the SF2e strike-craft popup submits an attack
+
 ## v1.4.3
 ### Bug Fixes
 - Include the firing ship identity required by Core when SF2e AppV1 targeting dialogs submit player or NPC weapon attacks
