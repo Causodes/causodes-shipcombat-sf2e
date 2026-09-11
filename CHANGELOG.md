@@ -1,3 +1,8 @@
+## v1.5.1
+### Improvements
+- Require Core 2.5.1 for corrected player and NPC ordnance lifecycle behavior
+- Publish an allowlisted runtime-only module archive without repository development files
+
 ## v1.5.0
 ### Bug Fixes
 - Route SF2e popup, reroll, and equipment requests through Core's actor-bound request factory and require Core 2.5.0+
