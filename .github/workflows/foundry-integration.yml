@@ -1,0 +1,23 @@
+name: Foundry integration
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  integration:
+    uses: Causodes/causodes-shipcombat-core/.github/workflows/foundry-integration.yml@main
+    with:
+      adapter: sf2e
+      changed_repository: Causodes/causodes-shipcombat-sf2e
+      changed_ref: ${{ github.sha }}
+    secrets:
+      FOUNDRY_USERNAME: ${{ secrets.FOUNDRY_USERNAME }}
+      FOUNDRY_PASSWORD: ${{ secrets.FOUNDRY_PASSWORD }}
+      FOUNDRY_LICENSE_KEY: ${{ secrets.FOUNDRY_LICENSE_KEY }}
+      FOUNDRY_ADMIN_KEY: ${{ secrets.FOUNDRY_ADMIN_KEY }}

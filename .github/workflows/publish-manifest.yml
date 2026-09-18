@@ -14,7 +14,21 @@ permissions:
   contents: write
 
 jobs:
+  foundry-integration:
+    uses: Causodes/causodes-shipcombat-core/.github/workflows/foundry-integration.yml@main
+    with:
+      adapter: sf2e
+      changed_repository: Causodes/causodes-shipcombat-sf2e
+      changed_ref: ${{ inputs.tag || github.event.release.tag_name }}
+      require_credentials: true
+    secrets:
+      FOUNDRY_USERNAME: ${{ secrets.FOUNDRY_USERNAME }}
+      FOUNDRY_PASSWORD: ${{ secrets.FOUNDRY_PASSWORD }}
+      FOUNDRY_LICENSE_KEY: ${{ secrets.FOUNDRY_LICENSE_KEY }}
+      FOUNDRY_ADMIN_KEY: ${{ secrets.FOUNDRY_ADMIN_KEY }}
+
   publish-manifest:
+    needs: foundry-integration
     runs-on: ubuntu-latest
     env:
       RELEASE_TAG: ${{ inputs.tag || github.event.release.tag_name }}
