@@ -47,6 +47,7 @@ class _Base extends foundry.abstract.TypeDataModel {
       }),
       // Level, elite/weak adjustment, and blurb (mirrors SF2e NPC details schema).
       details: new fields.SchemaField({
+        alliance: new fields.StringField({ initial: "opposition", nullable: true }),
         level: new fields.SchemaField({
           value: new fields.NumberField({ initial: 1, nullable: false, integer: true }),
         }),

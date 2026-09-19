@@ -1,4 +1,6 @@
 ## v1.5.1
+### Bug Fixes
+- Preserve SF2e party/opposition alliance on custom ships and NPC-launched ordnance so SF2e derives the correct Token disposition
 ### Improvements
 - Require Core 2.5.1 for corrected player and NPC ordnance lifecycle behavior
 - Publish an allowlisted runtime-only module archive without repository development files

@@ -49,6 +49,7 @@ class _Base extends foundry.abstract.TypeDataModel {
       }),
       // Level — displayed in the header shield (mirrors SF2e vehicle)
       details: new fields.SchemaField({
+        alliance: new fields.StringField({ initial: "party", nullable: true }),
         level: new fields.SchemaField({
           value: new fields.NumberField({ initial: 1, nullable: false, integer: true }),
         }),
