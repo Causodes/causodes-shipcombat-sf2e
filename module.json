@@ -5,7 +5,7 @@
   "version": "1.5.2",
   "compatibility": {
     "minimum": "14",
-    "verified": "14.367",
+    "verified": "14.368",
     "maximum": "14"
   },
   "authors": [
@@ -39,7 +39,9 @@
         "id": "causodes-shipcombat-core",
         "type": "module",
         "manifest": "https://github.com/Causodes/causodes-shipcombat-core/releases/latest/download/module.json",
-        "compatibility": { "minimum": "2.5.2" }
+        "compatibility": {
+          "minimum": "2.5.2"
+        }
       }
     ]
   },
@@ -47,21 +49,51 @@
     "causodes-shipcombat-sf2e.js"
   ],
   "styles": [
-    { "src": "styles/shared.css" },
-    { "src": "styles/header.css" },
-    { "src": "styles/overview.css" },
-    { "src": "styles/components.css" },
-    { "src": "styles/sidebar.css" },
-    { "src": "styles/pilot.css" },
-    { "src": "styles/engineer.css" },
-    { "src": "styles/captain.css" },
-    { "src": "styles/gunner.css" },
-    { "src": "styles/ordnance.css" },
-    { "src": "styles/sensors.css" },
-    { "src": "styles/npc.css" },
-    { "src": "styles/torpedo.css" },
-    { "src": "styles/popup.css" },
-    { "src": "styles/chat.css" }
+    {
+      "src": "styles/shared.css"
+    },
+    {
+      "src": "styles/header.css"
+    },
+    {
+      "src": "styles/overview.css"
+    },
+    {
+      "src": "styles/components.css"
+    },
+    {
+      "src": "styles/sidebar.css"
+    },
+    {
+      "src": "styles/pilot.css"
+    },
+    {
+      "src": "styles/engineer.css"
+    },
+    {
+      "src": "styles/captain.css"
+    },
+    {
+      "src": "styles/gunner.css"
+    },
+    {
+      "src": "styles/ordnance.css"
+    },
+    {
+      "src": "styles/sensors.css"
+    },
+    {
+      "src": "styles/npc.css"
+    },
+    {
+      "src": "styles/torpedo.css"
+    },
+    {
+      "src": "styles/popup.css"
+    },
+    {
+      "src": "styles/chat.css"
+    }
   ],
   "languages": [
     {
