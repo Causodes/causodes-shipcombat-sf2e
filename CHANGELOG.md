@@ -1,6 +1,9 @@
-## Unreleased
+## v1.5.2
 ### Bug Fixes
+- Preserve a weapon trait's configured numeric value when it is disabled, matching the shared component editor contract
 - Preserve SF2e party/opposition alliance on custom ships and NPC-launched ordnance so SF2e derives the correct Token disposition
+- Keep the Ordnance Master roll available on a new turn while existing commitments lock only the allocation controls
+- Await reroll synchronization and equipment assignment requests so socket failures remain visible to their initiating workflow
 
 ## v1.5.1
 ### Improvements

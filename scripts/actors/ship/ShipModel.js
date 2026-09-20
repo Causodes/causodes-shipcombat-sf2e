@@ -7,6 +7,7 @@
  */
 
 import { sf2eMigrationField } from "../../systems/sf2e-migration-schema.js";
+import { computeComponentArmorClass } from "./component-armor-class.js";
 
 const { ShipSchemaMixin } = globalThis.ShipCombat._api;
 
@@ -81,15 +82,6 @@ export class ShipModel extends ShipSchemaMixin(_Base) {
   _computeArmorClass() {
     const actor = this.parent;
     if (!actor?.items) return;
-    const COMPONENT_TYPE = "causodes-shipcombat-sf2e.component";
-    let ac = 0;
-    for (const item of actor.items) {
-      if (item.type !== COMPONENT_TYPE) continue;
-      const slot = item.system?.slot;
-      if (slot !== "armour" && slot !== "engine") continue;
-      if (item.system?.equipped === false) continue;
-      ac += Number(item.system?.armourClassContribution ?? 0);
-    }
-    this.armorClass = ac;
+    this.armorClass = computeComponentArmorClass(actor.items);
   }
 }

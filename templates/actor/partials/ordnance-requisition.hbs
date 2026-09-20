@@ -2,7 +2,7 @@
 <div class="sheet-list">
     <div class="list-content">
         <ul class="sc-skill-list">
-            <li class="sc-skill-row sc-helm-alloc-row{{#if ordnanceCtx.allocationLocked}} sc-skill-row--disabled{{/if}}">
+            <li class="sc-skill-row sc-helm-alloc-row">
                 {{#if ordnanceCtx.bosunRolled}}
                     <div class="sc-helm-sl-cell">
                         <span class="shipcombat-helm-stat-label">{{ordnanceCtx.slLabel}}</span>
@@ -28,6 +28,7 @@
                         <button type="button" class="shipcombat-alloc-btn" data-action="allocOrdnanceSL" data-stat="efficiency" data-delta="-1"
                                 {{#unless ordnanceCtx.bosunRolled}}disabled{{/unless}}
                                 {{#if ordnanceCtx.actionUsed}}disabled{{/if}}
+                                {{#if ordnanceCtx.allocationLocked}}disabled{{/if}}
                                 {{#unless ordnanceCtx.allocEfficiency}}disabled{{/unless}}>
                             &minus;
                         </button>
@@ -35,6 +36,7 @@
                         <button type="button" class="shipcombat-alloc-btn" data-action="allocOrdnanceSL" data-stat="efficiency" data-delta="1"
                                 {{#unless ordnanceCtx.bosunRolled}}disabled{{/unless}}
                                 {{#if ordnanceCtx.actionUsed}}disabled{{/if}}
+                                {{#if ordnanceCtx.allocationLocked}}disabled{{/if}}
                                 {{#if (gte (add ordnanceCtx.allocEfficiency ordnanceCtx.allocExpedience) ordnanceCtx.bosunSL)}}disabled{{/if}}>
                             +
                         </button>
@@ -46,6 +48,7 @@
                         <button type="button" class="shipcombat-alloc-btn" data-action="allocOrdnanceSL" data-stat="expedience" data-delta="-1"
                                 {{#unless ordnanceCtx.bosunRolled}}disabled{{/unless}}
                                 {{#if ordnanceCtx.actionUsed}}disabled{{/if}}
+                                {{#if ordnanceCtx.allocationLocked}}disabled{{/if}}
                                 {{#unless ordnanceCtx.allocExpedience}}disabled{{/unless}}>
                             &minus;
                         </button>
@@ -53,6 +56,7 @@
                         <button type="button" class="shipcombat-alloc-btn" data-action="allocOrdnanceSL" data-stat="expedience" data-delta="1"
                                 {{#unless ordnanceCtx.bosunRolled}}disabled{{/unless}}
                                 {{#if ordnanceCtx.actionUsed}}disabled{{/if}}
+                                {{#if ordnanceCtx.allocationLocked}}disabled{{/if}}
                                 {{#if (gte (add ordnanceCtx.allocEfficiency ordnanceCtx.allocExpedience) ordnanceCtx.bosunSL)}}disabled{{/if}}>
                             +
                         </button>

@@ -474,7 +474,7 @@ export class Sf2eAdapter extends SystemAdapter {
       _pendingRerollActorId = message.speaker?.actor ?? null;
     });
 
-    Hooks.on("createChatMessage", (message) => {
+    Hooks.on("createChatMessage", async (message) => {
       if (!_pendingRerollActorId) return;
       const speakerActorId = _pendingRerollActorId;
       _pendingRerollActorId = null;
@@ -502,7 +502,7 @@ export class Sf2eAdapter extends SystemAdapter {
           if (refActorId !== speakerActorId) continue;
 
           const newSL = Math.max(0, this.computeSuccessLevel(roll));
-          requestGM(shipActor, "updateResource", {
+          await requestGM(shipActor, "updateResource", {
             roleId: resource.roleId,
             key: resource.key,
             value: newSL,

@@ -8,6 +8,7 @@
  */
 
 const { ShipComponentSheetV1Mixin } = globalThis.ShipCombat._api;
+const { WEAPON_TRAITS, ORDNANCE_TRAITS, buildComponentTraitUpdates } = globalThis.ShipCombat._api;
 
 const MODULE_ID      = "causodes-shipcombat-sf2e";
 const CORE_MODULE_ID = "causodes-shipcombat-core";
@@ -16,24 +17,6 @@ const CORE_MODULE_ID = "causodes-shipcombat-core";
 // WeaponTraitsEditor — SF2e-styled AppV1 Application for editing traits.
 // Uses PF2e CSS classes so the dialog matches SF2e's native look.
 // ─────────────────────────────────────────────────────────────────────────────
-const WEAPON_TRAITS = [
-  { key: "shieldBypass",       hasValue: false },
-  { key: "unlimitedRof",       hasValue: false },
-  { key: "shieldBurn",         hasValue: true,  enabledKey: "shieldBurnEnabled" },
-  { key: "rend",               hasValue: true,  enabledKey: "rendEnabled" },
-  { key: "armourPenetration",  hasValue: true,  enabledKey: "armourPenetrationEnabled" },
-  { key: "devastating",        hasValue: true,  enabledKey: "devastatingEnabled" },
-  { key: "unreliable",         hasValue: false },
-  { key: "overcharge",         hasValue: false },
-  { key: "hitRatingModifier",  hasValue: true,  allowNegative: true, enabledKey: "hitRatingModifierEnabled" },
-];
-const ORDNANCE_TRAITS = [
-  { key: "shieldBypass",      hasValue: false },
-  { key: "shieldBurn",        hasValue: true, enabledKey: "shieldBurnEnabled" },
-  { key: "rend",              hasValue: true, enabledKey: "rendEnabled" },
-  { key: "armourPenetration", hasValue: true, enabledKey: "armourPenetrationEnabled" },
-];
-
 class WeaponTraitsEditor extends foundry.appv1.api.Application {
   constructor(item, options = {}) {
     super(options);
@@ -55,11 +38,11 @@ class WeaponTraitsEditor extends foundry.appv1.api.Application {
     const sys  = this._item.system;
     const slot = sys.slot;
     if (slot === "torpedo") {
-      return { traitPath: "system.torpedoTraits", traits: sys.torpedoTraits ?? {}, traitDefs: ORDNANCE_TRAITS };
+      return { traits: sys.torpedoTraits ?? {}, traitDefs: ORDNANCE_TRAITS };
     } else if (slot === "strikeCraft") {
-      return { traitPath: "system.craftTraits",   traits: sys.craftTraits   ?? {}, traitDefs: ORDNANCE_TRAITS };
+      return { traits: sys.craftTraits ?? {}, traitDefs: ORDNANCE_TRAITS };
     }
-    return { traitPath: "system.traits", traits: sys.traits ?? {}, traitDefs: WEAPON_TRAITS };
+    return { traits: sys.traits ?? {}, traitDefs: WEAPON_TRAITS };
   }
 
   async getData() {
@@ -110,23 +93,16 @@ class WeaponTraitsEditor extends foundry.appv1.api.Application {
     super.activateListeners($html);
     const html = $html[0];
     html.querySelector(".wte-save")?.addEventListener("click", async () => {
-      const { traitPath, traitDefs } = this._resolveTraitContext();
-      const updates = {};
+      const { traitDefs } = this._resolveTraitContext();
+      const result = {};
       for (const def of traitDefs) {
         const enabledName = def.enabledKey ?? def.key;
-        const checkboxEl  = html.querySelector(`input[name="${enabledName}"]`);
-        const isEnabled   = checkboxEl?.checked ?? false;
-
+        result[enabledName] = html.querySelector(`input[name="${enabledName}"]`)?.checked ?? false;
         if (def.hasValue) {
-          const numEl = html.querySelector(`input[name="${def.key}-value"]`);
-          updates[`${traitPath}.${def.key}`] = isEnabled ? Number(numEl?.value ?? 0) : 0;
-          if (def.enabledKey) {
-            updates[`${traitPath}.${def.enabledKey}`] = isEnabled;
-          }
-        } else {
-          updates[`${traitPath}.${def.key}`] = isEnabled;
+          result[`${def.key}-value`] = html.querySelector(`input[name="${def.key}-value"]`)?.value ?? 0;
         }
       }
+      const updates = buildComponentTraitUpdates(this._item.system.slot, result);
       await this._item.update(updates);
       this.close();
     });

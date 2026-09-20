@@ -412,93 +412,15 @@ Hooks.once("init", () => {
   ShipCombat.registerPopupOverride("strikeCraftAttack", StrikeCraftAttackPopupV1);
   ShipCombat.registerPopupOverride("recoverCraft",      RecoverCraftPopupV1);
 
-  // ── 7. Patch EncounterPF2e.rollInitiative for ship actors ─────────────────
-  // PF2e's EncounterPF2e.rollInitiative filters combatants to those with an
-  // actor.initiative property (fightyCombatants). ShipActor skips
-  // prepareDerivedData() and never sets actor.initiative, so the ship combatant
-  // is silently dropped and its initiative is never set from the tracker.
-  //
-  // This patch intercepts ship-actor combatants before PF2e processes the id
-  // list, performs the captain-based initiative roll via Sf2eAdapter, and sets
-  // the combatant's initiative directly. Non-ship combatants are delegated to
-  // PF2e's own implementation as normal.
+  // Core owns the combat-tracker initiative boundary for every adapter.
+  // This local adapter instance is retained only for SF2e chat rerendering.
   const _sf2eAdapter = new Sf2eAdapter();
-  const { recordPlayerShipInitiative } = globalThis.ShipCombat._api;
 
   // Register the renderChatMessageHTML hook that dynamically rebuilds the SC
   // Points table in any chat message that contains one — ensuring the
   // active row and "Points Granted" text are always correct, even after
   // a PF2e reroll creates a new message carrying the old flavor HTML.
   _sf2eAdapter.registerRenderHook();
-
-  const EncounterPF2e = CONFIG.Combat.documentClass;
-  const _origEncounterRollInitiative = EncounterPF2e.prototype.rollInitiative;
-  EncounterPF2e.prototype.rollInitiative = async function (ids, options) {
-    const combatantIds = Array.isArray(ids) ? ids : [ids];
-    const shipIds     = [];
-    const npcShipIds  = [];
-    const otherIds    = [];
-    for (const id of combatantIds) {
-      const actor = this.combatants.get(id)?.actor;
-      if (actor?.type === SHIP_TYPE)     shipIds.push(id);
-      else if (actor?.type === NPC_SHIP_TYPE) npcShipIds.push(id);
-      else otherIds.push(id);
-    }
-
-    for (const id of shipIds) {
-      const combatant = this.combatants.get(id);
-      const ship      = combatant?.actor;
-      if (!ship) continue;
-
-      // Resolve the captain crew actor (mirrors _onRollInitiative in captain.js)
-      const sys = ship.system;
-      let crewActor = null;
-      const captainRef = sys.crewActors?.captain;
-      if (captainRef?.uuid) {
-        try { crewActor = await fromUuid(captainRef.uuid); } catch { /* ignore */ }
-      }
-      if (!crewActor) {
-        const entry = Object.entries(sys.roles ?? {}).find(([, r]) => r === "captain");
-        if (entry) crewActor = game.users.get(entry[0])?.character ?? null;
-      }
-      if (!crewActor) {
-        ui.notifications.warn(game.i18n.localize("SHIPCOMBAT.Warning.NoCaptainAssigned"));
-        continue;
-      }
-
-      const roleSkill = sys.roleSkillOverrides?.captain ?? "leadership";
-      const { total } = await _sf2eAdapter.rollShipInitiative(crewActor, roleSkill, {
-        flavor:  game.i18n.localize("SHIPCOMBAT.Captain.RollInitiativeBtn"),
-        speaker: ChatMessage.getSpeaker({ actor: crewActor }),
-      });
-      await recordPlayerShipInitiative({
-        shipActor: ship,
-        rawTotal: total,
-        combat: this,
-        combatantId: id,
-      });
-    }
-
-    // NPC ships: roll d20 + PIL modifier (same mechanic as player ships,
-    // but driven by the ship's own piloting attribute instead of a crew actor).
-    for (const id of npcShipIds) {
-      const combatant = this.combatants.get(id);
-      const ship = combatant?.actor;
-      if (!ship) continue;
-      const piloting = ship.system?.attributes?.piloting ?? 0;
-      const { total } = await _sf2eAdapter.rollShipInitiativeFromAttribute(
-        piloting,
-        game.i18n.localize("SHIPCOMBAT.NpcShip.RollInitiative"),
-        { speaker: ChatMessage.getSpeaker({ actor: ship }) },
-      );
-      await this.setInitiative(id, _sf2eAdapter.toCombatantInitiative(total, ship));
-    }
-
-    if (otherIds.length > 0) {
-      return _origEncounterRollInitiative.call(this, otherIds, options);
-    }
-    return this;
-  };
 
 });
 

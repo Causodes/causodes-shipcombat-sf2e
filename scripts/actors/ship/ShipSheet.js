@@ -489,8 +489,8 @@ export class ShipSheet extends Base {
 
     // Unassign equipment slot — X button next to installed chip
     root.querySelectorAll("[data-unassign-equip]").forEach(btn => {
-      btn.addEventListener("click", () => {
-        requestGM(this, "assignEquipment", {
+      btn.addEventListener("click", async () => {
+        await requestGM(this, "assignEquipment", {
           slotId: btn.dataset.unassignEquip,
           newItemId: "",
         });
